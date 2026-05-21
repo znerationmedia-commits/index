@@ -1,33 +1,47 @@
 # Claude Malaysia Community Portfolio
 
-This repository is the shared source of truth for the Claude Malaysia community portfolio site.
+This repository is the shared source of truth for the Claude Malaysia community portfolio system.
 
 The MVP goal is simple:
 
-- trusted members submit project portfolio entries in a fixed format
-- the site renders those entries automatically
-- the portfolio stays lightweight, searchable, and easy to maintain
+- community members log in to a protected admin portal
+- they submit portfolio projects in a fixed format
+- the public site reflects approved submissions automatically
+- the system stays lightweight, searchable, and easy to maintain
 
 This repo should stay lean. Do not add unnecessary infrastructure unless it solves a real problem for the MVP.
 
 ## What This Project Is
 
-Claude Malaysia is building a public-facing portfolio portal for community members to showcase real projects.
+Claude Malaysia is building a public portfolio site plus a protected admin portal for community members to showcase real projects.
 
-The portal should help visitors quickly understand:
+The system should help visitors quickly understand:
 
 - what the community can build
 - who built it
 - what domain it applies to
 - what tools and delivery model were used
 
+## Recommended MVP Architecture
+
+The leanest setup is:
+
+- `Netlify` for hosting the public site and admin UI
+- `Supabase Auth` for trusted-member login
+- `Supabase Postgres` for project submissions and published portfolio records
+- `Supabase Storage` only if uploaded images are needed later
+
+This keeps the stack small without forcing the team to manage its own backend server.
+
 ## MVP Workflow
 
-1. A trusted member fills out the project submission form.
-2. The form collects a fixed set of fields.
-3. The submission is saved as structured project data.
-4. The public site reads from that data and renders portfolio cards.
-5. When the data changes, the live site updates automatically on deploy.
+1. A trusted member visits `/admin` and logs in.
+2. The admin portal loads only for authenticated users.
+3. The member fills out the fixed submission form.
+4. The form validates required fields and allowed tag values.
+5. The submission is saved to the portfolio data store.
+6. The public site reads published records and renders the cards.
+7. When a record is published or updated, the public portfolio reflects the change automatically.
 
 The public site should not depend on manual HTML edits for each new project.
 
@@ -152,11 +166,25 @@ Typical files in this MVP:
 - `index.html` for the public site
 - `styles.css` for layout and styling
 - `script.js` for client-side rendering and filtering
-- a structured project data file such as `projects.json`
+- `projects.json` if the team chooses to stage data before the database path is live
 - `netlify.toml` for deployment and security headers
 - `PROJECT_SUBMISSION_TEMPLATE.md` for the submission reference
 - `CONTRIBUTING.md` for collaboration rules
 - `SITE_DESIGN_DIRECTION.md` for product direction
+- `ADMIN_PORTAL_PLAN.md` for the current implementation plan and approval steps
+
+## GitHub Approval Flow
+
+Before any implementation is approved:
+
+1. Update the relevant docs in GitHub.
+2. Keep the README, template, and plan file aligned.
+3. Work in a branch or a clearly scoped change set.
+4. Open a pull request for review.
+5. Let the approver review the plan and the implementation together.
+6. Merge only after approval.
+
+This keeps the GitHub repo itself aligned with the product changes before they go live.
 
 ## Contributing Rules
 
@@ -185,12 +213,13 @@ If any sensitive detail appears, remove it or blur it before publishing.
 
 ## For Future Collaborators
 
-Start by checking the submission template and the data format.
+Start by checking the submission template, the plan file, and the data format.
 
 The most important thing is consistency:
 
 - same fields every time
 - same tag values every time
 - same privacy rules every time
+- same approval path every time
 
 That is what keeps the portfolio useful and maintainable.
