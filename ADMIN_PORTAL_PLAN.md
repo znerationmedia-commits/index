@@ -8,7 +8,7 @@ Build a protected admin portal where trusted members can log in, submit portfoli
 
 ## Recommended Stack
 
-- `Netlify` for hosting and deploy previews
+- `Vercel` for hosting and deploy previews
 - `Supabase Auth` for login
 - `Supabase Postgres` for portfolio data
 - `Supabase Storage` only if uploaded files are required later

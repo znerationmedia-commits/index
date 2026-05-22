@@ -26,7 +26,7 @@ The system should help visitors quickly understand:
 
 The leanest setup is:
 
-- `Netlify` for hosting the public site and admin UI
+- `Vercel` for hosting the public site and admin UI
 - `Supabase Auth` for trusted-member login
 - `Supabase Postgres` for project submissions and published portfolio records
 - `Supabase Storage` only if uploaded images are needed later
@@ -167,7 +167,7 @@ Typical files in this MVP:
 - `styles.css` for layout and styling
 - `script.js` for client-side rendering and filtering
 - `projects.json` if the team chooses to stage data before the database path is live
-- `netlify.toml` for deployment and security headers
+- `vercel.json` for deployment and security headers
 - `PROJECT_SUBMISSION_TEMPLATE.md` for the submission reference
 - `CONTRIBUTING.md` for collaboration rules
 - `SITE_DESIGN_DIRECTION.md` for product direction
