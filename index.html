@@ -118,7 +118,7 @@
       <a onclick="goToSection('testimonials')" class="hover:text-yellow-300 transition-colors cursor-pointer">Testimonials</a>
       <a onclick="goToContact()" class="hover:text-yellow-300 transition-colors cursor-pointer">Contact</a>
     </div>
-    <a onclick="goToContact()" class="px-5 py-3 rounded-full bg-yellow-400 text-black font-semibold hover:bg-yellow-300 transition-colors cursor-pointer">Contact Us</a>
+    <a href="https://wa.me/60122850125?text=Hi%20Kingsley!%20I%20found%20AI%20Malaysia%20Community%20and%20I%27d%20like%20to%20learn%20more%20about%20your%20AI%20services." target="_blank" class="px-5 py-3 rounded-full bg-yellow-400 text-black font-semibold hover:bg-yellow-300 transition-colors">Contact Us</a>
   </div>
 </nav>
 
@@ -260,28 +260,11 @@
   <div class="flex justify-between items-end mb-12 flex-wrap gap-4">
     <div>
       <p class="text-yellow-300 uppercase tracking-[0.3em] text-sm mb-3">Our Work</p>
-      <h3 class="text-4xl md:text-5xl font-bold">Selected Projects<br/>& Case Studies</h3>
+      <h3 class="text-4xl md:text-5xl font-bold">Selected Projects<br/>&amp; Case Studies</h3>
     </div>
-    <a onclick="showPage('projects')" class="px-6 py-3 rounded-full border border-yellow-400/40 text-yellow-300 font-semibold hover:bg-yellow-400/10 transition-colors cursor-pointer">View All 9 Projects →</a>
+    <a id="view-all-btn" onclick="showPage('projects')" class="px-6 py-3 rounded-full border border-yellow-400/40 text-yellow-300 font-semibold hover:bg-yellow-400/10 transition-colors cursor-pointer">View All Projects →</a>
   </div>
-  <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-    <div onclick="showPage('projects')" class="port-card glass rounded-3xl overflow-hidden block cursor-pointer">
-      <div class="overflow-hidden h-48"><img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=800&q=80" class="h-full w-full object-cover"></div>
-      <div class="p-6"><p class="text-yellow-300 text-xs font-semibold mb-2 uppercase tracking-wider">AI Automation</p><h4 class="text-lg font-bold mb-2">Intelligent Document Processing</h4><p class="text-neutral-400 text-sm">Automated extraction and workflow for finance services.</p><p class="mt-4 text-yellow-300 font-semibold text-sm">Impact: 70% time savings →</p></div>
-    </div>
-    <div onclick="showPage('projects')" class="port-card glass rounded-3xl overflow-hidden block cursor-pointer">
-      <div class="overflow-hidden h-48"><img src="https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=800&q=80" class="h-full w-full object-cover"></div>
-      <div class="p-6"><p class="text-yellow-300 text-xs font-semibold mb-2 uppercase tracking-wider">AI Chatbot</p><h4 class="text-lg font-bold mb-2">Customer Support Assistant</h4><p class="text-neutral-400 text-sm">Reduced support response time with enterprise AI assistant.</p><p class="mt-4 text-yellow-300 font-semibold text-sm">Impact: 40% cost reduction →</p></div>
-    </div>
-    <div onclick="showPage('projects')" class="port-card glass rounded-3xl overflow-hidden block cursor-pointer">
-      <div class="overflow-hidden h-48"><img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=80" class="h-full w-full object-cover"></div>
-      <div class="p-6"><p class="text-yellow-300 text-xs font-semibold mb-2 uppercase tracking-wider">Predictive Analytics</p><h4 class="text-lg font-bold mb-2">Sales Forecasting Dashboard</h4><p class="text-neutral-400 text-sm">AI-driven sales planning and strategic prediction.</p><p class="mt-4 text-yellow-300 font-semibold text-sm">Impact: 25% accuracy gain →</p></div>
-    </div>
-    <div onclick="showPage('projects')" class="port-card glass rounded-3xl overflow-hidden block cursor-pointer">
-      <div class="overflow-hidden h-48"><img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=800&q=80" class="h-full w-full object-cover"></div>
-      <div class="p-6"><p class="text-yellow-300 text-xs font-semibold mb-2 uppercase tracking-wider">AI Integration</p><h4 class="text-lg font-bold mb-2">Enterprise Knowledge System</h4><p class="text-neutral-400 text-sm">Private knowledge architecture for faster internal decisions.</p><p class="mt-4 text-yellow-300 font-semibold text-sm">Impact: 60% productivity boost →</p></div>
-    </div>
-  </div>
+  <div id="home-portfolio-grid" class="grid md:grid-cols-2 lg:grid-cols-4 gap-6"></div>
 </section>
 
 <!-- FREE AI AUDIT -->
@@ -298,18 +281,18 @@
       </ul>
     </div>
     <div class="space-y-4">
-      <input type="text" placeholder="Your Name" class="form-input" />
-      <input type="email" placeholder="Work Email" class="form-input" />
-      <input type="text" placeholder="Company Name" class="form-input" />
-      <select class="form-input" style="color:rgba(255,255,255,0.7);appearance:none;">
+      <input type="text" id="audit-name" placeholder="Your Name" class="form-input" />
+      <input type="email" id="audit-email" placeholder="Work Email" class="form-input" />
+      <input type="text" id="audit-company" placeholder="Company Name" class="form-input" />
+      <select id="audit-challenge" class="form-input" style="color:rgba(255,255,255,0.7);appearance:none;">
         <option value="" style="background:#0d1f3c">What's your biggest challenge?</option>
         <option style="background:#0d1f3c">Too much manual work / repetitive tasks</option>
-        <option style="background:#0d1f3c">Need better data insights & forecasting</option>
+        <option style="background:#0d1f3c">Need better data insights &amp; forecasting</option>
         <option style="background:#0d1f3c">Want to improve customer experience with AI</option>
         <option style="background:#0d1f3c">Looking to integrate AI into existing systems</option>
         <option style="background:#0d1f3c">Other</option>
       </select>
-      <button onclick="showToast()" class="w-full py-4 rounded-2xl bg-yellow-400 text-black font-bold text-base hover:bg-yellow-300 transition-all hover:scale-[1.02] shadow-lg shadow-yellow-500/20">Claim My Free AI Audit →</button>
+      <button onclick="handleAuditSubmit()" class="w-full py-4 rounded-2xl bg-yellow-400 text-black font-bold text-base hover:bg-yellow-300 transition-all hover:scale-[1.02] shadow-lg shadow-yellow-500/20">Claim My Free AI Audit →</button>
       <p class="text-xs text-neutral-500 text-center">We respect your privacy. No spam, ever.</p>
     </div>
   </div>
@@ -327,7 +310,7 @@
         <div><p class="text-4xl font-bold text-white">50+</p><p class="text-neutral-400">Partners</p></div>
         <div><p class="text-4xl font-bold text-white">30+</p><p class="text-neutral-400">Cities Across Malaysia</p></div>
       </div>
-      <a onclick="goToContact()" class="inline-flex items-center gap-2 px-7 py-3.5 rounded-2xl bg-yellow-400 text-black font-bold hover:bg-yellow-300 transition-all cursor-pointer">Join the Community →</a>
+      <a href="https://chat.whatsapp.com/EcQP4EzOFSwLWfv8uFirsm" target="_blank" class="inline-flex items-center gap-2 px-7 py-3.5 rounded-2xl bg-yellow-400 text-black font-bold hover:bg-yellow-300 transition-all">Join the Community →</a>
     </div>
     <div class="space-y-4">
       <div class="glass rounded-3xl p-6">
@@ -341,7 +324,7 @@
       <div class="glass rounded-2xl p-5 flex items-center gap-4">
         <div class="w-12 h-12 rounded-xl bg-green-400/10 border border-green-400/20 flex items-center justify-center text-green-300 text-xl flex-shrink-0">💬</div>
         <div><p class="font-semibold text-sm">Join our WhatsApp Community</p><p class="text-xs text-neutral-400">Daily AI insights, job boards & networking</p></div>
-        <a href="https://wa.me/60123456789" target="_blank" class="ml-auto px-4 py-2 rounded-xl bg-green-500 text-white text-xs font-bold hover:bg-green-400 transition-colors whitespace-nowrap">Join Free</a>
+        <a href="https://chat.whatsapp.com/EcQP4EzOFSwLWfv8uFirsm" target="_blank" class="ml-auto px-4 py-2 rounded-xl bg-green-500 text-white text-xs font-bold hover:bg-green-400 transition-colors whitespace-nowrap">Join Free</a>
       </div>
     </div>
   </div>
@@ -386,41 +369,26 @@
 
 <!-- CONTACT -->
 <section id="contact" class="section-divider max-w-7xl mx-auto px-6 py-24 relative z-10">
-  <div class="grid lg:grid-cols-2 gap-14 items-start">
-    <div>
-      <p class="text-yellow-300 uppercase tracking-[0.3em] text-sm mb-3">Get In Touch</p>
-      <h3 class="text-4xl md:text-5xl font-extrabold mb-6">Ready to Start<br/>Your AI Journey?</h3>
-      <p class="text-neutral-400 mb-10 leading-relaxed">Tell us about your challenge and we'll get back to you within one business day with a tailored response — not a generic sales deck.</p>
-      <div class="space-y-5">
-        <div class="audit-badge flex items-start gap-4"><span class="text-2xl mt-0.5">📧</span><div><p class="font-semibold text-sm">Email Us</p><a href="mailto:hello@aimalaysiacommunity.my" class="text-yellow-300 text-sm hover:underline">hello@aimalaysiacommunity.my</a></div></div>
-        <div class="audit-badge flex items-start gap-4"><span class="text-2xl mt-0.5">📞</span><div><p class="font-semibold text-sm">Call or WhatsApp</p><a href="https://wa.me/60123456789" target="_blank" class="text-yellow-300 text-sm hover:underline">+60 12-345 6789</a></div></div>
-        <div class="audit-badge flex items-start gap-4"><span class="text-2xl mt-0.5">📍</span><div><p class="font-semibold text-sm">Our Office</p><p class="text-neutral-400 text-sm">Kuala Lumpur, Malaysia</p></div></div>
-        <div class="audit-badge flex items-start gap-4"><span class="text-2xl mt-0.5">⏱️</span><div><p class="font-semibold text-sm">Response Time</p><p class="text-neutral-400 text-sm">Within 1 business day, guaranteed</p></div></div>
+  <div class="text-center mb-14">
+    <p class="text-yellow-300 uppercase tracking-[0.3em] text-sm mb-3">Get In Touch</p>
+    <h3 class="text-4xl md:text-5xl font-extrabold mb-4">Ready to Start<br/>Your AI Journey?</h3>
+    <p class="text-neutral-400 max-w-xl mx-auto">Reach out to Kingsley directly on WhatsApp — he'll get back to you within 1 business day.</p>
+  </div>
+  <div class="flex justify-center">
+    <a href="https://wa.me/60122850125?text=Hi%20Kingsley!%20I%20found%20AI%20Malaysia%20Community%20and%20I%27d%20like%20to%20learn%20more%20about%20your%20AI%20services." target="_blank"
+       class="group flex items-center gap-6 glass rounded-3xl px-10 py-8 border border-green-500/20 hover:border-green-500/50 hover:bg-green-500/5 transition-all duration-300 max-w-md w-full">
+      <div class="w-16 h-16 rounded-2xl bg-green-500/15 border border-green-500/30 flex items-center justify-center flex-shrink-0 group-hover:bg-green-500/25 transition-colors">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#25D366" class="w-8 h-8">
+          <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+        </svg>
       </div>
-    </div>
-    <div class="glass rounded-3xl p-8 md:p-10">
-      <h4 class="text-xl font-bold mb-6">Send Us a Message</h4>
-      <div class="space-y-4">
-        <div class="grid grid-cols-2 gap-4">
-          <input type="text" id="cf-name" placeholder="Your Name" class="form-input" />
-          <input type="text" id="cf-company" placeholder="Company" class="form-input" />
-        </div>
-        <input type="email" id="cf-email" placeholder="Work Email" class="form-input" />
-        <input type="text" id="cf-phone" placeholder="WhatsApp / Phone (optional)" class="form-input" />
-        <select id="cf-service" class="form-input" style="appearance:none;color:rgba(255,255,255,0.7);">
-          <option value="" style="background:#0d1f3c">I'm interested in...</option>
-          <option style="background:#0d1f3c">AI Strategy & Consulting</option>
-          <option style="background:#0d1f3c">Custom AI Development</option>
-          <option style="background:#0d1f3c">Workshops & Training</option>
-          <option style="background:#0d1f3c">Enterprise AI Integration</option>
-          <option style="background:#0d1f3c">Free AI Readiness Audit</option>
-          <option style="background:#0d1f3c">Other / Just Exploring</option>
-        </select>
-        <textarea id="cf-message" rows="4" placeholder="Tell us briefly about your challenge or project..." class="form-input resize-none"></textarea>
-        <button onclick="handleContactSubmit()" class="w-full py-4 rounded-2xl bg-yellow-400 text-black font-bold text-base hover:bg-yellow-300 transition-all hover:scale-[1.02] shadow-lg shadow-yellow-500/20">Send Message & Get a Free Consultation →</button>
-        <p class="text-xs text-neutral-500 text-center">🔒 Your information is private and will never be shared.</p>
+      <div>
+        <p class="text-xs text-neutral-500 uppercase tracking-widest mb-1">WhatsApp</p>
+        <p class="text-xl font-bold text-white mb-0.5">Kingsley</p>
+        <p class="text-green-400 font-semibold">+60 12-285 0125</p>
+        <p class="text-xs text-neutral-500 mt-2">Tap to chat → usually replies same day</p>
       </div>
-    </div>
+    </a>
   </div>
 </section>
 
@@ -431,7 +399,7 @@
       <h4 class="text-2xl font-bold text-white mb-3"><span class="gradient-text">AI</span> Malaysia Community</h4>
       <p class="text-sm leading-relaxed mb-5">Empowering Malaysia through AI innovation, consulting, and collaboration.</p>
       <div class="flex gap-3">
-        <a href="https://wa.me/60123456789" target="_blank" class="w-9 h-9 rounded-full glass flex items-center justify-center hover:bg-green-500/20 transition-colors text-sm">💬</a>
+        <a href="https://wa.me/60122850125" target="_blank" class="w-9 h-9 rounded-full glass flex items-center justify-center hover:bg-green-500/20 transition-colors text-sm">💬</a>
         <a href="mailto:hello@aimalaysiacommunity.my" class="w-9 h-9 rounded-full glass flex items-center justify-center hover:bg-yellow-400/10 transition-colors text-sm">✉️</a>
       </div>
     </div>
@@ -459,7 +427,7 @@
       <h5 class="font-bold text-white mb-4">Contact</h5>
       <ul class="space-y-2 text-sm">
         <li><a href="mailto:hello@aimalaysiacommunity.my" class="hover:text-yellow-300 transition-colors">hello@aimalaysiacommunity.my</a></li>
-        <li><a href="https://wa.me/60123456789" target="_blank" class="hover:text-yellow-300 transition-colors">+60 12-345 6789</a></li>
+        <li><a href="https://wa.me/60122850125" target="_blank" class="hover:text-yellow-300 transition-colors">+60 12-345 6789</a></li>
         <li>Kuala Lumpur, Malaysia</li>
       </ul>
       <a onclick="goToContact()" class="inline-block mt-5 px-5 py-2.5 rounded-xl bg-yellow-400 text-black text-sm font-bold hover:bg-yellow-300 transition-colors cursor-pointer">Get In Touch →</a>
@@ -514,46 +482,17 @@
 
 <!-- PROJECTS GRID -->
 <section class="max-w-7xl mx-auto px-6 pb-24 relative z-10">
-  <div class="projects-grid" id="projects-grid">
-    <div class="project-card glass rounded-3xl overflow-hidden card-featured" data-category="automation" data-id="0">
-      <div class="img-wrap relative h-72"><img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1400&q=80" class="w-full h-full object-cover" alt=""><div class="overlay absolute inset-0"></div><div class="absolute top-4 left-4"><span class="tag tag-yellow">AI Automation</span></div></div>
-      <div class="p-7"><h3 class="text-2xl font-bold mb-2">Intelligent Document Processing</h3><p class="text-neutral-400 mb-5 leading-relaxed">Automated multi-format document extraction and routing pipeline for a leading finance services group — eliminating manual bottlenecks across 6 departments.</p><div class="flex items-center justify-between"><div class="flex gap-2 flex-wrap"><span class="tech-badge">Python</span><span class="tech-badge">GPT-4o</span><span class="tech-badge">Azure</span></div><div class="text-right"><p class="text-2xl font-extrabold text-yellow-300">70%</p><p class="text-xs text-neutral-500">Time Saved</p></div></div></div>
-    </div>
-    <div class="project-card glass rounded-3xl overflow-hidden" data-category="chatbot" data-id="1">
-      <div class="img-wrap relative h-48"><img src="https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover" alt=""><div class="overlay absolute inset-0"></div><div class="absolute top-4 left-4"><span class="tag tag-blue">Chatbot & NLP</span></div></div>
-      <div class="p-6"><h3 class="text-xl font-bold mb-2">Customer Support AI Assistant</h3><p class="text-neutral-400 text-sm mb-4">24/7 intelligent support layer integrated with CRM for a regional e-commerce platform.</p><div class="flex items-center justify-between"><div class="flex gap-2 flex-wrap"><span class="tech-badge">Claude 3.5</span><span class="tech-badge">Zendesk</span></div><div class="text-right"><p class="text-xl font-extrabold text-yellow-300">40%</p><p class="text-xs text-neutral-500">Cost Cut</p></div></div></div>
-    </div>
-    <div class="project-card glass rounded-3xl overflow-hidden" data-category="analytics" data-id="2">
-      <div class="img-wrap relative h-48"><img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover" alt=""><div class="overlay absolute inset-0"></div><div class="absolute top-4 left-4"><span class="tag tag-green">Predictive Analytics</span></div></div>
-      <div class="p-6"><h3 class="text-xl font-bold mb-2">Sales Forecasting Dashboard</h3><p class="text-neutral-400 text-sm mb-4">Real-time AI forecasting engine that replaced spreadsheet-based planning for a consumer goods distributor.</p><div class="flex items-center justify-between"><div class="flex gap-2 flex-wrap"><span class="tech-badge">Prophet</span><span class="tech-badge">Power BI</span></div><div class="text-right"><p class="text-xl font-extrabold text-yellow-300">25%</p><p class="text-xs text-neutral-500">Accuracy Gain</p></div></div></div>
-    </div>
-    <div class="project-card glass rounded-3xl overflow-hidden" data-category="integration" data-id="3">
-      <div class="img-wrap relative h-48"><img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover" alt=""><div class="overlay absolute inset-0"></div><div class="absolute top-4 left-4"><span class="tag tag-purple">Enterprise Integration</span></div></div>
-      <div class="p-6"><h3 class="text-xl font-bold mb-2">Enterprise Knowledge System</h3><p class="text-neutral-400 text-sm mb-4">Private RAG-based knowledge layer connecting 10+ internal systems for faster institutional decisions.</p><div class="flex items-center justify-between"><div class="flex gap-2 flex-wrap"><span class="tech-badge">RAG</span><span class="tech-badge">Pinecone</span></div><div class="text-right"><p class="text-xl font-extrabold text-yellow-300">60%</p><p class="text-xs text-neutral-500">Productivity</p></div></div></div>
-    </div>
-    <div class="project-card glass rounded-3xl overflow-hidden" data-category="vision" data-id="4">
-      <div class="img-wrap relative h-48"><img src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover" alt=""><div class="overlay absolute inset-0"></div><div class="absolute top-4 left-4"><span class="tag tag-pink">Computer Vision</span></div></div>
-      <div class="p-6"><h3 class="text-xl font-bold mb-2">Smart Retail Shelf Analytics</h3><p class="text-neutral-400 text-sm mb-4">Vision AI that monitors shelf compliance, stock levels, and planogram adherence in real time across retail chains.</p><div class="flex items-center justify-between"><div class="flex gap-2 flex-wrap"><span class="tech-badge">YOLOv8</span><span class="tech-badge">OpenCV</span></div><div class="text-right"><p class="text-xl font-extrabold text-yellow-300">3×</p><p class="text-xs text-neutral-500">Faster Audits</p></div></div></div>
-    </div>
-    <div class="project-card glass rounded-3xl overflow-hidden" data-category="automation" data-id="5">
-      <div class="img-wrap relative h-48"><img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover" alt=""><div class="overlay absolute inset-0"></div><div class="absolute top-4 left-4"><span class="tag tag-yellow">AI Automation</span></div></div>
-      <div class="p-6"><h3 class="text-xl font-bold mb-2">AI-Powered HR Recruitment</h3><p class="text-neutral-400 text-sm mb-4">End-to-end AI screening, ranking, and interview scheduling pipeline reducing time-to-hire by over half.</p><div class="flex items-center justify-between"><div class="flex gap-2 flex-wrap"><span class="tech-badge">Claude</span><span class="tech-badge">n8n</span></div><div class="text-right"><p class="text-xl font-extrabold text-yellow-300">55%</p><p class="text-xs text-neutral-500">Faster Hiring</p></div></div></div>
-    </div>
-    <div class="project-card glass rounded-3xl overflow-hidden card-featured" data-category="analytics" data-id="6">
-      <div class="img-wrap relative h-64"><img src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1400&q=80" class="w-full h-full object-cover" alt=""><div class="overlay absolute inset-0"></div><div class="absolute top-4 left-4"><span class="tag tag-green">Predictive Analytics</span></div></div>
-      <div class="p-7"><h3 class="text-2xl font-bold mb-2">Supply Chain Risk Intelligence</h3><p class="text-neutral-400 mb-5 leading-relaxed">Predictive disruption model that monitors 200+ supplier signals to flag supply chain risks 6–8 weeks in advance for a Malaysian manufacturer.</p><div class="flex items-center justify-between"><div class="flex gap-2 flex-wrap"><span class="tech-badge">Scikit-learn</span><span class="tech-badge">Kafka</span><span class="tech-badge">Tableau</span></div><div class="text-right"><p class="text-2xl font-extrabold text-yellow-300">RM 2.4M</p><p class="text-xs text-neutral-500">Losses Prevented</p></div></div></div>
-    </div>
-    <div class="project-card glass rounded-3xl overflow-hidden" data-category="chatbot" data-id="7">
-      <div class="img-wrap relative h-48"><img src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover" alt=""><div class="overlay absolute inset-0"></div><div class="absolute top-4 left-4"><span class="tag tag-blue">Chatbot & NLP</span></div></div>
-      <div class="p-6"><h3 class="text-xl font-bold mb-2">Medical Triage Assistant</h3><p class="text-neutral-400 text-sm mb-4">Multilingual patient intake & triage AI deployed across a network of private clinics in the Klang Valley.</p><div class="flex items-center justify-between"><div class="flex gap-2 flex-wrap"><span class="tech-badge">Claude</span><span class="tech-badge">BM / EN</span></div><div class="text-right"><p class="text-xl font-extrabold text-yellow-300">4.8★</p><p class="text-xs text-neutral-500">Patient Rating</p></div></div></div>
-    </div>
-    <div class="project-card glass rounded-3xl overflow-hidden" data-category="integration" data-id="8">
-      <div class="img-wrap relative h-48"><img src="https://images.unsplash.com/photo-1518186285589-2f7649de83e0?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover" alt=""><div class="overlay absolute inset-0"></div><div class="absolute top-4 left-4"><span class="tag tag-purple">Enterprise Integration</span></div></div>
-      <div class="p-6"><h3 class="text-xl font-bold mb-2">ERP AI Co-Pilot</h3><p class="text-neutral-400 text-sm mb-4">Natural language interface layered over SAP ERP — query reports, trigger workflows, and get insights in plain language.</p><div class="flex items-center justify-between"><div class="flex gap-2 flex-wrap"><span class="tech-badge">SAP</span><span class="tech-badge">LangChain</span></div><div class="text-right"><p class="text-xl font-extrabold text-yellow-300">8 hrs</p><p class="text-xs text-neutral-500">Saved/Week</p></div></div></div>
-    </div>
-  </div>
+  <div class="projects-grid" id="projects-grid"></div>
   <div id="empty-state" class="hidden text-center py-24 text-neutral-500">
-    <p class="text-5xl mb-4">🔍</p><p class="text-xl font-semibold">No projects in this category yet.</p><p class="text-sm mt-2">Check back soon or explore another filter.</p>
+    <p class="text-5xl mb-4">🔍</p>
+    <p class="text-xl font-semibold">No projects in this category yet.</p>
+    <p class="text-sm mt-2">Check back soon or explore another filter.</p>
+  </div>
+  <div id="no-projects-state" class="hidden text-center py-24 text-neutral-500">
+    <p class="text-5xl mb-4">🚀</p>
+    <p class="text-xl font-semibold text-neutral-300">Projects Coming Soon</p>
+    <p class="text-sm mt-2 mb-6">Portfolio projects will appear here once published from the admin portal.</p>
+    <a href="admin.html" class="inline-block px-6 py-3 rounded-2xl bg-yellow-400 text-black font-bold hover:bg-yellow-300 transition-colors">Go to Admin Portal →</a>
   </div>
 </section>
 
@@ -571,7 +510,7 @@
     <div><h4 class="text-2xl font-bold text-white mb-3"><span class="gradient-text">AI</span> Malaysia Community</h4><p>Empowering Malaysia through AI innovation, consulting, and collaboration.</p></div>
     <div><h5 class="font-bold text-white mb-3">Quick Links</h5><ul class="space-y-2 text-sm"><li><a onclick="showPage('home')" class="hover:text-yellow-300 cursor-pointer">Home</a></li><li><a onclick="goToSection('services')" class="hover:text-yellow-300 cursor-pointer">Services</a></li><li><a onclick="showPage('projects')" class="hover:text-yellow-300 cursor-pointer">Portfolio</a></li><li><a onclick="goToSection('community')" class="hover:text-yellow-300 cursor-pointer">Community</a></li></ul></div>
     <div><h5 class="font-bold text-white mb-3">Resources</h5><ul class="space-y-2 text-sm"><li><a onclick="goToContact()" class="hover:text-yellow-300 cursor-pointer">Free AI Audit</a></li><li><a onclick="goToSection('community')" class="hover:text-yellow-300 cursor-pointer">Events</a></li><li><a onclick="showPage('projects')" class="hover:text-yellow-300 cursor-pointer">Case Studies</a></li><li><a onclick="goToContact()" class="hover:text-yellow-300 cursor-pointer">Newsletter</a></li></ul></div>
-    <div><h5 class="font-bold text-white mb-3">Contact</h5><ul class="space-y-2 text-sm"><li><a href="mailto:hello@aimalaysiacommunity.my" class="hover:text-yellow-300">hello@aimalaysiacommunity.my</a></li><li><a href="https://wa.me/60123456789" target="_blank" class="hover:text-yellow-300">+60 12-345 6789</a></li><li>Kuala Lumpur, Malaysia</li></ul></div>
+    <div><h5 class="font-bold text-white mb-3">Contact</h5><ul class="space-y-2 text-sm"><li><a href="mailto:hello@aimalaysiacommunity.my" class="hover:text-yellow-300">hello@aimalaysiacommunity.my</a></li><li><a href="https://wa.me/60122850125" target="_blank" class="hover:text-yellow-300">+60 12-345 6789</a></li><li>Kuala Lumpur, Malaysia</li></ul></div>
   </div>
   <div class="mt-12 text-center text-sm text-neutral-600">© 2026 AI Malaysia Community. All rights reserved.</div>
 </footer>
@@ -590,7 +529,7 @@
 </div>
 
 <!-- FLOATING WHATSAPP -->
-<a href="https://wa.me/60123456789?text=Hi!%20I%20found%20you%20on%20AI%20Malaysia%20Community%20and%20I%27d%20like%20to%20learn%20more." target="_blank" class="wa-btn" title="Chat on WhatsApp">
+<a href="https://wa.me/60122850125?text=Hi%20Kingsley!%20I%20found%20AI%20Malaysia%20Community%20and%20I%27d%20like%20to%20learn%20more%20about%20your%20AI%20services." target="_blank" class="wa-btn" title="Chat on WhatsApp">
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" class="w-7 h-7"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
 </a>
 
@@ -602,158 +541,213 @@
 
 <!-- ===================== JAVASCRIPT ===================== -->
 <script>
-// ---- Page navigation ----
-function showPage(name) {
-  document.getElementById('page-home').style.display = name === 'home' ? '' : 'none';
-  document.getElementById('page-projects').style.display = name === 'projects' ? '' : 'none';
-  // Re-trigger animation
-  const page = document.getElementById('page-' + name);
-  page.classList.remove('page');
-  void page.offsetWidth;
-  page.classList.add('page');
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-  // Update nav active state
-  const navPortfolio = document.getElementById('nav-portfolio');
-  if (name === 'projects') { navPortfolio.classList.add('text-yellow-300', 'font-semibold'); }
-  else { navPortfolio.classList.remove('text-yellow-300', 'font-semibold'); }
-  // Reset filters when opening projects
-  if (name === 'projects') {
-    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-    document.querySelector('.filter-btn[data-filter="all"]').classList.add('active');
-    document.querySelectorAll('.project-card').forEach(c => c.style.display = '');
-    document.getElementById('empty-state').classList.add('hidden');
+var ALL_PROJECTS = [];
+var CATEGORY_MAP = {
+  automation:  { label: "AI Automation",         tagClass: "tag-yellow" },
+  chatbot:     { label: "Chatbot & NLP",          tagClass: "tag-blue"   },
+  analytics:   { label: "Predictive Analytics",   tagClass: "tag-green"  },
+  integration: { label: "Enterprise Integration", tagClass: "tag-purple" },
+  vision:      { label: "Computer Vision",        tagClass: "tag-pink"   }
+};
+
+function loadProjects() {
+  try {
+    var raw = localStorage.getItem("aim_projects");
+    ALL_PROJECTS = raw ? JSON.parse(raw).filter(function(p){ return p.status === "published"; }) : [];
+  } catch(e) { ALL_PROJECTS = []; }
+}
+
+function renderHomePortfolio() {
+  var grid = document.getElementById("home-portfolio-grid");
+  var btn  = document.getElementById("view-all-btn");
+  if (!grid) return;
+  if (!ALL_PROJECTS.length) {
+    grid.innerHTML = '<div class="col-span-4 text-center py-20 text-neutral-500">'
+      + '<p class="text-4xl mb-4">🚀</p>'
+      + '<p class="text-lg font-semibold text-neutral-300 mb-2">Projects Coming Soon</p>'
+      + '<p class="text-sm mb-5">Portfolio projects will appear here once published.</p>'
+      + '<a href="admin.html" class="inline-block px-5 py-2.5 rounded-xl bg-yellow-400 text-black text-sm font-bold hover:bg-yellow-300 transition-colors">Go to Admin Portal</a>'
+      + '</div>';
+    if (btn) btn.style.display = "none";
+    return;
   }
+  if (btn) btn.style.display = "";
+  grid.innerHTML = ALL_PROJECTS.slice(0, 4).map(function(p){ return buildProjectCard(p, false); }).join("");
+  if (btn) btn.textContent = "View All " + ALL_PROJECTS.length + " Projects →";
 }
 
-function goToSection(id) {
-  if (document.getElementById('page-home').style.display === 'none') { showPage('home'); }
-  setTimeout(() => {
-    const el = document.getElementById(id);
-    if (el) el.scrollIntoView({ behavior: 'smooth' });
-  }, 350);
+function renderProjectsGrid(filter) {
+  var grid        = document.getElementById("projects-grid");
+  var emptyFilter = document.getElementById("empty-state");
+  var emptyAll    = document.getElementById("no-projects-state");
+  if (!grid) return;
+  if (!ALL_PROJECTS.length) {
+    grid.innerHTML = "";
+    if (emptyFilter) emptyFilter.classList.add("hidden");
+    if (emptyAll)    emptyAll.classList.remove("hidden");
+    return;
+  }
+  if (emptyAll) emptyAll.classList.add("hidden");
+  var f = filter || "all";
+  var filtered = f === "all" ? ALL_PROJECTS : ALL_PROJECTS.filter(function(p){ return p.category === f; });
+  if (!filtered.length) {
+    grid.innerHTML = "";
+    if (emptyFilter) emptyFilter.classList.remove("hidden");
+    return;
+  }
+  if (emptyFilter) emptyFilter.classList.add("hidden");
+  grid.innerHTML = filtered.map(function(p, i){ return buildProjectCard(p, i === 0); }).join("");
 }
 
-function goToContact() {
-  if (document.getElementById('page-home').style.display === 'none') { showPage('home'); }
-  setTimeout(() => {
-    const el = document.getElementById('contact');
-    if (el) el.scrollIntoView({ behavior: 'smooth' });
-  }, 350);
+function buildProjectCard(p, featured) {
+  var cat   = CATEGORY_MAP[p.category] || { label: p.category, tagClass: "tag-yellow" };
+  var imgH  = featured ? "h-72" : "h-48";
+  var pad   = featured ? "p-7"  : "p-6";
+  var tSize = featured ? "text-2xl" : "text-xl";
+  var dSize = featured ? "mb-5 leading-relaxed" : "text-sm mb-4";
+  var mSize = featured ? "text-2xl" : "text-xl";
+  var tech  = (p.tech||[]).slice(0,3).map(function(t){ return '<span class="tech-badge">'+t+'</span>'; }).join("");
+  var metric = p.metric||""; var mLabel = p.metricLabel||"";
+  return '<div class="project-card glass rounded-3xl overflow-hidden'+(featured?' card-featured':'')+'" onclick="openModalById(\''+p.id+'\')" style="cursor:pointer">'
+    +'<div class="img-wrap relative '+imgH+'">'
+    +(p.image?'<img src="'+p.image+'" class="w-full h-full object-cover" alt="">':'<div class="w-full h-full bg-gradient-to-br from-yellow-500/20 to-blue-500/20 flex items-center justify-center text-5xl">🤖</div>')
+    +'<div class="overlay absolute inset-0"></div>'
+    +'<div class="absolute top-4 left-4"><span class="tag '+cat.tagClass+'">'+cat.label+'</span></div>'
+    +'</div>'
+    +'<div class="'+pad+'">'
+    +'<h3 class="'+tSize+' font-bold mb-2">'+( p.title||"")+'</h3>'
+    +'<p class="text-neutral-400 '+dSize+'">'+( p.description||"")+'</p>'
+    +'<div class="flex items-center justify-between">'
+    +'<div class="flex gap-2 flex-wrap">'+tech+'</div>'
+    +(metric?'<div class="text-right"><p class="'+mSize+' font-extrabold text-yellow-300">'+metric+'</p><p class="text-xs text-neutral-500">'+mLabel+'</p></div>':"")
+    +'</div></div></div>';
 }
 
-// ---- Scroll effects ----
-window.addEventListener('scroll', () => {
-  const tab = document.getElementById('book-tab');
-  tab.classList.toggle('visible', window.scrollY > 400);
-});
-
-// ---- Filter ----
-document.querySelectorAll('.filter-btn').forEach(btn => {
-  btn.addEventListener('click', () => {
-    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    const filter = btn.dataset.filter;
-    let visible = 0;
-    document.querySelectorAll('.project-card').forEach(card => {
-      const match = filter === 'all' || card.dataset.category === filter;
-      card.style.display = match ? '' : 'none';
-      if (match) visible++;
-    });
-    document.getElementById('empty-state').classList.toggle('hidden', visible > 0);
-  });
-});
-
-// ---- Modal ----
-const modal = document.getElementById('project-modal');
-const modalContent = document.getElementById('modal-content');
-document.getElementById('modal-close').addEventListener('click', closeModal);
-document.getElementById('modal-backdrop').addEventListener('click', closeModal);
-document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
-
-document.querySelectorAll('.project-card').forEach(card => {
-  card.addEventListener('click', () => openModal(parseInt(card.dataset.id)));
-});
-
-function openModal(id) {
-  const p = PROJECTS[id];
-  modalContent.innerHTML = buildModal(p);
-  modal.classList.add('open');
-  document.body.style.overflow = 'hidden';
-  document.getElementById('modal-panel').scrollTop = 0;
-  setTimeout(() => {
-    p.results.forEach((r, i) => {
-      const bar = document.getElementById('bar-' + i);
-      if (bar) bar.style.width = r.bar + '%';
+function openModalById(id) {
+  var p = ALL_PROJECTS.find(function(x){ return String(x.id) === String(id); });
+  if (!p) return;
+  var mc = document.getElementById("modal-content");
+  mc.innerHTML = buildModal(p);
+  document.getElementById("project-modal").classList.add("open");
+  document.body.style.overflow = "hidden";
+  document.getElementById("modal-panel").scrollTop = 0;
+  setTimeout(function() {
+    (p.results||[]).forEach(function(r,i){
+      var b = document.getElementById("bar-"+i); if(b) b.style.width=(r.bar||0)+"%";
     });
   }, 200);
 }
 
-function closeModal() {
-  modal.classList.remove('open');
-  document.body.style.overflow = '';
-}
-
 function buildModal(p) {
-  const resultsHTML = p.results.map((r, i) => `
-    <div><div class="flex justify-between mb-2"><span class="text-sm text-neutral-400">${r.label}</span><span class="text-sm font-bold text-yellow-300">${r.value}</span></div>
-    <div class="result-bar-bg"><div class="result-bar" id="bar-${i}" style="width:0%"></div></div></div>`).join('');
-  const timelineHTML = p.timeline.map((t, i) => `
-    <div class="flex gap-4"><div class="flex flex-col items-center"><div class="tl-dot"></div>${i < p.timeline.length - 1 ? '<div class="w-0.5 flex-1 bg-white/10 mt-1"></div>' : ''}</div>
-    <div class="pb-5"><p class="font-semibold text-white text-sm">${t.phase}</p><p class="text-xs text-neutral-500 mt-0.5">${t.duration}</p></div></div>`).join('');
-  const techHTML = p.tech.map(t => `<span class="tech-badge">${t}</span>`).join('');
-  return `
-    <div class="relative h-64 md:h-80 rounded-t-[2rem] overflow-hidden">
-      <img src="${p.img}" class="w-full h-full object-cover" alt="${p.title}">
-      <div class="absolute inset-0 bg-gradient-to-t from-[#0d1f3c] via-[#0d1f3c]/30 to-transparent"></div>
-      <div class="absolute bottom-0 left-0 right-0 p-8">
-        <span class="tag ${p.tagClass} mb-3 inline-block">${p.categoryLabel}</span>
-        <h2 class="text-3xl md:text-4xl font-extrabold text-white leading-tight">${p.title}</h2>
-        <p class="text-neutral-400 mt-1">${p.subtitle} · ${p.year}</p>
-      </div>
-    </div>
-    <div class="p-8 md:p-10 grid lg:grid-cols-3 gap-10">
-      <div class="lg:col-span-2 space-y-8">
-        <p class="text-lg leading-relaxed text-neutral-200">${p.summary}</p>
-        <div><div class="flex items-center gap-3 mb-3"><div class="w-8 h-8 rounded-lg bg-red-500/10 border border-red-500/20 flex items-center justify-center text-sm">⚠️</div><h4 class="text-lg font-bold text-white">The Challenge</h4></div><p class="text-neutral-400 leading-relaxed pl-11">${p.challenge}</p></div>
-        <div><div class="flex items-center gap-3 mb-3"><div class="w-8 h-8 rounded-lg bg-yellow-500/10 border border-yellow-500/20 flex items-center justify-center text-sm">💡</div><h4 class="text-lg font-bold text-white">Our Solution</h4></div><p class="text-neutral-400 leading-relaxed pl-11">${p.solution}</p></div>
-        <div><div class="flex items-center gap-3 mb-5"><div class="w-8 h-8 rounded-lg bg-green-500/10 border border-green-500/20 flex items-center justify-center text-sm">📈</div><h4 class="text-lg font-bold text-white">Measurable Results</h4></div><div class="pl-11 space-y-4">${resultsHTML}</div></div>
-        <div class="glass rounded-2xl p-6 border-l-4 border-yellow-400/60"><p class="text-neutral-200 italic mb-4">"${p.testimonial.quote}"</p><p class="font-semibold text-white text-sm">${p.testimonial.author}</p><p class="text-neutral-500 text-xs">${p.testimonial.company}</p></div>
-      </div>
-      <div class="space-y-6">
-        <div class="glass rounded-2xl p-6"><h5 class="font-bold text-white mb-4 text-sm uppercase tracking-wider">Tech Stack</h5><div class="flex flex-wrap gap-2">${techHTML}</div></div>
-        <div class="glass rounded-2xl p-6"><h5 class="font-bold text-white mb-4 text-sm uppercase tracking-wider">Project Timeline</h5><div>${timelineHTML}</div></div>
-        <button onclick="closeModal();goToContact();" class="block w-full py-4 rounded-2xl bg-gradient-to-r from-yellow-400 to-amber-400 text-black font-bold text-center hover:opacity-90 transition-opacity">Build Something Similar →</button>
-      </div>
-    </div>`;
+  var cat   = CATEGORY_MAP[p.category] || { label: p.category||"", tagClass: "tag-yellow" };
+  var rHTML = (p.results||[]).map(function(r,i){
+    return '<div><div class="flex justify-between mb-2"><span class="text-sm text-neutral-400">'+r.label+'</span><span class="text-sm font-bold text-yellow-300">'+r.value+'</span></div>'
+      +'<div class="result-bar-bg"><div class="result-bar" id="bar-'+i+'" style="width:0%"></div></div></div>';
+  }).join("");
+  var tHTML = (p.timeline||[]).map(function(t,i){
+    return '<div class="flex gap-4"><div class="flex flex-col items-center"><div class="tl-dot"></div>'
+      +(i<(p.timeline||[]).length-1?'<div class="w-0.5 flex-1 bg-white/10 mt-1"></div>':"")
+      +'</div><div class="pb-5"><p class="font-semibold text-white text-sm">'+t.phase+'</p><p class="text-xs text-neutral-500 mt-0.5">'+t.duration+'</p></div></div>';
+  }).join("");
+  var techH = (p.tech||[]).map(function(t){ return '<span class="tech-badge">'+t+'</span>'; }).join("");
+  var testH = "";
+  if (p.testimonial && p.testimonial.quote) {
+    testH = '<div class="glass rounded-2xl p-6 border-l-4 border-yellow-400/60">'
+      +'<p class="text-neutral-200 italic mb-4">&quot;'+p.testimonial.quote+'&quot;</p>'
+      +'<p class="font-semibold text-white text-sm">'+( p.testimonial.author||"")+'</p>'
+      +'<p class="text-neutral-500 text-xs">'+( p.testimonial.company||"")+'</p></div>';
+  }
+  return '<div class="relative h-64 md:h-80 rounded-t-[2rem] overflow-hidden">'
+    +(p.image?'<img src="'+p.image+'" class="w-full h-full object-cover" alt="'+( p.title||"")+'">':'<div class="w-full h-full bg-gradient-to-br from-yellow-500/20 to-blue-500/20 flex items-center justify-center text-8xl">🤖</div>')
+    +'<div class="absolute inset-0 bg-gradient-to-t from-[#0d1f3c] via-[#0d1f3c]/30 to-transparent"></div>'
+    +'<div class="absolute bottom-0 left-0 right-0 p-8">'
+    +'<span class="tag '+cat.tagClass+' mb-3 inline-block">'+cat.label+'</span>'
+    +'<h2 class="text-3xl md:text-4xl font-extrabold text-white leading-tight">'+( p.title||"")+'</h2>'
+    +'<p class="text-neutral-400 mt-1">'+( p.subtitle||"")+(p.year?" · "+p.year:"")+'</p>'
+    +'</div></div>'
+    +'<div class="p-8 md:p-10 grid lg:grid-cols-3 gap-10">'
+    +'<div class="lg:col-span-2 space-y-8">'
+    +'<p class="text-lg leading-relaxed text-neutral-200">'+( p.summary||p.description||"")+'</p>'
+    +(p.challenge?'<div><div class="flex items-center gap-3 mb-3"><div class="w-8 h-8 rounded-lg bg-red-500/10 border border-red-500/20 flex items-center justify-center text-sm">⚠️</div><h4 class="text-lg font-bold text-white">The Challenge</h4></div><p class="text-neutral-400 leading-relaxed pl-11">'+p.challenge+'</p></div>':"")
+    +(p.solution?'<div><div class="flex items-center gap-3 mb-3"><div class="w-8 h-8 rounded-lg bg-yellow-500/10 border border-yellow-500/20 flex items-center justify-center text-sm">💡</div><h4 class="text-lg font-bold text-white">Our Solution</h4></div><p class="text-neutral-400 leading-relaxed pl-11">'+p.solution+'</p></div>':"")
+    +(rHTML?'<div><div class="flex items-center gap-3 mb-5"><div class="w-8 h-8 rounded-lg bg-green-500/10 border border-green-500/20 flex items-center justify-center text-sm">📈</div><h4 class="text-lg font-bold text-white">Measurable Results</h4></div><div class="pl-11 space-y-4">'+rHTML+'</div></div>':"")
+    +testH
+    +'</div>'
+    +'<div class="space-y-6">'
+    +(techH?'<div class="glass rounded-2xl p-6"><h5 class="font-bold text-white mb-4 text-sm uppercase tracking-wider">Tech Stack</h5><div class="flex flex-wrap gap-2">'+techH+'</div></div>':"")
+    +(tHTML?'<div class="glass rounded-2xl p-6"><h5 class="font-bold text-white mb-4 text-sm uppercase tracking-wider">Project Timeline</h5><div>'+tHTML+'</div></div>':"")
+    +'<button onclick="closeModal();goToContact();" class="block w-full py-4 rounded-2xl bg-gradient-to-r from-yellow-400 to-amber-400 text-black font-bold text-center hover:opacity-90 transition-opacity">Build Something Similar →</button>'
+    +'</div></div>';
 }
 
-// ---- Forms ----
-function handleContactSubmit() {
-  const name = document.getElementById('cf-name').value.trim();
-  const email = document.getElementById('cf-email').value.trim();
-  if (!name || !email) { alert('Please fill in your name and email.'); return; }
-  showToast();
-  ['cf-name','cf-company','cf-email','cf-phone','cf-service','cf-message'].forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; });
+function showPage(name) {
+  document.getElementById("page-home").style.display     = name==="home"     ? "" : "none";
+  document.getElementById("page-projects").style.display  = name==="projects" ? "" : "none";
+  var page = document.getElementById("page-"+name);
+  page.classList.remove("page"); void page.offsetWidth; page.classList.add("page");
+  window.scrollTo({ top:0, behavior:"smooth" });
+  var nav = document.getElementById("nav-portfolio");
+  if (name==="projects") nav.classList.add("text-yellow-300","font-semibold");
+  else nav.classList.remove("text-yellow-300","font-semibold");
+  if (name==="projects") {
+    document.querySelectorAll(".filter-btn").forEach(function(b){ b.classList.remove("active"); });
+    document.querySelector(".filter-btn[data-filter=\"all\"]").classList.add("active");
+    renderProjectsGrid("all");
+  }
 }
 
-function showToast() {
-  const t = document.getElementById('toast');
-  t.classList.add('show');
-  setTimeout(() => t.classList.remove('show'), 4000);
+function goToSection(id) {
+  if (document.getElementById("page-home").style.display==="none") showPage("home");
+  setTimeout(function(){ var el=document.getElementById(id); if(el) el.scrollIntoView({behavior:"smooth"}); }, 350);
 }
 
-// ---- Projects data ----
-const PROJECTS = [
-  { id:0, category:"automation", categoryLabel:"AI Automation", tagClass:"tag-yellow", title:"Intelligent Document Processing", subtitle:"Finance Services Group — Kuala Lumpur", year:"2025", img:"https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1400&q=80", summary:"A leading Malaysian finance group was processing over 3,000 documents daily — manually. We built an end-to-end AI pipeline that extracts, classifies, and routes documents in real time, transforming their operational backbone.", challenge:"The client's back-office team spent 6+ hours daily manually sorting invoices, contracts, and KYC documents across six departments. Error rates were high, audit trails were inconsistent, and scaling was impossible.", solution:"We designed a multi-modal extraction engine using GPT-4o Vision + custom fine-tuned classifiers. Documents from email, portal uploads, and scanned PDFs are ingested, parsed, enriched with metadata, and auto-routed into the correct ERP workflow — with a confidence dashboard for human review.", results:[{label:"Processing Time Saved",value:"70%",bar:70},{label:"Manual Errors Eliminated",value:"92%",bar:92},{label:"Staff Hours Freed Weekly",value:"240 hrs",bar:80},{label:"ROI Within 6 Months",value:"4.1×",bar:85}], timeline:[{phase:"Discovery & Audit",duration:"2 weeks"},{phase:"Model Training & Pipeline Build",duration:"5 weeks"},{phase:"Integration & UAT",duration:"3 weeks"},{phase:"Go-Live & Hypercare",duration:"2 weeks"}], tech:["Python","GPT-4o Vision","Azure Document Intelligence","FastAPI","PostgreSQL","Power Automate"], testimonial:{quote:"This has fundamentally changed how our back-office operates. We went from firefighting documents to having full visibility and control.",author:"Head of Operations",company:"Finance Services Group, KL"} },
-  { id:1, category:"chatbot", categoryLabel:"Chatbot & NLP", tagClass:"tag-blue", title:"Customer Support AI Assistant", subtitle:"Regional E-Commerce Platform — Malaysia", year:"2024", img:"https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1400&q=80", summary:"A fast-growing Malaysian e-commerce platform was overwhelmed by support tickets. We deployed a multilingual AI assistant that handles 80% of queries autonomously — in English, Bahasa Malaysia, and Mandarin.", challenge:"The platform's 12-person support team was drowning in 4,000+ daily tickets, with first response times exceeding 6 hours during peak periods. Customer satisfaction was declining and the cost-per-ticket was unsustainable.", solution:"We built a context-aware support assistant using Claude 3.5 Sonnet, integrated directly into Zendesk and the platform's order management system. The AI resolves order queries, processes returns, and escalates complex issues with full context — in three languages.", results:[{label:"Tickets Resolved Autonomously",value:"81%",bar:81},{label:"Support Cost Reduction",value:"40%",bar:40},{label:"Response Time (avg)",value:"< 30s",bar:95},{label:"CSAT Score Improvement",value:"+22pts",bar:70}], timeline:[{phase:"Knowledge Base Structuring",duration:"1 week"},{phase:"Chatbot Build & Training",duration:"4 weeks"},{phase:"CRM Integration",duration:"2 weeks"},{phase:"A/B Testing & Tuning",duration:"2 weeks"}], tech:["Claude 3.5 Sonnet","Zendesk API","Node.js","Redis","BM/EN/ZH NLP","Webhook Automation"], testimonial:{quote:"Our team now focuses on high-value interactions. The AI handles the rest — better and faster than we ever could at scale.",author:"Head of Customer Experience",company:"E-Commerce Platform, Malaysia"} },
-  { id:2, category:"analytics", categoryLabel:"Predictive Analytics", tagClass:"tag-green", title:"Sales Forecasting Dashboard", subtitle:"Consumer Goods Distributor — Selangor", year:"2025", img:"https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1400&q=80", summary:"Replaced a company's entire Excel-based planning process with an AI forecasting engine that delivers 30-day rolling predictions with full scenario modelling — accessible in a live Power BI dashboard.", challenge:"Monthly planning cycles took 5 days, relied on gut-feel adjustments, and were routinely off by 18–25%. Overstocking and stockouts were costing the business millions annually.", solution:"We built a Prophet + XGBoost ensemble model trained on 3 years of sales data, enriched with weather, holiday, and promotional signals. The result is a live forecasting dashboard with confidence intervals, drill-down by SKU/region, and what-if scenario controls.", results:[{label:"Forecast Accuracy Improvement",value:"25%",bar:65},{label:"Planning Cycle Time Reduction",value:"80%",bar:80},{label:"Stockout Incidents (YoY)",value:"−43%",bar:57},{label:"Inventory Carrying Cost Saved",value:"RM 1.1M",bar:75}], timeline:[{phase:"Data Audit & Feature Engineering",duration:"3 weeks"},{phase:"Model Development & Backtesting",duration:"4 weeks"},{phase:"Dashboard Build",duration:"2 weeks"},{phase:"Training & Handoff",duration:"1 week"}], tech:["Prophet","XGBoost","Python","Power BI","Azure ML","SQL Server"], testimonial:{quote:"We went from guessing to knowing. The dashboard is now the first thing my team opens every morning.",author:"VP of Commercial",company:"Consumer Goods Distributor, Selangor"} },
-  { id:3, category:"integration", categoryLabel:"Enterprise Integration", tagClass:"tag-purple", title:"Enterprise Knowledge System", subtitle:"Multinational Corporation — KLCC", year:"2025", img:"https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1400&q=80", summary:"Built a private, secure RAG-based AI knowledge platform that connects 10+ internal systems — SharePoint, Confluence, ERP, HR portals — letting employees query institutional knowledge in seconds.", challenge:"A 2,000-person organization had knowledge siloed across 10+ disconnected systems. Onboarding new staff took weeks; finding critical policy or technical documents could take hours.", solution:"We architected a private RAG system with Pinecone as the vector store and Claude as the reasoning layer. The system ingests, chunks, and indexes documents in real time. Employees interact through a Slack-native interface with source citations on every answer.", results:[{label:"Query Resolution Time",value:"−87%",bar:87},{label:"Productivity Increase",value:"60%",bar:60},{label:"Onboarding Time Reduction",value:"50%",bar:50},{label:"Employee Satisfaction (NPS)",value:"+38pts",bar:76}], timeline:[{phase:"System Architecture & Security Review",duration:"2 weeks"},{phase:"Ingestion Pipeline Build",duration:"3 weeks"},{phase:"RAG Tuning & Slack Integration",duration:"3 weeks"},{phase:"Rollout & User Training",duration:"2 weeks"}], tech:["Claude 3.5","Pinecone","LangChain","SharePoint API","Slack API","FastAPI","Docker"], testimonial:{quote:"It's like having a genius employee who has read every document the company has ever created — and can answer in seconds.",author:"Chief Digital Officer",company:"MNC, Kuala Lumpur"} },
-  { id:4, category:"vision", categoryLabel:"Computer Vision", tagClass:"tag-pink", title:"Smart Retail Shelf Analytics", subtitle:"National Retail Chain — Malaysia", year:"2024", img:"https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&w=1400&q=80", summary:"Deployed YOLOv8-based shelf monitoring across 200 retail outlets — tracking stock levels, planogram compliance, and competitor product placement in real time via in-store camera feeds.", challenge:"Manual shelf audits were infrequent, inconsistent, and costly. Out-of-stock situations went unnoticed for hours. Planogram violations were only discovered during monthly walkthroughs.", solution:"We deployed lightweight YOLOv8 models on edge devices at each outlet. A central analytics dashboard aggregates shelf health scores, flags anomalies, and triggers automated replenishment alerts. Store managers receive WhatsApp push notifications for critical gaps.", results:[{label:"Audit Speed Improvement",value:"3×",bar:80},{label:"Out-of-Stock Detection Time",value:"< 5 min",bar:90},{label:"Planogram Compliance Increase",value:"+31%",bar:65},{label:"Lost Sales Recovery (Monthly)",value:"RM 280K",bar:70}], timeline:[{phase:"Camera Audit & Edge Hardware Spec",duration:"2 weeks"},{phase:"Model Training on Retail Data",duration:"5 weeks"},{phase:"Pilot (10 Stores)",duration:"3 weeks"},{phase:"National Rollout",duration:"6 weeks"}], tech:["YOLOv8","OpenCV","NVIDIA Jetson","MQTT","InfluxDB","Grafana","WhatsApp Business API"], testimonial:{quote:"We now have eyes in every store simultaneously. The ROI was clear within the first month.",author:"Head of Retail Operations",company:"National Retail Chain, Malaysia"} },
-  { id:5, category:"automation", categoryLabel:"AI Automation", tagClass:"tag-yellow", title:"AI-Powered HR Recruitment", subtitle:"Mid-Market Enterprise — Petaling Jaya", year:"2025", img:"https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=1400&q=80", summary:"Automated the full recruitment funnel — from JD parsing and resume screening to interview scheduling and offer letter generation — cutting time-to-hire by 55% while improving candidate quality.", challenge:"The HR team was manually sifting through 300+ applications per role, spending 60% of their time on administrative tasks rather than strategic hiring decisions.", solution:"We built an n8n-powered workflow automation layer with Claude at its core for resume intelligence. The system scores candidates against role requirements, auto-schedules interviews via calendar API, sends personalised communications, and drafts offer letters — all with HR approval checkpoints.", results:[{label:"Time-to-Hire Reduction",value:"55%",bar:55},{label:"Admin Time Saved (HR Team)",value:"60%",bar:60},{label:"Candidate Quality Score (avg)",value:"+28%",bar:68},{label:"Cost-per-Hire Reduction",value:"35%",bar:35}], timeline:[{phase:"Process Mapping & ATS Integration",duration:"2 weeks"},{phase:"AI Screening Engine Build",duration:"3 weeks"},{phase:"Workflow Automation",duration:"3 weeks"},{phase:"Testing & HR Training",duration:"2 weeks"}], tech:["Claude 3.5","n8n","Google Calendar API","ATS Integration","Slack","PostgreSQL"], testimonial:{quote:"We now spend our time on people decisions, not paperwork. The AI does the heavy lifting brilliantly.",author:"Head of Talent Acquisition",company:"Mid-Market Enterprise, PJ"} },
-  { id:6, category:"analytics", categoryLabel:"Predictive Analytics", tagClass:"tag-green", title:"Supply Chain Risk Intelligence", subtitle:"Malaysian Manufacturer — Shah Alam", year:"2025", img:"https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1400&q=80", summary:"Built a real-time supply chain risk monitoring platform that tracks 200+ supplier signals and alerts operations teams 6–8 weeks before potential disruptions materialise.", challenge:"The client experienced three major supply disruptions in 18 months, each costing RM 800K+ in expedited freight and production stoppages. Risk management was entirely reactive.", solution:"We engineered a continuous signal intelligence platform using Kafka for real-time data ingestion and a gradient-boosted risk model trained on historical disruption patterns. A Tableau dashboard gives the procurement team a live heat map of supplier risk scores with recommended mitigation actions.", results:[{label:"Advance Warning Lead Time",value:"6–8 wks",bar:85},{label:"Disruption Losses Prevented",value:"RM 2.4M",bar:90},{label:"Supplier Risk Visibility",value:"98%",bar:98},{label:"Procurement Team Efficiency",value:"+45%",bar:45}], timeline:[{phase:"Supplier Data Mapping",duration:"3 weeks"},{phase:"Risk Model Development",duration:"6 weeks"},{phase:"Kafka Pipeline & Dashboard",duration:"4 weeks"},{phase:"Pilot & Calibration",duration:"3 weeks"}], tech:["Apache Kafka","Scikit-learn","Tableau","Python","PostgreSQL","REST APIs","AWS"], testimonial:{quote:"We went from reactive to proactive. The system paid for itself in the first quarter by preventing a supplier collapse we didn't see coming.",author:"VP Supply Chain",company:"Malaysian Manufacturer, Shah Alam"} },
-  { id:7, category:"chatbot", categoryLabel:"Chatbot & NLP", tagClass:"tag-blue", title:"Medical Triage Assistant", subtitle:"Private Clinic Network — Klang Valley", year:"2024", img:"https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&w=1400&q=80", summary:"Deployed a multilingual (BM/EN) AI patient intake and triage assistant across a 15-clinic network, reducing front-desk load by 70% while improving patient experience scores.", challenge:"Long waiting times and high front-desk staff turnover were impacting patient satisfaction. Triage was inconsistent across clinics, and non-urgent cases were consuming emergency appointment slots.", solution:"We built a conversational AI that guides patients through symptom assessment, collects intake information, and recommends the appropriate urgency level and specialist — fully bilingual. Integrated with the clinic management system to pre-populate patient records before the doctor encounter.", results:[{label:"Front-Desk Workload Reduction",value:"70%",bar:70},{label:"Patient Rating (avg)",value:"4.8 / 5★",bar:96},{label:"Avg Intake Time",value:"−65%",bar:65},{label:"Triage Consistency Score",value:"94%",bar:94}], timeline:[{phase:"Clinical Protocol Mapping",duration:"2 weeks"},{phase:"Multilingual NLP Build",duration:"4 weeks"},{phase:"CMS Integration",duration:"2 weeks"},{phase:"Clinical Pilot & Refinement",duration:"4 weeks"}], tech:["Claude 3","Bahasa Malaysia NLP","HL7 FHIR","React","Node.js","Clinic Management API"], testimonial:{quote:"Patients love it. Staff love it. Our doctors see better-prepared patients. It's a win across the board.",author:"Medical Director",company:"Private Clinic Network, KV"} },
-  { id:8, category:"integration", categoryLabel:"Enterprise Integration", tagClass:"tag-purple", title:"ERP AI Co-Pilot", subtitle:"Manufacturing Group — Johor Bahru", year:"2025", img:"https://images.unsplash.com/photo-1518186285589-2f7649de83e0?auto=format&fit=crop&w=1400&q=80", summary:"Wrapped a natural language AI co-pilot around a legacy SAP ERP system — allowing non-technical users to generate reports, trigger workflows, and surface insights through plain conversation.", challenge:"Only 20% of the 600-person company actively used the SAP system due to complexity. Critical business data was inaccessible to mid-level managers who couldn't navigate the interface or wait for IT reports.", solution:"Using LangChain and Claude, we built an AI layer that translates natural language queries into SAP BAPI calls and SQL queries. The co-pilot returns formatted responses with charts, tables, and actionable recommendations — accessible via web interface and Teams.", results:[{label:"ERP Active User Adoption",value:"+280%",bar:78},{label:"Report Generation Time",value:"−95%",bar:95},{label:"Time Saved per Manager/Week",value:"8 hrs",bar:80},{label:"IT Support Tickets (ERP)",value:"−60%",bar:60}], timeline:[{phase:"SAP API Mapping",duration:"3 weeks"},{phase:"LangChain Agent Development",duration:"4 weeks"},{phase:"Teams / Web UI Build",duration:"3 weeks"},{phase:"Pilot with 50 Users",duration:"2 weeks"}], tech:["Claude 3.5","LangChain","SAP BAPI","Python","Microsoft Teams API","Chart.js","Azure"], testimonial:{quote:"My managers can now get a full sales breakdown for any region in 10 seconds. That used to take IT two days.",author:"Group CEO",company:"Manufacturing Group, Johor Bahru"} }
-];
+function goToContact() {
+  if (document.getElementById("page-home").style.display==="none") showPage("home");
+  setTimeout(function(){ var el=document.getElementById("contact"); if(el) el.scrollIntoView({behavior:"smooth"}); }, 350);
+}
+
+window.addEventListener("scroll", function() {
+  document.getElementById("book-tab").classList.toggle("visible", window.scrollY > 400);
+});
+
+document.querySelectorAll(".filter-btn").forEach(function(btn) {
+  btn.addEventListener("click", function() {
+    document.querySelectorAll(".filter-btn").forEach(function(b){ b.classList.remove("active"); });
+    btn.classList.add("active");
+    renderProjectsGrid(btn.dataset.filter);
+  });
+});
+
+var modal = document.getElementById("project-modal");
+document.getElementById("modal-close").addEventListener("click", closeModal);
+document.getElementById("modal-backdrop").addEventListener("click", closeModal);
+document.addEventListener("keydown", function(e){ if(e.key==="Escape") closeModal(); });
+function closeModal() { modal.classList.remove("open"); document.body.style.overflow=""; }
+
+function handleAuditSubmit() {
+  var name      = document.getElementById("audit-name").value.trim();
+  var email     = document.getElementById("audit-email").value.trim();
+  var company   = document.getElementById("audit-company").value.trim();
+  var challenge = document.getElementById("audit-challenge").value;
+  if (!name||!email) { alert("Please fill in your name and email."); return; }
+  try {
+    var leads = JSON.parse(localStorage.getItem("aim_audit_leads")||"[]");
+    leads.unshift({ id:Date.now(), name:name, email:email, company:company, challenge:challenge, status:"new", submittedAt:new Date().toISOString() });
+    localStorage.setItem("aim_audit_leads", JSON.stringify(leads));
+  } catch(e) {}
+  ["audit-name","audit-email","audit-company","audit-challenge"].forEach(function(id){ var el=document.getElementById(id); if(el) el.value=""; });
+  showToast("Audit request received! Kingsley will reach out within 1 business day.");
+}
+
+function showToast(msg) {
+  var t = document.getElementById("toast");
+  if (msg) t.textContent = msg;
+  t.classList.add("show");
+  setTimeout(function(){ t.classList.remove("show"); t.textContent = "Message sent! We will be in touch within 1 business day."; }, 4000);
+}
+
+loadProjects();
+renderHomePortfolio();
 </script>
 </body>
 </html>
