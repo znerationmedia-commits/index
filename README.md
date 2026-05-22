@@ -45,6 +45,23 @@ This keeps the stack small without forcing the team to manage its own backend se
 
 The public site should not depend on manual HTML edits for each new project.
 
+## Public Page Rendering Policy
+
+The public portfolio page must stay stable and readable as projects grow.
+
+Rendering rules:
+
+- validate all submissions before they are saved
+- publish only approved or published records
+- render each project through the same fixed card layout
+- clamp long titles and descriptions so one record cannot distort the page
+- use image fallbacks when a visual asset is missing
+- keep the grid responsive and consistent at every screen size
+- paginate, lazy-load, or otherwise limit how many cards are shown at once
+- never render raw HTML from submissions into the public page
+
+The policy exists so future contributors understand that the public site is a controlled viewer, not a free-form editor.
+
 ## Submission Fields
 
 Every project submission must include:
@@ -169,6 +186,7 @@ Typical files in this MVP:
 - `projects.json` if the team chooses to stage data before the database path is live
 - `vercel.json` for deployment and security headers
 - `PROJECT_SUBMISSION_TEMPLATE.md` for the submission reference
+- `PUBLIC_PAGE_RENDERING_POLICY.md` for the public-page guardrails
 - `CONTRIBUTING.md` for collaboration rules
 - `SITE_DESIGN_DIRECTION.md` for product direction
 - `ADMIN_PORTAL_PLAN.md` for the current implementation plan and approval steps

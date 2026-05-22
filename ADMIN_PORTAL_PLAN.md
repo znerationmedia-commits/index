@@ -53,6 +53,7 @@ Before implementation is approved:
 - confirm the admin portal flow
 - freeze the field list and taxonomy
 - keep README and submission template aligned
+- define the public page rendering policy
 
 ### Phase 2: Auth And Data Model
 
@@ -72,6 +73,7 @@ Before implementation is approved:
 - render only published projects on the main site
 - keep search and filters working from the same data
 - verify updates appear without manual HTML edits
+- enforce the public page rendering policy
 
 ### Phase 5: Safety Review
 
