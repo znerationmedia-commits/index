@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Malaysia Community | AI Consulting & Innovation Ecosystem</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing: border-box; }
+    body { font-family: 'Inter', sans-serif; background: radial-gradient(circle at top right, #0f2a52 0%, #020617 45%, #01040b 100%); min-height: 100vh; }
+    html { scroll-behavior: smooth; }
+
+    /* Shared */
+    .glass { background: rgba(255,255,255,0.04); backdrop-filter: blur(14px); border: 1px solid rgba(255,255,255,0.08); }
+    .gradient-text { background: linear-gradient(90deg, #fbbf24, #fde68a); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .section-divider { border-top: 1px solid rgba(255,255,255,0.08); }
+    .gold-glow { box-shadow: 0 0 40px rgba(251,191,36,0.15); }
+    .gold-line { background: linear-gradient(90deg, #fbbf24, transparent); height: 2px; }
+    .stars { color: #fbbf24; letter-spacing: 2px; }
+    .orb { position: fixed; border-radius: 50%; filter: blur(80px); pointer-events: none; z-index: 0; }
+
+    /* Home styles */
+    .service-card { transition: all 0.3s ease; }
+    .service-card:hover { background: rgba(251,191,36,0.06); border-color: rgba(251,191,36,0.25); transform: translateY(-4px); }
+    .port-card { transition: all 0.35s ease; cursor: pointer; }
+    .port-card:hover { transform: translateY(-6px); box-shadow: 0 20px 60px rgba(0,0,0,0.4), 0 0 30px rgba(251,191,36,0.08); border-color: rgba(251,191,36,0.2); }
+    .port-card img { transition: transform 0.5s ease; }
+    .port-card:hover img { transform: scale(1.05); }
+    .audit-badge { background: linear-gradient(135deg, rgba(251,191,36,0.12), rgba(251,191,36,0.04)); border: 1px solid rgba(251,191,36,0.2); border-radius: 1rem; padding: 1.5rem; transition: all 0.3s ease; }
+    .audit-badge:hover { background: rgba(251,191,36,0.1); border-color: rgba(251,191,36,0.4); }
+    .form-input { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 14px 18px; color: white; width: 100%; font-size: 0.95rem; transition: border-color 0.2s; outline: none; font-family: 'Inter', sans-serif; }
+    .form-input:focus { border-color: rgba(251,191,36,0.5); background: rgba(255,255,255,0.07); }
+    .form-input::placeholder { color: rgba(255,255,255,0.3); }
+    .announce-bar { background: linear-gradient(90deg, #92400e, #b45309, #92400e); background-size: 200% 100%; animation: shimmer-bar 3s linear infinite; }
+    @keyframes shimmer-bar { 0% { background-position: 0% 0; } 100% { background-position: 200% 0; } }
+    .ticker-wrap { overflow: hidden; }
+    .ticker-inner { display: flex; gap: 3rem; animation: ticker 20s linear infinite; white-space: nowrap; }
+    .ticker-inner:hover { animation-play-state: paused; }
+    @keyframes ticker { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+    /* Floating buttons */
+    .wa-btn { position: fixed; bottom: 28px; right: 28px; z-index: 999; background: #25D366; border-radius: 50%; width: 60px; height: 60px; display: flex; align-items: center; justify-content: center; box-shadow: 0 4px 24px rgba(37,211,102,0.4); transition: all 0.3s ease; animation: pulse-wa 2.5s ease-in-out infinite; }
+    .wa-btn:hover { transform: scale(1.1); box-shadow: 0 6px 32px rgba(37,211,102,0.6); animation: none; }
+    @keyframes pulse-wa { 0%, 100% { box-shadow: 0 4px 24px rgba(37,211,102,0.4); } 50% { box-shadow: 0 4px 40px rgba(37,211,102,0.7); } }
+    .book-tab { position: fixed; right: -112px; top: 50%; transform: translateY(-50%) rotate(-90deg); z-index: 998; transition: right 0.4s ease; background: linear-gradient(90deg, #fbbf24, #f59e0b); color: #000; font-weight: 700; font-size: 0.8rem; padding: 10px 20px; border-radius: 0 0 10px 10px; letter-spacing: 0.05em; cursor: pointer; white-space: nowrap; }
+    .book-tab.visible { right: -8px; }
+
+    /* Toast */
+    #toast { position: fixed; bottom: 100px; right: 28px; background: #065f46; border: 1px solid #10b981; color: white; padding: 14px 20px; border-radius: 12px; font-size: 0.9rem; font-weight: 600; z-index: 9999; transform: translateY(20px); opacity: 0; transition: all 0.4s ease; pointer-events: none; }
+    #toast.show { transform: translateY(0); opacity: 1; }
+
+    /* Projects page styles */
+    .filter-btn { transition: all 0.25s ease; position: relative; }
+    .filter-btn::after { content: ''; position: absolute; bottom: -2px; left: 50%; transform: translateX(-50%) scaleX(0); width: 100%; height: 2px; background: #fbbf24; border-radius: 2px; transition: transform 0.25s ease; }
+    .filter-btn.active::after, .filter-btn:hover::after { transform: translateX(-50%) scaleX(1); }
+    .filter-btn.active { color: #fbbf24; }
+    .project-card { cursor: pointer; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+    .project-card:hover { transform: translateY(-8px) scale(1.01); box-shadow: 0 30px 80px rgba(0,0,0,0.5), 0 0 40px rgba(251,191,36,0.1); }
+    .project-card .img-wrap { overflow: hidden; }
+    .project-card .img-wrap img { transition: transform 0.6s ease; }
+    .project-card:hover .img-wrap img { transform: scale(1.08); }
+    .project-card .overlay { background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, transparent 60%); opacity: 0; transition: opacity 0.35s ease; }
+    .project-card:hover .overlay { opacity: 1; }
+    .card-featured { grid-column: span 2; }
+    .projects-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+    @media (max-width: 1024px) { .projects-grid { grid-template-columns: repeat(2, 1fr); } .card-featured { grid-column: span 2; } }
+    @media (max-width: 640px) { .projects-grid { grid-template-columns: 1fr; } .card-featured { grid-column: span 1; } }
+    .stat-card { background: rgba(251,191,36,0.06); border: 1px solid rgba(251,191,36,0.15); border-radius: 1rem; padding: 1.5rem; text-align: center; }
+    .tag { display: inline-block; padding: 4px 12px; border-radius: 100px; font-size: 0.7rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; }
+    .tag-yellow { background: rgba(251,191,36,0.15); color: #fbbf24; border: 1px solid rgba(251,191,36,0.2); }
+    .tag-blue { background: rgba(96,165,250,0.1); color: #93c5fd; border: 1px solid rgba(96,165,250,0.2); }
+    .tag-green { background: rgba(52,211,153,0.1); color: #6ee7b7; border: 1px solid rgba(52,211,153,0.2); }
+    .tag-purple { background: rgba(167,139,250,0.1); color: #c4b5fd; border: 1px solid rgba(167,139,250,0.2); }
+    .tag-pink { background: rgba(251,113,133,0.1); color: #fda4af; border: 1px solid rgba(251,113,133,0.2); }
+    .tech-badge { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; padding: 6px 14px; font-size: 0.8rem; color: #cbd5e1; }
+    .tl-dot { width: 10px; height: 10px; border-radius: 50%; background: #fbbf24; flex-shrink: 0; margin-top: 5px; box-shadow: 0 0 10px rgba(251,191,36,0.5); }
+    .result-bar-bg { background: rgba(255,255,255,0.06); border-radius: 100px; height: 6px; overflow: hidden; }
+    .result-bar { height: 100%; border-radius: 100px; background: linear-gradient(90deg, #fbbf24, #fde68a); transition: width 1.2s cubic-bezier(0.4,0,0.2,1); }
+
+    /* Modal */
+    #project-modal { display: none; position: fixed; inset: 0; z-index: 1000; }
+    #project-modal.open { display: flex; }
+    .modal-backdrop { position: absolute; inset: 0; background: rgba(0,0,0,0.75); backdrop-filter: blur(8px); }
+    .modal-panel { position: relative; z-index: 10; margin: auto; width: 92%; max-width: 1100px; max-height: 92vh; overflow-y: auto; border-radius: 2rem; background: linear-gradient(145deg, #0d1f3c, #060d1a); border: 1px solid rgba(255,255,255,0.1); animation: slideUp 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.1) forwards; }
+    @keyframes slideUp { from { opacity: 0; transform: translateY(40px) scale(0.97); } to { opacity: 1; transform: translateY(0) scale(1); } }
+    .modal-panel::-webkit-scrollbar { width: 6px; }
+    .modal-panel::-webkit-scrollbar-thumb { background: rgba(251,191,36,0.3); border-radius: 3px; }
+
+    /* Page transitions */
+    .page { animation: pageIn 0.35s ease forwards; }
+    @keyframes pageIn { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+  </style>
+</head>
+<body class="text-white">
+
+<!-- Orbs (shared) -->
+<div class="orb w-96 h-96 bg-yellow-500/8 top-10 -right-32"></div>
+<div class="orb w-80 h-80 bg-blue-600/8 bottom-96 -left-20"></div>
+
+<!-- ===================== ANNOUNCEMENT BAR ===================== -->
+<div class="announce-bar text-center py-2.5 px-4 text-sm font-semibold text-white/90 relative z-50">
+  🎯 &nbsp;Limited spots: <strong>Free AI Readiness Audit</strong> for Q2 2026 —
+  <a onclick="goToContact()" class="underline underline-offset-2 hover:text-yellow-200 cursor-pointer">Claim yours now →</a>
+</div>
+
+<!-- ===================== NAVIGATION ===================== -->
+<nav class="sticky top-0 z-50 backdrop-blur-xl bg-black/30 border-b border-white/10">
+  <div class="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+    <a onclick="showPage('home')" class="cursor-pointer">
+      <h1 class="text-2xl font-extrabold tracking-tight"><span class="gradient-text">AI</span> Malaysia Community</h1>
+      <p class="text-xs tracking-[0.3em] text-neutral-400">AI INNOVATION. TOGETHER.</p>
+    </a>
+    <div class="hidden md:flex gap-8 text-sm text-neutral-300">
+      <a onclick="goToSection('services')" class="hover:text-yellow-300 transition-colors cursor-pointer">Services</a>
+      <a id="nav-portfolio" onclick="showPage('projects')" class="hover:text-yellow-300 transition-colors cursor-pointer">Portfolio</a>
+      <a onclick="goToSection('community')" class="hover:text-yellow-300 transition-colors cursor-pointer">Community</a>
+      <a onclick="goToSection('testimonials')" class="hover:text-yellow-300 transition-colors cursor-pointer">Testimonials</a>
+      <a onclick="goToContact()" class="hover:text-yellow-300 transition-colors cursor-pointer">Contact</a>
+    </div>
+    <a onclick="goToContact()" class="px-5 py-3 rounded-full bg-yellow-400 text-black font-semibold hover:bg-yellow-300 transition-colors cursor-pointer">Contact Us</a>
+  </div>
+</nav>
+
+<!-- ===================== HOME PAGE ===================== -->
+<div id="page-home" class="page">
+
+<!-- HERO -->
+<section class="max-w-7xl mx-auto px-6 py-20 grid lg:grid-cols-2 gap-14 items-center relative z-10">
+  <div>
+    <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full glass mb-6 text-sm">
+      <span class="w-2 h-2 rounded-full bg-green-400 animate-pulse"></span>
+      <span class="text-neutral-300">Malaysia's #1 Trusted AI Community & Partner</span>
+    </div>
+    <h2 class="text-5xl md:text-6xl font-extrabold leading-tight mb-6">Empowering Malaysian Organizations with <span class="gradient-text">AI Innovation</span></h2>
+    <p class="text-lg text-neutral-300 mb-8 max-w-xl">We help businesses transform through AI strategy, custom development, workshops, enterprise integration, and future-ready innovation ecosystems.</p>
+    <div class="flex flex-wrap gap-4 mb-10">
+      <a onclick="goToSection('services')" class="px-8 py-4 rounded-2xl bg-yellow-400 text-black font-bold hover:bg-yellow-300 transition-all hover:scale-105 shadow-lg shadow-yellow-500/20 cursor-pointer">Explore Our Services</a>
+      <a onclick="showPage('projects')" class="px-8 py-4 rounded-2xl border border-white/20 hover:border-yellow-400/50 hover:bg-white/5 transition-all cursor-pointer">View Our Work →</a>
+    </div>
+    <div class="flex flex-wrap gap-6 text-sm">
+      <div class="flex items-center gap-2"><span class="text-yellow-300 font-bold text-lg">50+</span><span class="text-neutral-400">Projects Delivered</span></div>
+      <div class="w-px bg-white/10"></div>
+      <div class="flex items-center gap-2"><span class="text-yellow-300 font-bold text-lg">8,000+</span><span class="text-neutral-400">Community Members</span></div>
+      <div class="w-px bg-white/10"></div>
+      <div class="flex items-center gap-2"><span class="text-yellow-300 font-bold text-lg">3.2×</span><span class="text-neutral-400">Avg. Client ROI</span></div>
+    </div>
+  </div>
+  <div class="relative">
+    <div class="absolute inset-0 bg-gradient-to-tr from-yellow-500/10 to-blue-500/10 rounded-[2rem]"></div>
+    <img src="https://images.unsplash.com/photo-1596422846543-75c6fc197f07?auto=format&fit=crop&w=1200&q=80" class="rounded-[2rem] object-cover w-full h-[560px] gold-glow relative z-10" alt="Kuala Lumpur Skyline" />
+    <div class="absolute -bottom-6 -left-6 z-20 glass rounded-2xl p-4 flex items-center gap-3 shadow-xl">
+      <div class="w-10 h-10 rounded-xl bg-yellow-400/20 flex items-center justify-center text-yellow-300 text-lg">🚀</div>
+      <div><p class="font-bold text-sm">Latest Project</p><p class="text-xs text-neutral-400">AI Supply Chain · RM 2.4M saved</p></div>
+    </div>
+    <div class="absolute -top-4 -right-4 z-20 glass rounded-2xl p-4 shadow-xl">
+      <div class="stars text-sm mb-1">★★★★★</div>
+      <p class="text-xs font-semibold">4.9 / 5.0</p>
+      <p class="text-xs text-neutral-400">Client Satisfaction</p>
+    </div>
+  </div>
+</section>
+
+<!-- TRUSTED BY TICKER -->
+<div class="section-divider py-10 overflow-hidden relative z-10">
+  <p class="text-center text-xs tracking-[0.3em] text-neutral-500 mb-6">TRUSTED BY FORWARD-THINKING ORGANIZATIONS</p>
+  <div class="ticker-wrap">
+    <div class="ticker-inner text-neutral-400 font-semibold text-sm">
+      <span class="px-6 py-2 glass rounded-full">FinTech Solutions</span>
+      <span class="px-6 py-2 glass rounded-full">Malaysian Manufacturers</span>
+      <span class="px-6 py-2 glass rounded-full">Digital Agency Group</span>
+      <span class="px-6 py-2 glass rounded-full">KV Private Clinics</span>
+      <span class="px-6 py-2 glass rounded-full">E-Commerce Platform MY</span>
+      <span class="px-6 py-2 glass rounded-full">Consumer Goods Dist.</span>
+      <span class="px-6 py-2 glass rounded-full">National Retail Chain</span>
+      <span class="px-6 py-2 glass rounded-full">FinTech Solutions</span>
+      <span class="px-6 py-2 glass rounded-full">Malaysian Manufacturers</span>
+      <span class="px-6 py-2 glass rounded-full">Digital Agency Group</span>
+      <span class="px-6 py-2 glass rounded-full">KV Private Clinics</span>
+      <span class="px-6 py-2 glass rounded-full">E-Commerce Platform MY</span>
+      <span class="px-6 py-2 glass rounded-full">Consumer Goods Dist.</span>
+      <span class="px-6 py-2 glass rounded-full">National Retail Chain</span>
+    </div>
+  </div>
+</div>
+
+<!-- SERVICES -->
+<section id="services" class="section-divider max-w-7xl mx-auto px-6 py-24 relative z-10">
+  <div class="text-center mb-14">
+    <p class="text-yellow-300 uppercase tracking-[0.3em] text-sm mb-3">What We Do</p>
+    <h3 class="text-4xl md:text-5xl font-bold">End-to-End AI Solutions<br/>for Your Business</h3>
+    <p class="text-neutral-400 mt-4 max-w-xl mx-auto">From strategy to deployment — we've got every stage of your AI journey covered.</p>
+  </div>
+  <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+    <a onclick="goToContact()" class="service-card glass rounded-3xl p-8 block group cursor-pointer">
+      <div class="w-12 h-12 rounded-2xl bg-yellow-400/10 border border-yellow-400/20 flex items-center justify-center text-2xl mb-5">🧭</div>
+      <h4 class="text-xl font-bold mb-3">AI Strategy & Consulting</h4>
+      <p class="text-neutral-400 text-sm mb-5">Roadmaps, adoption planning, and business transformation strategy tailored to your industry.</p>
+      <span class="text-yellow-300 text-sm font-semibold group-hover:underline">Get a Strategy Session →</span>
+    </a>
+    <a onclick="showPage('projects')" class="service-card glass rounded-3xl p-8 block group cursor-pointer">
+      <div class="w-12 h-12 rounded-2xl bg-blue-400/10 border border-blue-400/20 flex items-center justify-center text-2xl mb-5">⚙️</div>
+      <h4 class="text-xl font-bold mb-3">Custom AI Development</h4>
+      <p class="text-neutral-400 text-sm mb-5">Build tailored AI agents, automation systems, and business tools — from MVP to enterprise scale.</p>
+      <span class="text-yellow-300 text-sm font-semibold group-hover:underline">See Our Projects →</span>
+    </a>
+    <a onclick="goToContact()" class="service-card glass rounded-3xl p-8 block group cursor-pointer">
+      <div class="w-12 h-12 rounded-2xl bg-green-400/10 border border-green-400/20 flex items-center justify-center text-2xl mb-5">🎓</div>
+      <h4 class="text-xl font-bold mb-3">Workshops & Training</h4>
+      <p class="text-neutral-400 text-sm mb-5">Upskill your teams through practical AI implementation sessions and certified programmes.</p>
+      <span class="text-yellow-300 text-sm font-semibold group-hover:underline">Book a Workshop →</span>
+    </a>
+    <a onclick="goToContact()" class="service-card glass rounded-3xl p-8 block group cursor-pointer">
+      <div class="w-12 h-12 rounded-2xl bg-purple-400/10 border border-purple-400/20 flex items-center justify-center text-2xl mb-5">🔗</div>
+      <h4 class="text-xl font-bold mb-3">Enterprise Integration</h4>
+      <p class="text-neutral-400 text-sm mb-5">Seamlessly plug AI into your existing ERP, CRM, and systems without disrupting operations.</p>
+      <span class="text-yellow-300 text-sm font-semibold group-hover:underline">Talk to an Expert →</span>
+    </a>
+  </div>
+</section>
+
+<!-- HOW WE WORK -->
+<section class="section-divider max-w-7xl mx-auto px-6 py-24 relative z-10">
+  <div class="text-center mb-16">
+    <p class="text-yellow-300 uppercase tracking-[0.3em] text-sm mb-3">Our Process</p>
+    <h3 class="text-4xl md:text-5xl font-bold">From Idea to Impact<br/>in 4 Steps</h3>
+  </div>
+  <div class="grid md:grid-cols-4 gap-8 relative">
+    <div class="text-center relative">
+      <div class="w-14 h-14 rounded-2xl bg-yellow-400/10 border border-yellow-400/30 flex items-center justify-center text-yellow-300 font-extrabold text-xl mx-auto mb-5 relative z-10">01</div>
+      <div class="hidden md:block absolute top-7 left-[calc(50%+28px)] w-[calc(100%-56px)] h-px bg-gradient-to-r from-yellow-400/40 to-transparent"></div>
+      <h4 class="font-bold text-lg mb-2">Discover</h4>
+      <p class="text-neutral-400 text-sm">We audit your operations and pinpoint exactly where AI creates the highest ROI for your specific context.</p>
+    </div>
+    <div class="text-center relative">
+      <div class="w-14 h-14 rounded-2xl bg-yellow-400/10 border border-yellow-400/30 flex items-center justify-center text-yellow-300 font-extrabold text-xl mx-auto mb-5 relative z-10">02</div>
+      <div class="hidden md:block absolute top-7 left-[calc(50%+28px)] w-[calc(100%-56px)] h-px bg-gradient-to-r from-yellow-400/40 to-transparent"></div>
+      <h4 class="font-bold text-lg mb-2">Design</h4>
+      <p class="text-neutral-400 text-sm">We architect a solution that fits your tech stack, budget, and timeline — no over-engineering.</p>
+    </div>
+    <div class="text-center relative">
+      <div class="w-14 h-14 rounded-2xl bg-yellow-400/10 border border-yellow-400/30 flex items-center justify-center text-yellow-300 font-extrabold text-xl mx-auto mb-5 relative z-10">03</div>
+      <div class="hidden md:block absolute top-7 left-[calc(50%+28px)] w-[calc(100%-56px)] h-px bg-gradient-to-r from-yellow-400/40 to-transparent"></div>
+      <h4 class="font-bold text-lg mb-2">Deploy</h4>
+      <p class="text-neutral-400 text-sm">Rapid build, test, and launch — with your team involved every step so adoption is seamless.</p>
+    </div>
+    <div class="text-center">
+      <div class="w-14 h-14 rounded-2xl bg-yellow-400/20 border border-yellow-400/50 flex items-center justify-center text-yellow-300 font-extrabold text-xl mx-auto mb-5">04</div>
+      <h4 class="font-bold text-lg mb-2">Scale</h4>
+      <p class="text-neutral-400 text-sm">We stay on as your AI partner — monitoring, optimising, and expanding capabilities as you grow.</p>
+    </div>
+  </div>
+  <div class="text-center mt-14">
+    <a onclick="goToContact()" class="inline-flex items-center gap-2 px-8 py-4 rounded-2xl bg-yellow-400 text-black font-bold hover:bg-yellow-300 transition-all hover:scale-105 shadow-lg shadow-yellow-500/20 cursor-pointer">Start With a Free Discovery Call →</a>
+  </div>
+</section>
+
+<!-- PORTFOLIO -->
+<section id="portfolio" class="section-divider max-w-7xl mx-auto px-6 py-24 relative z-10">
+  <div class="flex justify-between items-end mb-12 flex-wrap gap-4">
+    <div>
+      <p class="text-yellow-300 uppercase tracking-[0.3em] text-sm mb-3">Our Work</p>
+      <h3 class="text-4xl md:text-5xl font-bold">Selected Projects<br/>& Case Studies</h3>
+    </div>
+    <a onclick="showPage('projects')" class="px-6 py-3 rounded-full border border-yellow-400/40 text-yellow-300 font-semibold hover:bg-yellow-400/10 transition-colors cursor-pointer">View All 9 Projects →</a>
+  </div>
+  <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+    <div onclick="showPage('projects')" class="port-card glass rounded-3xl overflow-hidden block cursor-pointer">
+      <div class="overflow-hidden h-48"><img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=800&q=80" class="h-full w-full object-cover"></div>
+      <div class="p-6"><p class="text-yellow-300 text-xs font-semibold mb-2 uppercase tracking-wider">AI Automation</p><h4 class="text-lg font-bold mb-2">Intelligent Document Processing</h4><p class="text-neutral-400 text-sm">Automated extraction and workflow for finance services.</p><p class="mt-4 text-yellow-300 font-semibold text-sm">Impact: 70% time savings →</p></div>
+    </div>
+    <div onclick="showPage('projects')" class="port-card glass rounded-3xl overflow-hidden block cursor-pointer">
+      <div class="overflow-hidden h-48"><img src="https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=800&q=80" class="h-full w-full object-cover"></div>
+      <div class="p-6"><p class="text-yellow-300 text-xs font-semibold mb-2 uppercase tracking-wider">AI Chatbot</p><h4 class="text-lg font-bold mb-2">Customer Support Assistant</h4><p class="text-neutral-400 text-sm">Reduced support response time with enterprise AI assistant.</p><p class="mt-4 text-yellow-300 font-semibold text-sm">Impact: 40% cost reduction →</p></div>
+    </div>
+    <div onclick="showPage('projects')" class="port-card glass rounded-3xl overflow-hidden block cursor-pointer">
+      <div class="overflow-hidden h-48"><img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=80" class="h-full w-full object-cover"></div>
+      <div class="p-6"><p class="text-yellow-300 text-xs font-semibold mb-2 uppercase tracking-wider">Predictive Analytics</p><h4 class="text-lg font-bold mb-2">Sales Forecasting Dashboard</h4><p class="text-neutral-400 text-sm">AI-driven sales planning and strategic prediction.</p><p class="mt-4 text-yellow-300 font-semibold text-sm">Impact: 25% accuracy gain →</p></div>
+    </div>
+    <div onclick="showPage('projects')" class="port-card glass rounded-3xl overflow-hidden block cursor-pointer">
+      <div class="overflow-hidden h-48"><img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=800&q=80" class="h-full w-full object-cover"></div>
+      <div class="p-6"><p class="text-yellow-300 text-xs font-semibold mb-2 uppercase tracking-wider">AI Integration</p><h4 class="text-lg font-bold mb-2">Enterprise Knowledge System</h4><p class="text-neutral-400 text-sm">Private knowledge architecture for faster internal decisions.</p><p class="mt-4 text-yellow-300 font-semibold text-sm">Impact: 60% productivity boost →</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- FREE AI AUDIT -->
+<section class="section-divider max-w-7xl mx-auto px-6 py-24 relative z-10">
+  <div class="glass rounded-[2rem] p-10 md:p-14 grid lg:grid-cols-2 gap-12 items-center border border-yellow-400/10">
+    <div>
+      <span class="inline-block px-4 py-1.5 rounded-full bg-yellow-400/10 border border-yellow-400/20 text-yellow-300 text-xs font-bold uppercase tracking-wider mb-5">Free — No Obligation</span>
+      <h3 class="text-3xl md:text-4xl font-extrabold mb-4">Get Your <span class="gradient-text">Free AI Readiness Audit</span></h3>
+      <p class="text-neutral-300 mb-6 leading-relaxed">Not sure where to start with AI? In 30 minutes, our consultants will map out your top 3 AI opportunities, estimate potential ROI, and tell you exactly what it would take to get there.</p>
+      <ul class="space-y-3 text-sm text-neutral-300">
+        <li class="flex items-center gap-3"><span class="w-5 h-5 rounded-full bg-yellow-400/20 flex items-center justify-center text-yellow-300 text-xs flex-shrink-0">✓</span>30-min strategy call with a senior AI consultant</li>
+        <li class="flex items-center gap-3"><span class="w-5 h-5 rounded-full bg-yellow-400/20 flex items-center justify-center text-yellow-300 text-xs flex-shrink-0">✓</span>Personalised AI opportunity report delivered via email</li>
+        <li class="flex items-center gap-3"><span class="w-5 h-5 rounded-full bg-yellow-400/20 flex items-center justify-center text-yellow-300 text-xs flex-shrink-0">✓</span>Zero sales pressure — just genuine insight</li>
+      </ul>
+    </div>
+    <div class="space-y-4">
+      <input type="text" placeholder="Your Name" class="form-input" />
+      <input type="email" placeholder="Work Email" class="form-input" />
+      <input type="text" placeholder="Company Name" class="form-input" />
+      <select class="form-input" style="color:rgba(255,255,255,0.7);appearance:none;">
+        <option value="" style="background:#0d1f3c">What's your biggest challenge?</option>
+        <option style="background:#0d1f3c">Too much manual work / repetitive tasks</option>
+        <option style="background:#0d1f3c">Need better data insights & forecasting</option>
+        <option style="background:#0d1f3c">Want to improve customer experience with AI</option>
+        <option style="background:#0d1f3c">Looking to integrate AI into existing systems</option>
+        <option style="background:#0d1f3c">Other</option>
+      </select>
+      <button onclick="showToast()" class="w-full py-4 rounded-2xl bg-yellow-400 text-black font-bold text-base hover:bg-yellow-300 transition-all hover:scale-[1.02] shadow-lg shadow-yellow-500/20">Claim My Free AI Audit →</button>
+      <p class="text-xs text-neutral-500 text-center">We respect your privacy. No spam, ever.</p>
+    </div>
+  </div>
+</section>
+
+<!-- COMMUNITY -->
+<section id="community" class="section-divider max-w-7xl mx-auto px-6 py-24 relative z-10">
+  <div class="grid lg:grid-cols-2 gap-12 items-center">
+    <div>
+      <p class="text-yellow-300 uppercase tracking-[0.3em] text-sm mb-3">Our Community</p>
+      <h3 class="text-4xl md:text-5xl font-bold mb-6">Growing Malaysia's<br/>AI Ecosystem</h3>
+      <div class="grid grid-cols-2 gap-6 mb-8">
+        <div><p class="text-4xl font-bold text-white">8,000+</p><p class="text-neutral-400">Community Members</p></div>
+        <div><p class="text-4xl font-bold text-white">120+</p><p class="text-neutral-400">Events & Workshops</p></div>
+        <div><p class="text-4xl font-bold text-white">50+</p><p class="text-neutral-400">Partners</p></div>
+        <div><p class="text-4xl font-bold text-white">30+</p><p class="text-neutral-400">Cities Across Malaysia</p></div>
+      </div>
+      <a onclick="goToContact()" class="inline-flex items-center gap-2 px-7 py-3.5 rounded-2xl bg-yellow-400 text-black font-bold hover:bg-yellow-300 transition-all cursor-pointer">Join the Community →</a>
+    </div>
+    <div class="space-y-4">
+      <div class="glass rounded-3xl p-6">
+        <h4 class="text-lg font-bold mb-3">Recent Initiatives</h4>
+        <ul class="space-y-4 text-neutral-300 text-sm">
+          <li class="flex gap-3"><span class="text-yellow-300 mt-0.5">▸</span><div><strong class="text-white">AI Hackathon Malaysia 2026</strong> — 500+ innovators solving real business problems <a onclick="goToContact()" class="text-yellow-300 hover:underline ml-1 cursor-pointer">Register →</a></div></li>
+          <li class="flex gap-3"><span class="text-yellow-300 mt-0.5">▸</span><div><strong class="text-white">AI Leaders Roundtable</strong> — connecting founders and enterprise decision-makers <a onclick="goToContact()" class="text-yellow-300 hover:underline ml-1 cursor-pointer">Apply →</a></div></li>
+          <li class="flex gap-3"><span class="text-yellow-300 mt-0.5">▸</span><div><strong class="text-white">National Workshop Series</strong> — practical AI adoption for business teams <a onclick="goToContact()" class="text-yellow-300 hover:underline ml-1 cursor-pointer">Book Seats →</a></div></li>
+        </ul>
+      </div>
+      <div class="glass rounded-2xl p-5 flex items-center gap-4">
+        <div class="w-12 h-12 rounded-xl bg-green-400/10 border border-green-400/20 flex items-center justify-center text-green-300 text-xl flex-shrink-0">💬</div>
+        <div><p class="font-semibold text-sm">Join our WhatsApp Community</p><p class="text-xs text-neutral-400">Daily AI insights, job boards & networking</p></div>
+        <a href="https://wa.me/60123456789" target="_blank" class="ml-auto px-4 py-2 rounded-xl bg-green-500 text-white text-xs font-bold hover:bg-green-400 transition-colors whitespace-nowrap">Join Free</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section id="testimonials" class="section-divider max-w-7xl mx-auto px-6 py-24 relative z-10">
+  <div class="text-center mb-14">
+    <p class="text-yellow-300 uppercase tracking-[0.3em] text-sm mb-3">What Our Clients Say</p>
+    <h3 class="text-4xl md:text-5xl font-bold">Real Results.<br/>Real Words.</h3>
+  </div>
+  <div class="grid md:grid-cols-3 gap-6">
+    <div class="glass rounded-3xl p-8 flex flex-col">
+      <div class="stars text-sm mb-4">★★★★★</div>
+      <p class="text-neutral-300 mb-6 leading-relaxed flex-1">"The team understood our needs and delivered an AI solution that fundamentally transformed our operations. ROI was clear within 3 months."</p>
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-full bg-yellow-400/20 flex items-center justify-center font-bold text-yellow-300">JL</div>
+        <div><p class="font-bold text-sm">Jason Lim</p><p class="text-neutral-500 text-xs">CTO, FinTech Solutions</p></div>
+      </div>
+      <a onclick="showPage('projects')" class="mt-4 text-yellow-300 text-xs font-semibold hover:underline cursor-pointer">Read the Case Study →</a>
+    </div>
+    <div class="glass rounded-3xl p-8 flex flex-col">
+      <div class="stars text-sm mb-4">★★★★★</div>
+      <p class="text-neutral-300 mb-6 leading-relaxed flex-1">"Their workshops were practical, engaging, and immediately applicable. My team went from AI-skeptical to AI-first in two days."</p>
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-full bg-yellow-400/20 flex items-center justify-center font-bold text-yellow-300">ST</div>
+        <div><p class="font-bold text-sm">Sarah Tan</p><p class="text-neutral-500 text-xs">Head of Innovation</p></div>
+      </div>
+      <a onclick="goToContact()" class="mt-4 text-yellow-300 text-xs font-semibold hover:underline cursor-pointer">Book a Workshop →</a>
+    </div>
+    <div class="glass rounded-3xl p-8 flex flex-col">
+      <div class="stars text-sm mb-4">★★★★★</div>
+      <p class="text-neutral-300 mb-6 leading-relaxed flex-1">"A vibrant ecosystem with real expertise and incredible partnerships. The network alone paid for the engagement ten times over."</p>
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-full bg-yellow-400/20 flex items-center justify-center font-bold text-yellow-300">AR</div>
+        <div><p class="font-bold text-sm">Amin Rahman</p><p class="text-neutral-500 text-xs">CEO, Digital Agency</p></div>
+      </div>
+      <a onclick="goToSection('community')" class="mt-4 text-yellow-300 text-xs font-semibold hover:underline cursor-pointer">Join the Community →</a>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact" class="section-divider max-w-7xl mx-auto px-6 py-24 relative z-10">
+  <div class="grid lg:grid-cols-2 gap-14 items-start">
+    <div>
+      <p class="text-yellow-300 uppercase tracking-[0.3em] text-sm mb-3">Get In Touch</p>
+      <h3 class="text-4xl md:text-5xl font-extrabold mb-6">Ready to Start<br/>Your AI Journey?</h3>
+      <p class="text-neutral-400 mb-10 leading-relaxed">Tell us about your challenge and we'll get back to you within one business day with a tailored response — not a generic sales deck.</p>
+      <div class="space-y-5">
+        <div class="audit-badge flex items-start gap-4"><span class="text-2xl mt-0.5">📧</span><div><p class="font-semibold text-sm">Email Us</p><a href="mailto:hello@aimalaysiacommunity.my" class="text-yellow-300 text-sm hover:underline">hello@aimalaysiacommunity.my</a></div></div>
+        <div class="audit-badge flex items-start gap-4"><span class="text-2xl mt-0.5">📞</span><div><p class="font-semibold text-sm">Call or WhatsApp</p><a href="https://wa.me/60123456789" target="_blank" class="text-yellow-300 text-sm hover:underline">+60 12-345 6789</a></div></div>
+        <div class="audit-badge flex items-start gap-4"><span class="text-2xl mt-0.5">📍</span><div><p class="font-semibold text-sm">Our Office</p><p class="text-neutral-400 text-sm">Kuala Lumpur, Malaysia</p></div></div>
+        <div class="audit-badge flex items-start gap-4"><span class="text-2xl mt-0.5">⏱️</span><div><p class="font-semibold text-sm">Response Time</p><p class="text-neutral-400 text-sm">Within 1 business day, guaranteed</p></div></div>
+      </div>
+    </div>
+    <div class="glass rounded-3xl p-8 md:p-10">
+      <h4 class="text-xl font-bold mb-6">Send Us a Message</h4>
+      <div class="space-y-4">
+        <div class="grid grid-cols-2 gap-4">
+          <input type="text" id="cf-name" placeholder="Your Name" class="form-input" />
+          <input type="text" id="cf-company" placeholder="Company" class="form-input" />
+        </div>
+        <input type="email" id="cf-email" placeholder="Work Email" class="form-input" />
+        <input type="text" id="cf-phone" placeholder="WhatsApp / Phone (optional)" class="form-input" />
+        <select id="cf-service" class="form-input" style="appearance:none;color:rgba(255,255,255,0.7);">
+          <option value="" style="background:#0d1f3c">I'm interested in...</option>
+          <option style="background:#0d1f3c">AI Strategy & Consulting</option>
+          <option style="background:#0d1f3c">Custom AI Development</option>
+          <option style="background:#0d1f3c">Workshops & Training</option>
+          <option style="background:#0d1f3c">Enterprise AI Integration</option>
+          <option style="background:#0d1f3c">Free AI Readiness Audit</option>
+          <option style="background:#0d1f3c">Other / Just Exploring</option>
+        </select>
+        <textarea id="cf-message" rows="4" placeholder="Tell us briefly about your challenge or project..." class="form-input resize-none"></textarea>
+        <button onclick="handleContactSubmit()" class="w-full py-4 rounded-2xl bg-yellow-400 text-black font-bold text-base hover:bg-yellow-300 transition-all hover:scale-[1.02] shadow-lg shadow-yellow-500/20">Send Message & Get a Free Consultation →</button>
+        <p class="text-xs text-neutral-500 text-center">🔒 Your information is private and will never be shared.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER (Home) -->
+<footer class="max-w-7xl mx-auto px-6 py-14 border-t border-white/10 text-neutral-400 relative z-10">
+  <div class="grid md:grid-cols-4 gap-10 mb-12">
+    <div>
+      <h4 class="text-2xl font-bold text-white mb-3"><span class="gradient-text">AI</span> Malaysia Community</h4>
+      <p class="text-sm leading-relaxed mb-5">Empowering Malaysia through AI innovation, consulting, and collaboration.</p>
+      <div class="flex gap-3">
+        <a href="https://wa.me/60123456789" target="_blank" class="w-9 h-9 rounded-full glass flex items-center justify-center hover:bg-green-500/20 transition-colors text-sm">💬</a>
+        <a href="mailto:hello@aimalaysiacommunity.my" class="w-9 h-9 rounded-full glass flex items-center justify-center hover:bg-yellow-400/10 transition-colors text-sm">✉️</a>
+      </div>
+    </div>
+    <div>
+      <h5 class="font-bold text-white mb-4">Quick Links</h5>
+      <ul class="space-y-2 text-sm">
+        <li><a onclick="showPage('home')" class="hover:text-yellow-300 cursor-pointer transition-colors">Home</a></li>
+        <li><a onclick="goToSection('services')" class="hover:text-yellow-300 cursor-pointer transition-colors">Services</a></li>
+        <li><a onclick="showPage('projects')" class="hover:text-yellow-300 cursor-pointer transition-colors">Portfolio</a></li>
+        <li><a onclick="goToSection('community')" class="hover:text-yellow-300 cursor-pointer transition-colors">Community</a></li>
+        <li><a onclick="goToSection('testimonials')" class="hover:text-yellow-300 cursor-pointer transition-colors">Testimonials</a></li>
+      </ul>
+    </div>
+    <div>
+      <h5 class="font-bold text-white mb-4">Resources</h5>
+      <ul class="space-y-2 text-sm">
+        <li><a onclick="goToContact()" class="hover:text-yellow-300 cursor-pointer transition-colors">Free AI Audit</a></li>
+        <li><a onclick="goToSection('community')" class="hover:text-yellow-300 cursor-pointer transition-colors">Events & Workshops</a></li>
+        <li><a onclick="showPage('projects')" class="hover:text-yellow-300 cursor-pointer transition-colors">Case Studies</a></li>
+        <li><a onclick="goToContact()" class="hover:text-yellow-300 cursor-pointer transition-colors">AI Newsletter</a></li>
+        <li><a onclick="goToContact()" class="hover:text-yellow-300 cursor-pointer transition-colors">Partner With Us</a></li>
+      </ul>
+    </div>
+    <div>
+      <h5 class="font-bold text-white mb-4">Contact</h5>
+      <ul class="space-y-2 text-sm">
+        <li><a href="mailto:hello@aimalaysiacommunity.my" class="hover:text-yellow-300 transition-colors">hello@aimalaysiacommunity.my</a></li>
+        <li><a href="https://wa.me/60123456789" target="_blank" class="hover:text-yellow-300 transition-colors">+60 12-345 6789</a></li>
+        <li>Kuala Lumpur, Malaysia</li>
+      </ul>
+      <a onclick="goToContact()" class="inline-block mt-5 px-5 py-2.5 rounded-xl bg-yellow-400 text-black text-sm font-bold hover:bg-yellow-300 transition-colors cursor-pointer">Get In Touch →</a>
+    </div>
+  </div>
+  <div class="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-neutral-600">
+    <p>© 2026 AI Malaysia Community. All rights reserved.</p>
+    <div class="flex gap-6"><span class="hover:text-neutral-400 cursor-pointer">Privacy Policy</span><span class="hover:text-neutral-400 cursor-pointer">Terms of Service</span></div>
+  </div>
+</footer>
+
+</div><!-- end page-home -->
+
+<!-- ===================== PROJECTS PAGE ===================== -->
+<div id="page-projects" style="display:none" class="page">
+
+<!-- Back button -->
+<div class="max-w-7xl mx-auto px-6 pt-8 relative z-10">
+  <button onclick="showPage('home')" class="flex items-center gap-2 text-neutral-400 hover:text-yellow-300 transition-colors text-sm font-semibold">
+    ← Back to Home
+  </button>
+</div>
+
+<!-- PAGE HERO -->
+<section class="max-w-7xl mx-auto px-6 pt-12 pb-14 relative z-10">
+  <div class="text-center">
+    <p class="text-yellow-300 uppercase tracking-[0.35em] text-sm mb-4">Our Portfolio</p>
+    <h2 class="text-5xl md:text-7xl font-extrabold leading-tight mb-6">Work That <span class="gradient-text">Moves</span><br/>the Needle</h2>
+    <p class="text-lg text-neutral-400 max-w-2xl mx-auto mb-8">Real solutions. Real impact. Explore how we've helped Malaysian organizations unlock the power of AI — from automation to intelligence infrastructure.</p>
+    <div class="gold-line max-w-xs mx-auto"></div>
+  </div>
+  <div class="mt-16 grid grid-cols-2 md:grid-cols-4 gap-6">
+    <div class="stat-card"><p class="text-3xl font-extrabold text-yellow-300">50+</p><p class="text-sm text-neutral-400 mt-1">Projects Delivered</p></div>
+    <div class="stat-card"><p class="text-3xl font-extrabold text-yellow-300">8</p><p class="text-sm text-neutral-400 mt-1">Industries Served</p></div>
+    <div class="stat-card"><p class="text-3xl font-extrabold text-yellow-300">95%</p><p class="text-sm text-neutral-400 mt-1">Client Satisfaction</p></div>
+    <div class="stat-card"><p class="text-3xl font-extrabold text-yellow-300">3.2×</p><p class="text-sm text-neutral-400 mt-1">Avg. ROI Delivered</p></div>
+  </div>
+</section>
+
+<!-- FILTER TABS -->
+<section class="max-w-7xl mx-auto px-6 pb-6 relative z-10">
+  <div class="flex flex-wrap gap-2 items-center">
+    <button class="filter-btn active px-5 py-2 rounded-full text-sm font-semibold text-neutral-300 hover:text-yellow-300" data-filter="all">All Projects</button>
+    <button class="filter-btn px-5 py-2 rounded-full text-sm font-semibold text-neutral-300 hover:text-yellow-300" data-filter="automation">AI Automation</button>
+    <button class="filter-btn px-5 py-2 rounded-full text-sm font-semibold text-neutral-300 hover:text-yellow-300" data-filter="chatbot">Chatbot & NLP</button>
+    <button class="filter-btn px-5 py-2 rounded-full text-sm font-semibold text-neutral-300 hover:text-yellow-300" data-filter="analytics">Predictive Analytics</button>
+    <button class="filter-btn px-5 py-2 rounded-full text-sm font-semibold text-neutral-300 hover:text-yellow-300" data-filter="integration">Enterprise Integration</button>
+    <button class="filter-btn px-5 py-2 rounded-full text-sm font-semibold text-neutral-300 hover:text-yellow-300" data-filter="vision">Computer Vision</button>
+  </div>
+  <div class="gold-line mt-3 w-full opacity-40"></div>
+</section>
+
+<!-- PROJECTS GRID -->
+<section class="max-w-7xl mx-auto px-6 pb-24 relative z-10">
+  <div class="projects-grid" id="projects-grid">
+    <div class="project-card glass rounded-3xl overflow-hidden card-featured" data-category="automation" data-id="0">
+      <div class="img-wrap relative h-72"><img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1400&q=80" class="w-full h-full object-cover" alt=""><div class="overlay absolute inset-0"></div><div class="absolute top-4 left-4"><span class="tag tag-yellow">AI Automation</span></div></div>
+      <div class="p-7"><h3 class="text-2xl font-bold mb-2">Intelligent Document Processing</h3><p class="text-neutral-400 mb-5 leading-relaxed">Automated multi-format document extraction and routing pipeline for a leading finance services group — eliminating manual bottlenecks across 6 departments.</p><div class="flex items-center justify-between"><div class="flex gap-2 flex-wrap"><span class="tech-badge">Python</span><span class="tech-badge">GPT-4o</span><span class="tech-badge">Azure</span></div><div class="text-right"><p class="text-2xl font-extrabold text-yellow-300">70%</p><p class="text-xs text-neutral-500">Time Saved</p></div></div></div>
+    </div>
+    <div class="project-card glass rounded-3xl overflow-hidden" data-category="chatbot" data-id="1">
+      <div class="img-wrap relative h-48"><img src="https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover" alt=""><div class="overlay absolute inset-0"></div><div class="absolute top-4 left-4"><span class="tag tag-blue">Chatbot & NLP</span></div></div>
+      <div class="p-6"><h3 class="text-xl font-bold mb-2">Customer Support AI Assistant</h3><p class="text-neutral-400 text-sm mb-4">24/7 intelligent support layer integrated with CRM for a regional e-commerce platform.</p><div class="flex items-center justify-between"><div class="flex gap-2 flex-wrap"><span class="tech-badge">Claude 3.5</span><span class="tech-badge">Zendesk</span></div><div class="text-right"><p class="text-xl font-extrabold text-yellow-300">40%</p><p class="text-xs text-neutral-500">Cost Cut</p></div></div></div>
+    </div>
+    <div class="project-card glass rounded-3xl overflow-hidden" data-category="analytics" data-id="2">
+      <div class="img-wrap relative h-48"><img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover" alt=""><div class="overlay absolute inset-0"></div><div class="absolute top-4 left-4"><span class="tag tag-green">Predictive Analytics</span></div></div>
+      <div class="p-6"><h3 class="text-xl font-bold mb-2">Sales Forecasting Dashboard</h3><p class="text-neutral-400 text-sm mb-4">Real-time AI forecasting engine that replaced spreadsheet-based planning for a consumer goods distributor.</p><div class="flex items-center justify-between"><div class="flex gap-2 flex-wrap"><span class="tech-badge">Prophet</span><span class="tech-badge">Power BI</span></div><div class="text-right"><p class="text-xl font-extrabold text-yellow-300">25%</p><p class="text-xs text-neutral-500">Accuracy Gain</p></div></div></div>
+    </div>
+    <div class="project-card glass rounded-3xl overflow-hidden" data-category="integration" data-id="3">
+      <div class="img-wrap relative h-48"><img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover" alt=""><div class="overlay absolute inset-0"></div><div class="absolute top-4 left-4"><span class="tag tag-purple">Enterprise Integration</span></div></div>
+      <div class="p-6"><h3 class="text-xl font-bold mb-2">Enterprise Knowledge System</h3><p class="text-neutral-400 text-sm mb-4">Private RAG-based knowledge layer connecting 10+ internal systems for faster institutional decisions.</p><div class="flex items-center justify-between"><div class="flex gap-2 flex-wrap"><span class="tech-badge">RAG</span><span class="tech-badge">Pinecone</span></div><div class="text-right"><p class="text-xl font-extrabold text-yellow-300">60%</p><p class="text-xs text-neutral-500">Productivity</p></div></div></div>
+    </div>
+    <div class="project-card glass rounded-3xl overflow-hidden" data-category="vision" data-id="4">
+      <div class="img-wrap relative h-48"><img src="https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover" alt=""><div class="overlay absolute inset-0"></div><div class="absolute top-4 left-4"><span class="tag tag-pink">Computer Vision</span></div></div>
+      <div class="p-6"><h3 class="text-xl font-bold mb-2">Smart Retail Shelf Analytics</h3><p class="text-neutral-400 text-sm mb-4">Vision AI that monitors shelf compliance, stock levels, and planogram adherence in real time across retail chains.</p><div class="flex items-center justify-between"><div class="flex gap-2 flex-wrap"><span class="tech-badge">YOLOv8</span><span class="tech-badge">OpenCV</span></div><div class="text-right"><p class="text-xl font-extrabold text-yellow-300">3×</p><p class="text-xs text-neutral-500">Faster Audits</p></div></div></div>
+    </div>
+    <div class="project-card glass rounded-3xl overflow-hidden" data-category="automation" data-id="5">
+      <div class="img-wrap relative h-48"><img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover" alt=""><div class="overlay absolute inset-0"></div><div class="absolute top-4 left-4"><span class="tag tag-yellow">AI Automation</span></div></div>
+      <div class="p-6"><h3 class="text-xl font-bold mb-2">AI-Powered HR Recruitment</h3><p class="text-neutral-400 text-sm mb-4">End-to-end AI screening, ranking, and interview scheduling pipeline reducing time-to-hire by over half.</p><div class="flex items-center justify-between"><div class="flex gap-2 flex-wrap"><span class="tech-badge">Claude</span><span class="tech-badge">n8n</span></div><div class="text-right"><p class="text-xl font-extrabold text-yellow-300">55%</p><p class="text-xs text-neutral-500">Faster Hiring</p></div></div></div>
+    </div>
+    <div class="project-card glass rounded-3xl overflow-hidden card-featured" data-category="analytics" data-id="6">
+      <div class="img-wrap relative h-64"><img src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1400&q=80" class="w-full h-full object-cover" alt=""><div class="overlay absolute inset-0"></div><div class="absolute top-4 left-4"><span class="tag tag-green">Predictive Analytics</span></div></div>
+      <div class="p-7"><h3 class="text-2xl font-bold mb-2">Supply Chain Risk Intelligence</h3><p class="text-neutral-400 mb-5 leading-relaxed">Predictive disruption model that monitors 200+ supplier signals to flag supply chain risks 6–8 weeks in advance for a Malaysian manufacturer.</p><div class="flex items-center justify-between"><div class="flex gap-2 flex-wrap"><span class="tech-badge">Scikit-learn</span><span class="tech-badge">Kafka</span><span class="tech-badge">Tableau</span></div><div class="text-right"><p class="text-2xl font-extrabold text-yellow-300">RM 2.4M</p><p class="text-xs text-neutral-500">Losses Prevented</p></div></div></div>
+    </div>
+    <div class="project-card glass rounded-3xl overflow-hidden" data-category="chatbot" data-id="7">
+      <div class="img-wrap relative h-48"><img src="https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover" alt=""><div class="overlay absolute inset-0"></div><div class="absolute top-4 left-4"><span class="tag tag-blue">Chatbot & NLP</span></div></div>
+      <div class="p-6"><h3 class="text-xl font-bold mb-2">Medical Triage Assistant</h3><p class="text-neutral-400 text-sm mb-4">Multilingual patient intake & triage AI deployed across a network of private clinics in the Klang Valley.</p><div class="flex items-center justify-between"><div class="flex gap-2 flex-wrap"><span class="tech-badge">Claude</span><span class="tech-badge">BM / EN</span></div><div class="text-right"><p class="text-xl font-extrabold text-yellow-300">4.8★</p><p class="text-xs text-neutral-500">Patient Rating</p></div></div></div>
+    </div>
+    <div class="project-card glass rounded-3xl overflow-hidden" data-category="integration" data-id="8">
+      <div class="img-wrap relative h-48"><img src="https://images.unsplash.com/photo-1518186285589-2f7649de83e0?auto=format&fit=crop&w=800&q=80" class="w-full h-full object-cover" alt=""><div class="overlay absolute inset-0"></div><div class="absolute top-4 left-4"><span class="tag tag-purple">Enterprise Integration</span></div></div>
+      <div class="p-6"><h3 class="text-xl font-bold mb-2">ERP AI Co-Pilot</h3><p class="text-neutral-400 text-sm mb-4">Natural language interface layered over SAP ERP — query reports, trigger workflows, and get insights in plain language.</p><div class="flex items-center justify-between"><div class="flex gap-2 flex-wrap"><span class="tech-badge">SAP</span><span class="tech-badge">LangChain</span></div><div class="text-right"><p class="text-xl font-extrabold text-yellow-300">8 hrs</p><p class="text-xs text-neutral-500">Saved/Week</p></div></div></div>
+    </div>
+  </div>
+  <div id="empty-state" class="hidden text-center py-24 text-neutral-500">
+    <p class="text-5xl mb-4">🔍</p><p class="text-xl font-semibold">No projects in this category yet.</p><p class="text-sm mt-2">Check back soon or explore another filter.</p>
+  </div>
+</section>
+
+<!-- CTA Band -->
+<section class="section-divider max-w-7xl mx-auto px-6 pb-24 relative z-10">
+  <div class="rounded-[2rem] bg-gradient-to-r from-yellow-400 via-amber-500 to-yellow-300 text-black p-12 flex flex-col lg:flex-row justify-between items-center gap-8">
+    <div><h3 class="text-3xl font-extrabold mb-2">Have a challenge we should solve?</h3><p class="text-base">Let's talk about how AI can transform your business operations.</p></div>
+    <a onclick="goToContact()" class="px-8 py-4 rounded-2xl bg-black text-white font-bold whitespace-nowrap cursor-pointer hover:bg-neutral-800 transition-colors">Start a Conversation →</a>
+  </div>
+</section>
+
+<!-- Footer (Projects) -->
+<footer class="max-w-7xl mx-auto px-6 py-14 border-t border-white/10 text-neutral-400 relative z-10">
+  <div class="grid md:grid-cols-4 gap-10">
+    <div><h4 class="text-2xl font-bold text-white mb-3"><span class="gradient-text">AI</span> Malaysia Community</h4><p>Empowering Malaysia through AI innovation, consulting, and collaboration.</p></div>
+    <div><h5 class="font-bold text-white mb-3">Quick Links</h5><ul class="space-y-2 text-sm"><li><a onclick="showPage('home')" class="hover:text-yellow-300 cursor-pointer">Home</a></li><li><a onclick="goToSection('services')" class="hover:text-yellow-300 cursor-pointer">Services</a></li><li><a onclick="showPage('projects')" class="hover:text-yellow-300 cursor-pointer">Portfolio</a></li><li><a onclick="goToSection('community')" class="hover:text-yellow-300 cursor-pointer">Community</a></li></ul></div>
+    <div><h5 class="font-bold text-white mb-3">Resources</h5><ul class="space-y-2 text-sm"><li><a onclick="goToContact()" class="hover:text-yellow-300 cursor-pointer">Free AI Audit</a></li><li><a onclick="goToSection('community')" class="hover:text-yellow-300 cursor-pointer">Events</a></li><li><a onclick="showPage('projects')" class="hover:text-yellow-300 cursor-pointer">Case Studies</a></li><li><a onclick="goToContact()" class="hover:text-yellow-300 cursor-pointer">Newsletter</a></li></ul></div>
+    <div><h5 class="font-bold text-white mb-3">Contact</h5><ul class="space-y-2 text-sm"><li><a href="mailto:hello@aimalaysiacommunity.my" class="hover:text-yellow-300">hello@aimalaysiacommunity.my</a></li><li><a href="https://wa.me/60123456789" target="_blank" class="hover:text-yellow-300">+60 12-345 6789</a></li><li>Kuala Lumpur, Malaysia</li></ul></div>
+  </div>
+  <div class="mt-12 text-center text-sm text-neutral-600">© 2026 AI Malaysia Community. All rights reserved.</div>
+</footer>
+
+</div><!-- end page-projects -->
+
+<!-- ===================== PROJECT MODAL ===================== -->
+<div id="project-modal" role="dialog" aria-modal="true">
+  <div class="modal-backdrop" id="modal-backdrop"></div>
+  <div class="modal-panel" id="modal-panel">
+    <button id="modal-close" class="absolute top-5 right-5 z-20 w-10 h-10 rounded-full glass flex items-center justify-center text-neutral-400 hover:text-white hover:bg-white/10 transition-all">
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+    </button>
+    <div id="modal-content"></div>
+  </div>
+</div>
+
+<!-- FLOATING WHATSAPP -->
+<a href="https://wa.me/60123456789?text=Hi!%20I%20found%20you%20on%20AI%20Malaysia%20Community%20and%20I%27d%20like%20to%20learn%20more." target="_blank" class="wa-btn" title="Chat on WhatsApp">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" class="w-7 h-7"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+</a>
+
+<!-- BOOK A CALL TAB -->
+<div class="book-tab" id="book-tab" onclick="goToContact()">📅 Book a Free Call</div>
+
+<!-- TOAST -->
+<div id="toast">✅ Message sent! We'll be in touch within 1 business day.</div>
+
+<!-- ===================== JAVASCRIPT ===================== -->
+<script>
+// ---- Page navigation ----
+function showPage(name) {
+  document.getElementById('page-home').style.display = name === 'home' ? '' : 'none';
+  document.getElementById('page-projects').style.display = name === 'projects' ? '' : 'none';
+  // Re-trigger animation
+  const page = document.getElementById('page-' + name);
+  page.classList.remove('page');
+  void page.offsetWidth;
+  page.classList.add('page');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  // Update nav active state
+  const navPortfolio = document.getElementById('nav-portfolio');
+  if (name === 'projects') { navPortfolio.classList.add('text-yellow-300', 'font-semibold'); }
+  else { navPortfolio.classList.remove('text-yellow-300', 'font-semibold'); }
+  // Reset filters when opening projects
+  if (name === 'projects') {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    document.querySelector('.filter-btn[data-filter="all"]').classList.add('active');
+    document.querySelectorAll('.project-card').forEach(c => c.style.display = '');
+    document.getElementById('empty-state').classList.add('hidden');
+  }
+}
+
+function goToSection(id) {
+  if (document.getElementById('page-home').style.display === 'none') { showPage('home'); }
+  setTimeout(() => {
+    const el = document.getElementById(id);
+    if (el) el.scrollIntoView({ behavior: 'smooth' });
+  }, 350);
+}
+
+function goToContact() {
+  if (document.getElementById('page-home').style.display === 'none') { showPage('home'); }
+  setTimeout(() => {
+    const el = document.getElementById('contact');
+    if (el) el.scrollIntoView({ behavior: 'smooth' });
+  }, 350);
+}
+
+// ---- Scroll effects ----
+window.addEventListener('scroll', () => {
+  const tab = document.getElementById('book-tab');
+  tab.classList.toggle('visible', window.scrollY > 400);
+});
+
+// ---- Filter ----
+document.querySelectorAll('.filter-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const filter = btn.dataset.filter;
+    let visible = 0;
+    document.querySelectorAll('.project-card').forEach(card => {
+      const match = filter === 'all' || card.dataset.category === filter;
+      card.style.display = match ? '' : 'none';
+      if (match) visible++;
+    });
+    document.getElementById('empty-state').classList.toggle('hidden', visible > 0);
+  });
+});
+
+// ---- Modal ----
+const modal = document.getElementById('project-modal');
+const modalContent = document.getElementById('modal-content');
+document.getElementById('modal-close').addEventListener('click', closeModal);
+document.getElementById('modal-backdrop').addEventListener('click', closeModal);
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
+
+document.querySelectorAll('.project-card').forEach(card => {
+  card.addEventListener('click', () => openModal(parseInt(card.dataset.id)));
+});
+
+function openModal(id) {
+  const p = PROJECTS[id];
+  modalContent.innerHTML = buildModal(p);
+  modal.classList.add('open');
+  document.body.style.overflow = 'hidden';
+  document.getElementById('modal-panel').scrollTop = 0;
+  setTimeout(() => {
+    p.results.forEach((r, i) => {
+      const bar = document.getElementById('bar-' + i);
+      if (bar) bar.style.width = r.bar + '%';
+    });
+  }, 200);
+}
+
+function closeModal() {
+  modal.classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function buildModal(p) {
+  const resultsHTML = p.results.map((r, i) => `
+    <div><div class="flex justify-between mb-2"><span class="text-sm text-neutral-400">${r.label}</span><span class="text-sm font-bold text-yellow-300">${r.value}</span></div>
+    <div class="result-bar-bg"><div class="result-bar" id="bar-${i}" style="width:0%"></div></div></div>`).join('');
+  const timelineHTML = p.timeline.map((t, i) => `
+    <div class="flex gap-4"><div class="flex flex-col items-center"><div class="tl-dot"></div>${i < p.timeline.length - 1 ? '<div class="w-0.5 flex-1 bg-white/10 mt-1"></div>' : ''}</div>
+    <div class="pb-5"><p class="font-semibold text-white text-sm">${t.phase}</p><p class="text-xs text-neutral-500 mt-0.5">${t.duration}</p></div></div>`).join('');
+  const techHTML = p.tech.map(t => `<span class="tech-badge">${t}</span>`).join('');
+  return `
+    <div class="relative h-64 md:h-80 rounded-t-[2rem] overflow-hidden">
+      <img src="${p.img}" class="w-full h-full object-cover" alt="${p.title}">
+      <div class="absolute inset-0 bg-gradient-to-t from-[#0d1f3c] via-[#0d1f3c]/30 to-transparent"></div>
+      <div class="absolute bottom-0 left-0 right-0 p-8">
+        <span class="tag ${p.tagClass} mb-3 inline-block">${p.categoryLabel}</span>
+        <h2 class="text-3xl md:text-4xl font-extrabold text-white leading-tight">${p.title}</h2>
+        <p class="text-neutral-400 mt-1">${p.subtitle} · ${p.year}</p>
+      </div>
+    </div>
+    <div class="p-8 md:p-10 grid lg:grid-cols-3 gap-10">
+      <div class="lg:col-span-2 space-y-8">
+        <p class="text-lg leading-relaxed text-neutral-200">${p.summary}</p>
+        <div><div class="flex items-center gap-3 mb-3"><div class="w-8 h-8 rounded-lg bg-red-500/10 border border-red-500/20 flex items-center justify-center text-sm">⚠️</div><h4 class="text-lg font-bold text-white">The Challenge</h4></div><p class="text-neutral-400 leading-relaxed pl-11">${p.challenge}</p></div>
+        <div><div class="flex items-center gap-3 mb-3"><div class="w-8 h-8 rounded-lg bg-yellow-500/10 border border-yellow-500/20 flex items-center justify-center text-sm">💡</div><h4 class="text-lg font-bold text-white">Our Solution</h4></div><p class="text-neutral-400 leading-relaxed pl-11">${p.solution}</p></div>
+        <div><div class="flex items-center gap-3 mb-5"><div class="w-8 h-8 rounded-lg bg-green-500/10 border border-green-500/20 flex items-center justify-center text-sm">📈</div><h4 class="text-lg font-bold text-white">Measurable Results</h4></div><div class="pl-11 space-y-4">${resultsHTML}</div></div>
+        <div class="glass rounded-2xl p-6 border-l-4 border-yellow-400/60"><p class="text-neutral-200 italic mb-4">"${p.testimonial.quote}"</p><p class="font-semibold text-white text-sm">${p.testimonial.author}</p><p class="text-neutral-500 text-xs">${p.testimonial.company}</p></div>
+      </div>
+      <div class="space-y-6">
+        <div class="glass rounded-2xl p-6"><h5 class="font-bold text-white mb-4 text-sm uppercase tracking-wider">Tech Stack</h5><div class="flex flex-wrap gap-2">${techHTML}</div></div>
+        <div class="glass rounded-2xl p-6"><h5 class="font-bold text-white mb-4 text-sm uppercase tracking-wider">Project Timeline</h5><div>${timelineHTML}</div></div>
+        <button onclick="closeModal();goToContact();" class="block w-full py-4 rounded-2xl bg-gradient-to-r from-yellow-400 to-amber-400 text-black font-bold text-center hover:opacity-90 transition-opacity">Build Something Similar →</button>
+      </div>
+    </div>`;
+}
+
+// ---- Forms ----
+function handleContactSubmit() {
+  const name = document.getElementById('cf-name').value.trim();
+  const email = document.getElementById('cf-email').value.trim();
+  if (!name || !email) { alert('Please fill in your name and email.'); return; }
+  showToast();
+  ['cf-name','cf-company','cf-email','cf-phone','cf-service','cf-message'].forEach(id => { const el = document.getElementById(id); if (el) el.value = ''; });
+}
+
+function showToast() {
+  const t = document.getElementById('toast');
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 4000);
+}
+
+// ---- Projects data ----
+const PROJECTS = [
+  { id:0, category:"automation", categoryLabel:"AI Automation", tagClass:"tag-yellow", title:"Intelligent Document Processing", subtitle:"Finance Services Group — Kuala Lumpur", year:"2025", img:"https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1400&q=80", summary:"A leading Malaysian finance group was processing over 3,000 documents daily — manually. We built an end-to-end AI pipeline that extracts, classifies, and routes documents in real time, transforming their operational backbone.", challenge:"The client's back-office team spent 6+ hours daily manually sorting invoices, contracts, and KYC documents across six departments. Error rates were high, audit trails were inconsistent, and scaling was impossible.", solution:"We designed a multi-modal extraction engine using GPT-4o Vision + custom fine-tuned classifiers. Documents from email, portal uploads, and scanned PDFs are ingested, parsed, enriched with metadata, and auto-routed into the correct ERP workflow — with a confidence dashboard for human review.", results:[{label:"Processing Time Saved",value:"70%",bar:70},{label:"Manual Errors Eliminated",value:"92%",bar:92},{label:"Staff Hours Freed Weekly",value:"240 hrs",bar:80},{label:"ROI Within 6 Months",value:"4.1×",bar:85}], timeline:[{phase:"Discovery & Audit",duration:"2 weeks"},{phase:"Model Training & Pipeline Build",duration:"5 weeks"},{phase:"Integration & UAT",duration:"3 weeks"},{phase:"Go-Live & Hypercare",duration:"2 weeks"}], tech:["Python","GPT-4o Vision","Azure Document Intelligence","FastAPI","PostgreSQL","Power Automate"], testimonial:{quote:"This has fundamentally changed how our back-office operates. We went from firefighting documents to having full visibility and control.",author:"Head of Operations",company:"Finance Services Group, KL"} },
+  { id:1, category:"chatbot", categoryLabel:"Chatbot & NLP", tagClass:"tag-blue", title:"Customer Support AI Assistant", subtitle:"Regional E-Commerce Platform — Malaysia", year:"2024", img:"https://images.unsplash.com/photo-1552664730-d307ca884978?auto=format&fit=crop&w=1400&q=80", summary:"A fast-growing Malaysian e-commerce platform was overwhelmed by support tickets. We deployed a multilingual AI assistant that handles 80% of queries autonomously — in English, Bahasa Malaysia, and Mandarin.", challenge:"The platform's 12-person support team was drowning in 4,000+ daily tickets, with first response times exceeding 6 hours during peak periods. Customer satisfaction was declining and the cost-per-ticket was unsustainable.", solution:"We built a context-aware support assistant using Claude 3.5 Sonnet, integrated directly into Zendesk and the platform's order management system. The AI resolves order queries, processes returns, and escalates complex issues with full context — in three languages.", results:[{label:"Tickets Resolved Autonomously",value:"81%",bar:81},{label:"Support Cost Reduction",value:"40%",bar:40},{label:"Response Time (avg)",value:"< 30s",bar:95},{label:"CSAT Score Improvement",value:"+22pts",bar:70}], timeline:[{phase:"Knowledge Base Structuring",duration:"1 week"},{phase:"Chatbot Build & Training",duration:"4 weeks"},{phase:"CRM Integration",duration:"2 weeks"},{phase:"A/B Testing & Tuning",duration:"2 weeks"}], tech:["Claude 3.5 Sonnet","Zendesk API","Node.js","Redis","BM/EN/ZH NLP","Webhook Automation"], testimonial:{quote:"Our team now focuses on high-value interactions. The AI handles the rest — better and faster than we ever could at scale.",author:"Head of Customer Experience",company:"E-Commerce Platform, Malaysia"} },
+  { id:2, category:"analytics", categoryLabel:"Predictive Analytics", tagClass:"tag-green", title:"Sales Forecasting Dashboard", subtitle:"Consumer Goods Distributor — Selangor", year:"2025", img:"https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=1400&q=80", summary:"Replaced a company's entire Excel-based planning process with an AI forecasting engine that delivers 30-day rolling predictions with full scenario modelling — accessible in a live Power BI dashboard.", challenge:"Monthly planning cycles took 5 days, relied on gut-feel adjustments, and were routinely off by 18–25%. Overstocking and stockouts were costing the business millions annually.", solution:"We built a Prophet + XGBoost ensemble model trained on 3 years of sales data, enriched with weather, holiday, and promotional signals. The result is a live forecasting dashboard with confidence intervals, drill-down by SKU/region, and what-if scenario controls.", results:[{label:"Forecast Accuracy Improvement",value:"25%",bar:65},{label:"Planning Cycle Time Reduction",value:"80%",bar:80},{label:"Stockout Incidents (YoY)",value:"−43%",bar:57},{label:"Inventory Carrying Cost Saved",value:"RM 1.1M",bar:75}], timeline:[{phase:"Data Audit & Feature Engineering",duration:"3 weeks"},{phase:"Model Development & Backtesting",duration:"4 weeks"},{phase:"Dashboard Build",duration:"2 weeks"},{phase:"Training & Handoff",duration:"1 week"}], tech:["Prophet","XGBoost","Python","Power BI","Azure ML","SQL Server"], testimonial:{quote:"We went from guessing to knowing. The dashboard is now the first thing my team opens every morning.",author:"VP of Commercial",company:"Consumer Goods Distributor, Selangor"} },
+  { id:3, category:"integration", categoryLabel:"Enterprise Integration", tagClass:"tag-purple", title:"Enterprise Knowledge System", subtitle:"Multinational Corporation — KLCC", year:"2025", img:"https://images.unsplash.com/photo-1451187580459-43490279c0fa?auto=format&fit=crop&w=1400&q=80", summary:"Built a private, secure RAG-based AI knowledge platform that connects 10+ internal systems — SharePoint, Confluence, ERP, HR portals — letting employees query institutional knowledge in seconds.", challenge:"A 2,000-person organization had knowledge siloed across 10+ disconnected systems. Onboarding new staff took weeks; finding critical policy or technical documents could take hours.", solution:"We architected a private RAG system with Pinecone as the vector store and Claude as the reasoning layer. The system ingests, chunks, and indexes documents in real time. Employees interact through a Slack-native interface with source citations on every answer.", results:[{label:"Query Resolution Time",value:"−87%",bar:87},{label:"Productivity Increase",value:"60%",bar:60},{label:"Onboarding Time Reduction",value:"50%",bar:50},{label:"Employee Satisfaction (NPS)",value:"+38pts",bar:76}], timeline:[{phase:"System Architecture & Security Review",duration:"2 weeks"},{phase:"Ingestion Pipeline Build",duration:"3 weeks"},{phase:"RAG Tuning & Slack Integration",duration:"3 weeks"},{phase:"Rollout & User Training",duration:"2 weeks"}], tech:["Claude 3.5","Pinecone","LangChain","SharePoint API","Slack API","FastAPI","Docker"], testimonial:{quote:"It's like having a genius employee who has read every document the company has ever created — and can answer in seconds.",author:"Chief Digital Officer",company:"MNC, Kuala Lumpur"} },
+  { id:4, category:"vision", categoryLabel:"Computer Vision", tagClass:"tag-pink", title:"Smart Retail Shelf Analytics", subtitle:"National Retail Chain — Malaysia", year:"2024", img:"https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&w=1400&q=80", summary:"Deployed YOLOv8-based shelf monitoring across 200 retail outlets — tracking stock levels, planogram compliance, and competitor product placement in real time via in-store camera feeds.", challenge:"Manual shelf audits were infrequent, inconsistent, and costly. Out-of-stock situations went unnoticed for hours. Planogram violations were only discovered during monthly walkthroughs.", solution:"We deployed lightweight YOLOv8 models on edge devices at each outlet. A central analytics dashboard aggregates shelf health scores, flags anomalies, and triggers automated replenishment alerts. Store managers receive WhatsApp push notifications for critical gaps.", results:[{label:"Audit Speed Improvement",value:"3×",bar:80},{label:"Out-of-Stock Detection Time",value:"< 5 min",bar:90},{label:"Planogram Compliance Increase",value:"+31%",bar:65},{label:"Lost Sales Recovery (Monthly)",value:"RM 280K",bar:70}], timeline:[{phase:"Camera Audit & Edge Hardware Spec",duration:"2 weeks"},{phase:"Model Training on Retail Data",duration:"5 weeks"},{phase:"Pilot (10 Stores)",duration:"3 weeks"},{phase:"National Rollout",duration:"6 weeks"}], tech:["YOLOv8","OpenCV","NVIDIA Jetson","MQTT","InfluxDB","Grafana","WhatsApp Business API"], testimonial:{quote:"We now have eyes in every store simultaneously. The ROI was clear within the first month.",author:"Head of Retail Operations",company:"National Retail Chain, Malaysia"} },
+  { id:5, category:"automation", categoryLabel:"AI Automation", tagClass:"tag-yellow", title:"AI-Powered HR Recruitment", subtitle:"Mid-Market Enterprise — Petaling Jaya", year:"2025", img:"https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=1400&q=80", summary:"Automated the full recruitment funnel — from JD parsing and resume screening to interview scheduling and offer letter generation — cutting time-to-hire by 55% while improving candidate quality.", challenge:"The HR team was manually sifting through 300+ applications per role, spending 60% of their time on administrative tasks rather than strategic hiring decisions.", solution:"We built an n8n-powered workflow automation layer with Claude at its core for resume intelligence. The system scores candidates against role requirements, auto-schedules interviews via calendar API, sends personalised communications, and drafts offer letters — all with HR approval checkpoints.", results:[{label:"Time-to-Hire Reduction",value:"55%",bar:55},{label:"Admin Time Saved (HR Team)",value:"60%",bar:60},{label:"Candidate Quality Score (avg)",value:"+28%",bar:68},{label:"Cost-per-Hire Reduction",value:"35%",bar:35}], timeline:[{phase:"Process Mapping & ATS Integration",duration:"2 weeks"},{phase:"AI Screening Engine Build",duration:"3 weeks"},{phase:"Workflow Automation",duration:"3 weeks"},{phase:"Testing & HR Training",duration:"2 weeks"}], tech:["Claude 3.5","n8n","Google Calendar API","ATS Integration","Slack","PostgreSQL"], testimonial:{quote:"We now spend our time on people decisions, not paperwork. The AI does the heavy lifting brilliantly.",author:"Head of Talent Acquisition",company:"Mid-Market Enterprise, PJ"} },
+  { id:6, category:"analytics", categoryLabel:"Predictive Analytics", tagClass:"tag-green", title:"Supply Chain Risk Intelligence", subtitle:"Malaysian Manufacturer — Shah Alam", year:"2025", img:"https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?auto=format&fit=crop&w=1400&q=80", summary:"Built a real-time supply chain risk monitoring platform that tracks 200+ supplier signals and alerts operations teams 6–8 weeks before potential disruptions materialise.", challenge:"The client experienced three major supply disruptions in 18 months, each costing RM 800K+ in expedited freight and production stoppages. Risk management was entirely reactive.", solution:"We engineered a continuous signal intelligence platform using Kafka for real-time data ingestion and a gradient-boosted risk model trained on historical disruption patterns. A Tableau dashboard gives the procurement team a live heat map of supplier risk scores with recommended mitigation actions.", results:[{label:"Advance Warning Lead Time",value:"6–8 wks",bar:85},{label:"Disruption Losses Prevented",value:"RM 2.4M",bar:90},{label:"Supplier Risk Visibility",value:"98%",bar:98},{label:"Procurement Team Efficiency",value:"+45%",bar:45}], timeline:[{phase:"Supplier Data Mapping",duration:"3 weeks"},{phase:"Risk Model Development",duration:"6 weeks"},{phase:"Kafka Pipeline & Dashboard",duration:"4 weeks"},{phase:"Pilot & Calibration",duration:"3 weeks"}], tech:["Apache Kafka","Scikit-learn","Tableau","Python","PostgreSQL","REST APIs","AWS"], testimonial:{quote:"We went from reactive to proactive. The system paid for itself in the first quarter by preventing a supplier collapse we didn't see coming.",author:"VP Supply Chain",company:"Malaysian Manufacturer, Shah Alam"} },
+  { id:7, category:"chatbot", categoryLabel:"Chatbot & NLP", tagClass:"tag-blue", title:"Medical Triage Assistant", subtitle:"Private Clinic Network — Klang Valley", year:"2024", img:"https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&w=1400&q=80", summary:"Deployed a multilingual (BM/EN) AI patient intake and triage assistant across a 15-clinic network, reducing front-desk load by 70% while improving patient experience scores.", challenge:"Long waiting times and high front-desk staff turnover were impacting patient satisfaction. Triage was inconsistent across clinics, and non-urgent cases were consuming emergency appointment slots.", solution:"We built a conversational AI that guides patients through symptom assessment, collects intake information, and recommends the appropriate urgency level and specialist — fully bilingual. Integrated with the clinic management system to pre-populate patient records before the doctor encounter.", results:[{label:"Front-Desk Workload Reduction",value:"70%",bar:70},{label:"Patient Rating (avg)",value:"4.8 / 5★",bar:96},{label:"Avg Intake Time",value:"−65%",bar:65},{label:"Triage Consistency Score",value:"94%",bar:94}], timeline:[{phase:"Clinical Protocol Mapping",duration:"2 weeks"},{phase:"Multilingual NLP Build",duration:"4 weeks"},{phase:"CMS Integration",duration:"2 weeks"},{phase:"Clinical Pilot & Refinement",duration:"4 weeks"}], tech:["Claude 3","Bahasa Malaysia NLP","HL7 FHIR","React","Node.js","Clinic Management API"], testimonial:{quote:"Patients love it. Staff love it. Our doctors see better-prepared patients. It's a win across the board.",author:"Medical Director",company:"Private Clinic Network, KV"} },
+  { id:8, category:"integration", categoryLabel:"Enterprise Integration", tagClass:"tag-purple", title:"ERP AI Co-Pilot", subtitle:"Manufacturing Group — Johor Bahru", year:"2025", img:"https://images.unsplash.com/photo-1518186285589-2f7649de83e0?auto=format&fit=crop&w=1400&q=80", summary:"Wrapped a natural language AI co-pilot around a legacy SAP ERP system — allowing non-technical users to generate reports, trigger workflows, and surface insights through plain conversation.", challenge:"Only 20% of the 600-person company actively used the SAP system due to complexity. Critical business data was inaccessible to mid-level managers who couldn't navigate the interface or wait for IT reports.", solution:"Using LangChain and Claude, we built an AI layer that translates natural language queries into SAP BAPI calls and SQL queries. The co-pilot returns formatted responses with charts, tables, and actionable recommendations — accessible via web interface and Teams.", results:[{label:"ERP Active User Adoption",value:"+280%",bar:78},{label:"Report Generation Time",value:"−95%",bar:95},{label:"Time Saved per Manager/Week",value:"8 hrs",bar:80},{label:"IT Support Tickets (ERP)",value:"−60%",bar:60}], timeline:[{phase:"SAP API Mapping",duration:"3 weeks"},{phase:"LangChain Agent Development",duration:"4 weeks"},{phase:"Teams / Web UI Build",duration:"3 weeks"},{phase:"Pilot with 50 Users",duration:"2 weeks"}], tech:["Claude 3.5","LangChain","SAP BAPI","Python","Microsoft Teams API","Chart.js","Azure"], testimonial:{quote:"My managers can now get a full sales breakdown for any region in 10 seconds. That used to take IT two days.",author:"Group CEO",company:"Manufacturing Group, Johor Bahru"} }
+];
+</script>
+</body>
+</html>
