@@ -1,0 +1,17 @@
+{
+  "name": "claude-malaysia-portfolio",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "dev": "vercel dev"
+  },
+  "dependencies": {
+    "@neondatabase/serverless": "latest",
+    "@vercel/blob": "latest"
+  },
+  "devDependencies": {
+    "vitest": "latest"
+  }
+}

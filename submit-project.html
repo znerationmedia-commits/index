@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Submit Project | AI Malaysia Community</title>
+    <link rel="stylesheet" href="submission.css" />
+  </head>
+  <body>
+    <main class="submission-shell">
+      <header class="submission-header">
+        <p class="eyebrow">Trusted contributor submission</p>
+        <h1>Submit a portfolio project</h1>
+        <p>Only submit public-safe project proof. Valid version-1 submissions publish immediately.</p>
+      </header>
+
+      <form id="project-submission-form">
+        <section class="form-grid">
+          <label>
+            Contributor name
+            <input name="contributorName" autocomplete="name" required />
+          </label>
+          <label>
+            Contributor specialty
+            <input name="contributorSpecialty" required />
+          </label>
+          <label class="wide">
+            Project title
+            <input name="title" required />
+          </label>
+          <label class="wide">
+            Description
+            <textarea name="description" minlength="100" required></textarea>
+            <span>Use 100-200 words.</span>
+          </label>
+          <label>
+            Deal type
+            <select name="dealType" data-taxonomy="dealTypes" required></select>
+          </label>
+          <label>
+            Service model
+            <select name="serviceModel" data-taxonomy="serviceModels" required></select>
+          </label>
+          <label>
+            Automation layer
+            <select name="automationLayer" data-taxonomy="automationLayers" required></select>
+          </label>
+          <label>
+            Industry
+            <select name="industry" data-taxonomy="industries" required></select>
+          </label>
+          <label>
+            Project type
+            <select name="projectType" data-taxonomy="projectTypes" required></select>
+          </label>
+          <label>
+            Data hosting
+            <select name="dataHosting" data-taxonomy="dataHosting" required></select>
+          </label>
+          <label class="wide">
+            Complexity
+            <select name="complexity" data-taxonomy="complexity" required></select>
+          </label>
+        </section>
+
+        <fieldset id="tech-stack-fieldset" class="choice-grid">
+          <legend>Tech stack</legend>
+        </fieldset>
+
+        <fieldset class="asset-panel">
+          <legend>Visual asset</legend>
+          <div class="asset-modes">
+            <label><input type="radio" name="assetMode" value="external_image" checked /> Image URL</label>
+            <label><input type="radio" name="assetMode" value="loom" /> Loom URL</label>
+            <label><input type="radio" name="assetMode" value="uploaded_image" /> Upload screenshot</label>
+          </div>
+          <label id="asset-url-field">
+            Visual URL
+            <input name="assetUrl" type="url" />
+          </label>
+          <label id="asset-file-field" hidden>
+            Screenshot
+            <input name="assetFile" type="file" accept="image/png,image/jpeg,image/webp" />
+          </label>
+          <label>
+            Alt text
+            <input name="assetAltText" />
+          </label>
+        </fieldset>
+
+        <section class="privacy-check">
+          <h2>Privacy check</h2>
+          <p>Do not submit client secrets, credentials, customer data, private dashboards, or unapproved names.</p>
+        </section>
+
+        <p id="submission-status" role="status" aria-live="polite"></p>
+        <button type="submit">Publish Project</button>
+      </form>
+    </main>
+    <script type="module" src="submit-project.js"></script>
+  </body>
+</html>

@@ -62,6 +62,9 @@
     .project-card:hover .img-wrap img { transform: scale(1.08); }
     .project-card .overlay { background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, transparent 60%); opacity: 0; transition: opacity 0.35s ease; }
     .project-card:hover .overlay { opacity: 1; }
+    .published-project-card { cursor: default; }
+    .published-visual-fallback { display: grid; place-items: center; min-height: 12rem; background: linear-gradient(135deg, rgba(251,191,36,0.18), rgba(37,99,235,0.18)); color: #fde68a; }
+    .published-description { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 4; overflow: hidden; }
     .card-featured { grid-column: span 2; }
     .projects-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
     @media (max-width: 1024px) { .projects-grid { grid-template-columns: repeat(2, 1fr); } .card-featured { grid-column: span 2; } }
@@ -514,6 +517,7 @@
 
 <!-- PROJECTS GRID -->
 <section class="max-w-7xl mx-auto px-6 pb-24 relative z-10">
+  <p id="portfolio-sync-state" class="text-sm text-neutral-500 mb-5" role="status">Loading published submissions...</p>
   <div class="projects-grid" id="projects-grid">
     <div class="project-card glass rounded-3xl overflow-hidden card-featured" data-category="automation" data-id="0">
       <div class="img-wrap relative h-72"><img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1400&q=80" class="w-full h-full object-cover" alt=""><div class="overlay absolute inset-0"></div><div class="absolute top-4 left-4"><span class="tag tag-yellow">AI Automation</span></div></div>
@@ -726,6 +730,127 @@ function buildModal(p) {
       </div>
     </div>`;
 }
+
+// ---- Published projects ----
+const PROJECT_TYPE_FILTER = {
+  "AI Chatbot": "chatbot",
+  "Dashboard & Reporting": "analytics",
+  "Workflow Automation": "automation",
+  "Data Pipeline": "analytics",
+  "Document Processing": "automation",
+  "Lead Generation & CRM": "automation",
+  "API Integration": "integration",
+  "Web App / Portal": "integration",
+  "Voice AI": "chatbot"
+};
+
+function textNode(tag, value, className) {
+  const element = document.createElement(tag);
+  if (className) element.className = className;
+  element.textContent = value || "";
+  return element;
+}
+
+function cardFallbackVisual(label) {
+  return textNode("div", label || "Project visual", "published-visual-fallback h-48 text-sm font-bold uppercase tracking-wider");
+}
+
+function safeHttpUrl(value) {
+  try {
+    const url = new URL(value, window.location.origin);
+    return ["http:", "https:"].includes(url.protocol) ? url.href : "";
+  } catch {
+    return "";
+  }
+}
+
+function buildPublishedVisual(project) {
+  const wrap = document.createElement("div");
+  wrap.className = "img-wrap relative h-48";
+  const assetUrl = safeHttpUrl(project.asset?.url);
+
+  if (project.asset?.type === "loom" && assetUrl) {
+    const fallback = cardFallbackVisual("Loom demo");
+    const link = textNode("a", "Open Loom demo", "absolute bottom-4 left-4 rounded-full bg-black/70 px-4 py-2 text-sm font-semibold text-yellow-300 hover:bg-black");
+    link.href = assetUrl;
+    link.target = "_blank";
+    link.rel = "noopener noreferrer";
+    wrap.append(fallback, link);
+    return wrap;
+  }
+
+  if (assetUrl) {
+    const image = document.createElement("img");
+    image.src = assetUrl;
+    image.alt = project.asset.altText || `${project.title} project visual`;
+    image.className = "w-full h-full object-cover";
+    image.loading = "lazy";
+    image.addEventListener("error", () => {
+      wrap.replaceChildren(cardFallbackVisual(project.projectType));
+    });
+    wrap.append(image);
+    return wrap;
+  }
+
+  wrap.append(cardFallbackVisual(project.projectType));
+  return wrap;
+}
+
+function buildPublishedCard(project) {
+  const card = document.createElement("article");
+  card.className = "project-card published-project-card glass rounded-3xl overflow-hidden";
+  card.dataset.category = PROJECT_TYPE_FILTER[project.projectType] || "integration";
+
+  const visual = buildPublishedVisual(project);
+  const body = document.createElement("div");
+  body.className = "p-6";
+
+  const tag = textNode("span", project.projectType || project.automationLayer, "tag tag-yellow mb-3");
+  const title = textNode("h3", project.title, "text-xl font-bold mb-2");
+  const contributor = textNode(
+    "p",
+    `${project.contributorName} - ${project.contributorSpecialty}`,
+    "text-xs font-semibold uppercase tracking-wider text-yellow-300 mb-3"
+  );
+  const description = textNode("p", project.description, "published-description text-neutral-400 text-sm mb-4 leading-relaxed");
+  const badges = document.createElement("div");
+  badges.className = "flex gap-2 flex-wrap";
+
+  for (const value of (project.techStack || []).slice(0, 4)) {
+    badges.append(textNode("span", value, "tech-badge"));
+  }
+
+  body.append(tag, title, contributor, description, badges);
+  card.append(visual, body);
+  return card;
+}
+
+async function loadPublishedProjects() {
+  const response = await fetch("/api/projects");
+  const result = await response.json();
+  if (!response.ok || !result.ok) throw new Error("Published projects unavailable");
+  return result.projects;
+}
+
+async function renderPublishedProjects() {
+  const grid = document.getElementById("projects-grid");
+  const state = document.getElementById("portfolio-sync-state");
+
+  try {
+    const projects = await loadPublishedProjects();
+    if (!projects.length) {
+      state.textContent = "Showing curated showcase projects while published submissions are being seeded.";
+      return;
+    }
+
+    grid.replaceChildren(...projects.map(buildPublishedCard));
+    state.textContent = "Showing published community submissions.";
+  } catch {
+    state.textContent = "Showing curated showcase projects while published submissions are unavailable.";
+  }
+}
+
+renderPublishedProjects();
 
 // ---- Forms ----
 function handleContactSubmit() {

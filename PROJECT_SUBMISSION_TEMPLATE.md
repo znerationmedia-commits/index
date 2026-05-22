@@ -1,10 +1,10 @@
 # Portfolio Submission Template
 
-Copy this template for each project you submit. Fill every field. The completed submission becomes the public-facing portfolio card.
+Copy this template for each project you submit. Fill every field. Version 1 publishes valid private-link submissions immediately after server-side validation. Use the privacy checklist before submitting.
 
 ## Submission Status
 
-- Status: Pending Review
+- Status: Published after validation / Needs Follow-Up
 - Submitted by:
 - Submission date:
 - Reviewed by:
