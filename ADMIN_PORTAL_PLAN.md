@@ -4,23 +4,23 @@ This plan describes the lean MVP path for the Claude Malaysia portfolio system.
 
 ## Goal
 
-Build a protected admin portal where trusted members can log in, submit portfolio projects using a fixed template, and have the public portfolio reflect approved submissions automatically.
+Build a private-link project submission MVP where trusted contributors submit fixed-format portfolio projects and the public portfolio reflects valid published submissions automatically.
 
 ## Recommended Stack
 
-- `Vercel` for hosting and deploy previews
-- `Supabase Auth` for login
-- `Supabase Postgres` for portfolio data
-- `Supabase Storage` only if uploaded files are required later
+- `Vercel` for hosting, deploy previews, and API routes
+- `Neon Postgres` for structured portfolio data
+- `Vercel Blob` for uploaded screenshot images
+- external Loom or image URLs when contributors already host the visual asset
 
 ## Workflow
 
-1. A trusted member visits `/admin`.
-2. The member logs in.
-3. The admin page shows the submission form.
-4. The member fills in the fixed submission fields.
-5. The form validates the inputs.
-6. The submission is saved to the data store.
+1. A trusted contributor receives the unlisted submission link.
+2. The contributor fills in the fixed submission fields.
+3. The Vercel API validates the inputs and asset choice.
+4. Uploaded screenshots are saved to Vercel Blob.
+5. Structured project data is saved to Neon Postgres.
+6. Valid version-1 submissions publish immediately.
 7. The public portfolio site reads the published records and updates automatically.
 
 ## GitHub Responsibilities
@@ -48,48 +48,46 @@ Before implementation is approved:
 
 ## MVP Phases
 
-### Phase 1: Docs And Contract
+### Phase 1: Contract And Data Foundation
 
-- confirm the admin portal flow
-- freeze the field list and taxonomy
-- keep README and submission template aligned
-- define the public page rendering policy
+- keep README, template, schema, and rendering policy aligned
+- define Neon project schema and taxonomy validation
+- configure Vercel environment variables without committing secrets
 
-### Phase 2: Auth And Data Model
+### Phase 2: Private-Link Submission MVP
 
-- add login for trusted members
-- create the project table/schema
-- define published vs draft records
+- add the unlisted contributor submission page
+- validate submitted fields in a Vercel API route
+- save valid published projects to Neon
+- accept external image URLs and Loom URLs
 
-### Phase 3: Admin Portal UI
+### Phase 3: Screenshot Upload
 
-- add `/admin`
-- build the submission form
-- validate required fields and allowed values
-- save submissions to the data store
+- upload contributor screenshots to Vercel Blob
+- save Blob URLs and asset metadata with the Neon project record
+- enforce screenshot type and size limits
 
 ### Phase 4: Public Portfolio Sync
 
-- render only published projects on the main site
-- keep search and filters working from the same data
-- verify updates appear without manual HTML edits
-- enforce the public page rendering policy
+- fetch published projects from the public API
+- render project cards from the published records
+- keep card fallbacks and filtering safe
 
-### Phase 5: Safety Review
+### Phase 5: Safety Follow-Up
 
-- check all public-facing content for privacy issues
-- confirm the portal cannot expose private client data
-- verify the happy path and the failure path before launch
+- add edit, unpublish, and removal controls
+- revisit auth, invitation tokens, or a passcode if the private link risk changes
 
 ## MVP Rules
 
 - no custom backend server unless it becomes unavoidable
 - no separate database admin panel
 - no public self-serve uploads
+- no public navigation link to the private submission form
 - no extra infrastructure that does not support the launch
 
 ## Open Questions
 
-- Should new submissions publish immediately for trusted members, or should they start as draft?
-- Should uploaded images live in Supabase Storage or stay as external links for MVP?
-- Which members get admin access at launch?
+- Which removal path should launch first after immediate publishing: Vercel-backed admin control or a narrower operations script?
+- Should the private-link path later gain a passcode, invitation token, or login?
+- Which abuse controls should be added if the private link starts circulating beyond trusted contributors?

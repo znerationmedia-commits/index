@@ -4,16 +4,16 @@ This repository is the shared source of truth for the Claude Malaysia community 
 
 The MVP goal is simple:
 
-- community members log in to a protected admin portal
+- trusted contributors use an unlisted submission link
 - they submit portfolio projects in a fixed format
-- the public site reflects approved submissions automatically
+- the public site reflects valid published submissions automatically
 - the system stays lightweight, searchable, and easy to maintain
 
 This repo should stay lean. Do not add unnecessary infrastructure unless it solves a real problem for the MVP.
 
 ## What This Project Is
 
-Claude Malaysia is building a public portfolio site plus a protected admin portal for community members to showcase real projects.
+Claude Malaysia is building a public portfolio site plus a private-link submission flow for community members to showcase real projects.
 
 The system should help visitors quickly understand:
 
@@ -26,24 +26,26 @@ The system should help visitors quickly understand:
 
 The leanest setup is:
 
-- `Vercel` for hosting the public site and admin UI
-- `Supabase Auth` for trusted-member login
-- `Supabase Postgres` for project submissions and published portfolio records
-- `Supabase Storage` only if uploaded images are needed later
+- `Vercel` for the public site, private-link submission page, and server-side API routes
+- `Neon Postgres` for structured project submission and published portfolio records
+- `Vercel Blob` for uploaded project screenshot images
+- external `Loom` or image URLs when contributors provide hosted visual assets
 
-This keeps the stack small without forcing the team to manage its own backend server.
+The public consultation path remains WhatsApp/contact-first until booking and lead automation are designed separately.
 
 ## MVP Workflow
 
-1. A trusted member visits `/admin` and logs in.
-2. The admin portal loads only for authenticated users.
-3. The member fills out the fixed submission form.
-4. The form validates required fields and allowed tag values.
-5. The submission is saved to the portfolio data store.
-6. The public site reads published records and renders the cards.
-7. When a record is published or updated, the public portfolio reflects the change automatically.
+1. A trusted contributor receives the unlisted project submission link.
+2. The contributor fills out the fixed submission form.
+3. The server validates required fields, taxonomy values, and visual asset rules.
+4. Uploaded screenshots are stored in Vercel Blob.
+5. Structured project data is saved in Neon Postgres.
+6. Valid version-1 submissions are published immediately.
+7. The public portfolio reads published records and renders the cards.
 
 The public site should not depend on manual HTML edits for each new project.
+
+Until the current showcase cards are seeded into Neon, `index.html` keeps those curated cards as the public fallback when the published-project API is empty or temporarily unavailable.
 
 ## Public Page Rendering Policy
 
@@ -189,7 +191,7 @@ Typical files in this MVP:
 - `PUBLIC_PAGE_RENDERING_POLICY.md` for the public-page guardrails
 - `CONTRIBUTING.md` for collaboration rules
 - `SITE_DESIGN_DIRECTION.md` for product direction
-- `ADMIN_PORTAL_PLAN.md` for the current implementation plan and approval steps
+- `ADMIN_PORTAL_PLAN.md` for the current submission MVP plan and approval steps
 
 ## GitHub Approval Flow
 
