@@ -341,6 +341,15 @@
               </div>
             </div>
 
+            <!-- Team Members -->
+            <div class="form-section">
+              <div class="form-section-title">👥 Team Members <span class="text-neutral-500 font-normal normal-case" style="letter-spacing:0">(optional — select who worked on this project)</span></div>
+              <div id="proj-team-select" class="flex flex-wrap gap-2 p-3 rounded-xl min-h-[52px]" style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);">
+                <p class="text-neutral-500 text-sm" id="team-select-hint">No team members yet — <a href="#" onclick="showSection('team');return false;" class="text-yellow-400 hover:underline">add team members first</a></p>
+              </div>
+              <input type="hidden" id="proj-team-ids" value="[]" />
+            </div>
+
             <!-- Testimonial -->
             <div class="form-section">
               <div class="form-section-title">💬 Client Testimonial <span class="text-neutral-500 font-normal normal-case" style="letter-spacing:0">(optional)</span></div>
@@ -493,14 +502,52 @@
         <label class="block text-sm font-semibold text-neutral-300 mb-1">Short Bio</label>
         <textarea id="tm-bio" class="form-input resize-none" rows="3" placeholder="What they do and their expertise..."></textarea>
       </div>
-      <div class="flex gap-4">
-        <div class="flex-1">
-          <label class="block text-sm font-semibold text-neutral-300 mb-1">LinkedIn URL</label>
-          <input type="url" id="tm-linkedin" class="form-input" placeholder="https://linkedin.com/in/..." />
+      <!-- Company -->
+      <div style="border-top:1px solid rgba(255,255,255,0.08);padding-top:1rem;">
+        <p class="text-xs font-bold text-neutral-500 uppercase tracking-widest mb-3">🏢 Company / Business</p>
+        <div class="flex gap-4">
+          <div class="flex-1">
+            <label class="block text-sm font-semibold text-neutral-300 mb-1">Company Name</label>
+            <input type="text" id="tm-company" class="form-input" placeholder="e.g. TechVentures MY" />
+          </div>
+          <div class="flex-1">
+            <label class="block text-sm font-semibold text-neutral-300 mb-1">Company Website</label>
+            <input type="url" id="tm-website" class="form-input" placeholder="https://yourcompany.com" />
+          </div>
         </div>
-        <div class="flex-1">
-          <label class="block text-sm font-semibold text-neutral-300 mb-1">WhatsApp / Contact</label>
-          <input type="text" id="tm-contact" class="form-input" placeholder="+60 12-..." />
+      </div>
+      <!-- Socials -->
+      <div style="border-top:1px solid rgba(255,255,255,0.08);padding-top:1rem;">
+        <p class="text-xs font-bold text-neutral-500 uppercase tracking-widest mb-3">🔗 Social Media</p>
+        <div class="flex gap-4 mb-3">
+          <div class="flex-1">
+            <label class="block text-sm font-semibold text-neutral-300 mb-1">WhatsApp</label>
+            <input type="text" id="tm-contact" class="form-input" placeholder="+60 12-..." />
+          </div>
+          <div class="flex-1">
+            <label class="block text-sm font-semibold text-neutral-300 mb-1">LinkedIn</label>
+            <input type="url" id="tm-linkedin" class="form-input" placeholder="https://linkedin.com/in/..." />
+          </div>
+        </div>
+        <div class="flex gap-4 mb-3">
+          <div class="flex-1">
+            <label class="block text-sm font-semibold text-neutral-300 mb-1">Instagram</label>
+            <input type="url" id="tm-instagram" class="form-input" placeholder="https://instagram.com/..." />
+          </div>
+          <div class="flex-1">
+            <label class="block text-sm font-semibold text-neutral-300 mb-1">Facebook</label>
+            <input type="url" id="tm-facebook" class="form-input" placeholder="https://facebook.com/..." />
+          </div>
+        </div>
+        <div class="flex gap-4">
+          <div class="flex-1">
+            <label class="block text-sm font-semibold text-neutral-300 mb-1">X / Twitter</label>
+            <input type="url" id="tm-twitter" class="form-input" placeholder="https://x.com/..." />
+          </div>
+          <div class="flex-1">
+            <label class="block text-sm font-semibold text-neutral-300 mb-1">TikTok</label>
+            <input type="url" id="tm-tiktok" class="form-input" placeholder="https://tiktok.com/@..." />
+          </div>
         </div>
       </div>
       <div>
@@ -645,6 +692,7 @@ function showSection(name) {
     const editId = document.getElementById('edit-project-id').value;
     document.getElementById('page-title').textContent = editId ? 'Edit Project' : 'Add New Project';
     document.getElementById('form-mode-banner').classList.toggle('hidden', !editId);
+    refreshTeamSelector();
   }
 }
 
@@ -867,11 +915,15 @@ function saveProject(status) {
   const projects = getProjects();
   const editId = document.getElementById('edit-project-id').value;
 
+  let teamIds = [];
+  try { teamIds = JSON.parse(document.getElementById('proj-team-ids').value || '[]'); } catch(e) {}
+
   const projectData = {
     category, year, subtitle, img, summary, challenge, solution,
     title, status, tech: [...techTags], results, timeline,
     categoryLabel: cat.label, tagClass: cat.tagClass,
     testimonial: quote ? { quote, author, company } : null,
+    teamIds,
   };
 
   if (editId) {
@@ -899,6 +951,8 @@ function resetForm() {
   });
   techTags = [];
   renderTechTags();
+  document.getElementById('proj-team-ids').value = '[]';
+  refreshTeamSelector();
   document.getElementById('img-preview').innerHTML = '<span class="text-neutral-600 text-sm">No image selected</span>';
   document.getElementById('edit-project-id').value = '';
   document.getElementById('form-mode-banner').classList.add('hidden');
@@ -958,6 +1012,10 @@ function editProject(id) {
   // Tech
   techTags = [...(p.tech || [])];
   renderTechTags();
+
+  // Team
+  document.getElementById('proj-team-ids').value = JSON.stringify(p.teamIds || []);
+  refreshTeamSelector();
 
   showSection('new');
 }
@@ -1172,6 +1230,7 @@ function renderTeam() {
         <div class="flex-1 min-w-0">
           <p class="font-bold text-white truncate">${m.name}</p>
           <p class="text-yellow-400 text-sm">${m.role}</p>
+          ${m.company ? `<p class="text-neutral-500 text-xs mt-0.5 truncate">🏢 ${m.company}</p>` : ''}
         </div>
         <div class="flex gap-2 flex-shrink-0">
           <button onclick="openTeamModal('${m.id}')" class="btn-ghost" style="padding:6px 10px;font-size:0.75rem;">✏️</button>
@@ -1200,12 +1259,18 @@ function openTeamModal(id) {
       document.getElementById('tm-role').value = m.role || '';
       document.getElementById('tm-photo').value = m.photo || '';
       document.getElementById('tm-bio').value = m.bio || '';
+      document.getElementById('tm-company').value = m.company || '';
+      document.getElementById('tm-website').value = m.website || '';
       document.getElementById('tm-linkedin').value = m.linkedin || '';
       document.getElementById('tm-contact').value = m.contact || '';
+      document.getElementById('tm-instagram').value = m.instagram || '';
+      document.getElementById('tm-facebook').value = m.facebook || '';
+      document.getElementById('tm-twitter').value = m.twitter || '';
+      document.getElementById('tm-tiktok').value = m.tiktok || '';
       document.getElementById('tm-expertise').value = m.expertise || '';
     }
   } else {
-    ['tm-name','tm-role','tm-photo','tm-bio','tm-linkedin','tm-contact','tm-expertise'].forEach(id => { document.getElementById(id).value = ''; });
+    ['tm-name','tm-role','tm-photo','tm-bio','tm-company','tm-website','tm-linkedin','tm-contact','tm-instagram','tm-facebook','tm-twitter','tm-tiktok','tm-expertise'].forEach(id => { document.getElementById(id).value = ''; });
   }
   document.getElementById('team-modal').style.display = 'flex';
 }
@@ -1226,8 +1291,14 @@ function saveTeamMember() {
     role,
     photo:     document.getElementById('tm-photo').value.trim(),
     bio:       document.getElementById('tm-bio').value.trim(),
+    company:   document.getElementById('tm-company').value.trim(),
+    website:   document.getElementById('tm-website').value.trim(),
     linkedin:  document.getElementById('tm-linkedin').value.trim(),
     contact:   document.getElementById('tm-contact').value.trim(),
+    instagram: document.getElementById('tm-instagram').value.trim(),
+    facebook:  document.getElementById('tm-facebook').value.trim(),
+    twitter:   document.getElementById('tm-twitter').value.trim(),
+    tiktok:    document.getElementById('tm-tiktok').value.trim(),
     expertise: document.getElementById('tm-expertise').value.trim()
   };
   if (editId) {
