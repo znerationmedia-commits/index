@@ -148,6 +148,9 @@
       <div class="nav-item" onclick="showSection('new')" id="nav-new">
         <span class="icon">➕</span> Add New Project
       </div>
+      <div class="nav-item" onclick="showSection('team')" id="nav-team">
+        <span class="icon">👥</span> Team
+      </div>
       <div class="nav-item" onclick="showSection('leads')" id="nav-leads" style="position:relative;">
         <span class="icon">🎯</span> Audit Leads
         <span id="leads-badge" class="absolute right-3 top-1/2 -translate-y-1/2 hidden text-xs font-bold bg-yellow-400 text-black rounded-full px-2 py-0.5"></span>
@@ -443,9 +446,74 @@
         </div>
       </div>
 
+      <!-- ===== TEAM ===== -->
+      <div id="section-team" class="section fade-in">
+        <div class="flex items-center justify-between mb-6 flex-wrap gap-4">
+          <div>
+            <h2 class="text-xl font-bold text-white">Team Members</h2>
+            <p class="text-neutral-500 text-sm mt-0.5">Manage your team profiles linked to projects</p>
+          </div>
+          <button onclick="openTeamModal()" class="btn-primary flex items-center gap-2 px-4 py-2.5">➕ Add Member</button>
+        </div>
+        <div id="team-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5"></div>
+        <div id="team-empty" class="hidden text-center py-20 text-neutral-600">
+          <p class="text-4xl mb-3">👥</p>
+          <p class="font-semibold text-neutral-500">No team members yet</p>
+          <p class="text-sm mt-1">Add your first team member to link them to projects</p>
+        </div>
+      </div>
+
     </div><!-- /p-8 -->
   </div><!-- /main-content -->
 </div><!-- /admin-app -->
+
+<!-- Team Member Modal -->
+<div id="team-modal" style="display:none;position:fixed;inset:0;z-index:1100;display:none;align-items:center;justify-content:center;">
+  <div style="position:absolute;inset:0;background:rgba(0,0,0,0.7);backdrop-filter:blur(8px);" onclick="closeTeamModal()"></div>
+  <div class="glass rounded-3xl p-8 max-w-lg w-full mx-4 relative" style="z-index:1;max-height:90vh;overflow-y:auto;">
+    <button onclick="closeTeamModal()" style="position:absolute;top:16px;right:16px;" class="btn-ghost" style="padding:6px 10px;">✕</button>
+    <h3 id="team-modal-title" class="text-xl font-bold mb-6">Add Team Member</h3>
+    <input type="hidden" id="team-edit-id" value="" />
+    <div class="space-y-4">
+      <div class="flex gap-4 items-start">
+        <div class="flex-1">
+          <label class="block text-sm font-semibold text-neutral-300 mb-1">Full Name *</label>
+          <input type="text" id="tm-name" class="form-input" placeholder="e.g. Kingsley Chan" />
+        </div>
+        <div class="flex-1">
+          <label class="block text-sm font-semibold text-neutral-300 mb-1">Role / Title *</label>
+          <input type="text" id="tm-role" class="form-input" placeholder="e.g. Founder & AI Lead" />
+        </div>
+      </div>
+      <div>
+        <label class="block text-sm font-semibold text-neutral-300 mb-1">Photo URL</label>
+        <input type="url" id="tm-photo" class="form-input" placeholder="https://... (leave blank for initials avatar)" />
+      </div>
+      <div>
+        <label class="block text-sm font-semibold text-neutral-300 mb-1">Short Bio</label>
+        <textarea id="tm-bio" class="form-input resize-none" rows="3" placeholder="What they do and their expertise..."></textarea>
+      </div>
+      <div class="flex gap-4">
+        <div class="flex-1">
+          <label class="block text-sm font-semibold text-neutral-300 mb-1">LinkedIn URL</label>
+          <input type="url" id="tm-linkedin" class="form-input" placeholder="https://linkedin.com/in/..." />
+        </div>
+        <div class="flex-1">
+          <label class="block text-sm font-semibold text-neutral-300 mb-1">WhatsApp / Contact</label>
+          <input type="text" id="tm-contact" class="form-input" placeholder="+60 12-..." />
+        </div>
+      </div>
+      <div>
+        <label class="block text-sm font-semibold text-neutral-300 mb-1">Expertise Tags <span class="text-neutral-500 font-normal">(comma-separated)</span></label>
+        <input type="text" id="tm-expertise" class="form-input" placeholder="AI Strategy, Python, Machine Learning" />
+      </div>
+      <div class="flex gap-3 pt-2">
+        <button onclick="saveTeamMember()" class="btn-primary flex-1">Save Member</button>
+        <button onclick="closeTeamModal()" class="btn-ghost">Cancel</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 <!-- Confirm Delete Modal -->
 <div id="confirm-modal">
@@ -545,7 +613,7 @@ function initApp() {
 
 // ===================== NAVIGATION =====================
 function showSection(name) {
-  ['dashboard','projects','new','leads','settings'].forEach(s => {
+  ['dashboard','projects','new','leads','team','settings'].forEach(s => {
     const sec = document.getElementById('section-'+s);
     if (sec) sec.classList.remove('active');
     const nav = document.getElementById('nav-'+s);
@@ -561,6 +629,7 @@ function showSection(name) {
     projects: ['All Projects', 'Manage and publish your case studies'],
     new: ['Add New Project', 'Fill in the details below and publish'],
     leads: ['Audit Leads', 'Free AI Readiness Audit form submissions'],
+    team:  ['Team Members', 'Manage your team and link them to projects'],
     settings: ['Settings', 'Manage your account and preferences']
   };
   if (titles[name]) {
@@ -571,6 +640,7 @@ function showSection(name) {
   if (name === 'dashboard') renderDashboard();
   if (name === 'projects') renderProjectsTable();
   if (name === 'leads') renderLeads();
+  if (name === 'team') renderTeam();
   if (name === 'new') {
     const editId = document.getElementById('edit-project-id').value;
     document.getElementById('page-title').textContent = editId ? 'Edit Project' : 'Add New Project';
@@ -1073,6 +1143,150 @@ function exportLeadsCSV() {
   a.download = 'audit-leads-' + new Date().toISOString().slice(0,10) + '.csv';
   a.click();
 }
+
+// ===================== TEAM =====================
+const TEAM_KEY = 'aim_team';
+
+function getTeam() {
+  try { return JSON.parse(localStorage.getItem(TEAM_KEY) || '[]'); } catch(e) { return []; }
+}
+function saveTeamData(t) { localStorage.setItem(TEAM_KEY, JSON.stringify(t)); }
+
+function renderTeam() {
+  const team = getTeam();
+  const grid  = document.getElementById('team-grid');
+  const empty = document.getElementById('team-empty');
+  if (!team.length) { grid.innerHTML = ''; empty.classList.remove('hidden'); return; }
+  empty.classList.add('hidden');
+  grid.innerHTML = team.map(m => {
+    const initials = m.name.split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2);
+    const avatar = m.photo
+      ? `<img src="${m.photo}" class="w-full h-full object-cover" onerror="this.style.display='none';this.nextSibling.style.display='flex'">`
+      : '';
+    const tags = (m.expertise||'').split(',').filter(Boolean).map(t=>`<span class="tech-badge" style="font-size:0.7rem;padding:3px 10px;">${t.trim()}</span>`).join('');
+    return `<div class="glass-dark rounded-2xl p-6 flex flex-col gap-4">
+      <div class="flex items-center gap-4">
+        <div class="w-16 h-16 rounded-2xl bg-yellow-400/20 border border-yellow-400/20 overflow-hidden flex items-center justify-center flex-shrink-0 text-yellow-300 font-bold text-xl">
+          ${avatar}<span style="${m.photo?'display:none':''}">${initials}</span>
+        </div>
+        <div class="flex-1 min-w-0">
+          <p class="font-bold text-white truncate">${m.name}</p>
+          <p class="text-yellow-400 text-sm">${m.role}</p>
+        </div>
+        <div class="flex gap-2 flex-shrink-0">
+          <button onclick="openTeamModal('${m.id}')" class="btn-ghost" style="padding:6px 10px;font-size:0.75rem;">✏️</button>
+          <button onclick="deleteTeamMember('${m.id}')" class="btn-danger" style="padding:6px 10px;font-size:0.75rem;">🗑</button>
+        </div>
+      </div>
+      ${m.bio ? `<p class="text-neutral-400 text-sm leading-relaxed line-clamp-2">${m.bio}</p>` : ''}
+      ${tags ? `<div class="flex flex-wrap gap-1">${tags}</div>` : ''}
+      <div class="flex gap-2 mt-auto pt-2 border-t border-white/06">
+        ${m.linkedin ? `<a href="${m.linkedin}" target="_blank" class="btn-ghost" style="padding:5px 12px;font-size:0.75rem;">LinkedIn →</a>` : ''}
+        ${m.contact ? `<a href="https://wa.me/${m.contact.replace(/[^0-9]/g,'')}" target="_blank" class="btn-ghost" style="padding:5px 12px;font-size:0.75rem;">💬 Chat</a>` : ''}
+      </div>
+    </div>`;
+  }).join('');
+  // Also refresh team selector in project form
+  refreshTeamSelector();
+}
+
+function openTeamModal(id) {
+  document.getElementById('team-modal-title').textContent = id ? 'Edit Team Member' : 'Add Team Member';
+  document.getElementById('team-edit-id').value = id || '';
+  if (id) {
+    const m = getTeam().find(x => String(x.id) === String(id));
+    if (m) {
+      document.getElementById('tm-name').value = m.name || '';
+      document.getElementById('tm-role').value = m.role || '';
+      document.getElementById('tm-photo').value = m.photo || '';
+      document.getElementById('tm-bio').value = m.bio || '';
+      document.getElementById('tm-linkedin').value = m.linkedin || '';
+      document.getElementById('tm-contact').value = m.contact || '';
+      document.getElementById('tm-expertise').value = m.expertise || '';
+    }
+  } else {
+    ['tm-name','tm-role','tm-photo','tm-bio','tm-linkedin','tm-contact','tm-expertise'].forEach(id => { document.getElementById(id).value = ''; });
+  }
+  document.getElementById('team-modal').style.display = 'flex';
+}
+
+function closeTeamModal() {
+  document.getElementById('team-modal').style.display = 'none';
+}
+
+function saveTeamMember() {
+  const name = document.getElementById('tm-name').value.trim();
+  const role = document.getElementById('tm-role').value.trim();
+  if (!name || !role) { showAdminToast('Name and Role are required', true); return; }
+  const team = getTeam();
+  const editId = document.getElementById('team-edit-id').value;
+  const member = {
+    id:        editId ? Number(editId) : Date.now(),
+    name,
+    role,
+    photo:     document.getElementById('tm-photo').value.trim(),
+    bio:       document.getElementById('tm-bio').value.trim(),
+    linkedin:  document.getElementById('tm-linkedin').value.trim(),
+    contact:   document.getElementById('tm-contact').value.trim(),
+    expertise: document.getElementById('tm-expertise').value.trim()
+  };
+  if (editId) {
+    const idx = team.findIndex(x => String(x.id) === String(editId));
+    if (idx > -1) team[idx] = member; else team.push(member);
+  } else {
+    team.push(member);
+  }
+  saveTeamData(team);
+  closeTeamModal();
+  renderTeam();
+  showAdminToast(editId ? '✅ Team member updated!' : '✅ Team member added!');
+}
+
+function deleteTeamMember(id) {
+  showConfirm('Delete Team Member?', 'This will remove them from all linked projects.', () => {
+    const team = getTeam().filter(x => String(x.id) !== String(id));
+    saveTeamData(team);
+    // Remove from all projects
+    const projs = getProjects().map(p => ({ ...p, teamIds: (p.teamIds||[]).filter(tid => String(tid) !== String(id)) }));
+    localStorage.setItem(PROJECTS_KEY, JSON.stringify(projs));
+    renderTeam();
+    showAdminToast('🗑 Team member deleted');
+  });
+}
+
+function refreshTeamSelector() {
+  const team = getTeam();
+  const container = document.getElementById('proj-team-select');
+  const hint = document.getElementById('team-select-hint');
+  if (!container) return;
+  if (!team.length) {
+    if (hint) hint.style.display = '';
+    return;
+  }
+  if (hint) hint.style.display = 'none';
+  let selectedIds = [];
+  try { selectedIds = JSON.parse(document.getElementById('proj-team-ids').value || '[]'); } catch(e) {}
+  container.innerHTML = team.map(m => {
+    const sel = selectedIds.includes(m.id);
+    const initials = m.name.split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2);
+    return `<div onclick="toggleTeamMember(${m.id})" id="tsel-${m.id}"
+      class="flex items-center gap-2 px-3 py-1.5 rounded-xl cursor-pointer transition-all ${sel ? 'bg-yellow-400/20 border border-yellow-400/40 text-yellow-300' : 'glass border border-white/10 text-neutral-400 hover:border-white/30'}"
+      style="font-size:0.8rem;">
+      ${m.photo ? `<img src="${m.photo}" class="w-6 h-6 rounded-full object-cover">` : `<span class="w-6 h-6 rounded-full bg-yellow-400/20 flex items-center justify-center text-xs font-bold text-yellow-300">${initials}</span>`}
+      ${m.name}
+    </div>`;
+  }).join('');
+}
+
+function toggleTeamMember(id) {
+  let ids = [];
+  try { ids = JSON.parse(document.getElementById('proj-team-ids').value || '[]'); } catch(e) {}
+  const idx = ids.indexOf(id);
+  if (idx > -1) ids.splice(idx, 1); else ids.push(id);
+  document.getElementById('proj-team-ids').value = JSON.stringify(ids);
+  refreshTeamSelector();
+}
+
 </script>
 </body>
 </html>
