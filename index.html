@@ -78,6 +78,17 @@
     .result-bar-bg { background: rgba(255,255,255,0.06); border-radius: 100px; height: 6px; overflow: hidden; }
     .result-bar { height: 100%; border-radius: 100px; background: linear-gradient(90deg, #fbbf24, #fde68a); transition: width 1.2s cubic-bezier(0.4,0,0.2,1); }
 
+    /* Team Profile Modal */
+    #team-modal { display: none; position: fixed; inset: 0; z-index: 1050; align-items: center; justify-content: center; }
+    #team-modal.open { display: flex; }
+    #team-modal .modal-backdrop { position: absolute; inset: 0; background: rgba(0,0,0,0.78); backdrop-filter: blur(10px); }
+    #team-modal .tm-panel { position: relative; z-index: 1; background: #0d1f3c; border: 1px solid rgba(255,255,255,0.1); border-radius: 2rem; width: 100%; max-width: 680px; max-height: 90vh; overflow-y: auto; margin: 1rem; }
+    #team-modal .tm-panel::-webkit-scrollbar { width: 6px; }
+    #team-modal .tm-panel::-webkit-scrollbar-track { background: transparent; }
+    #team-modal .tm-panel::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); border-radius: 3px; }
+    .social-pill { display: inline-flex; align-items: center; gap: 5px; padding: 7px 16px; border-radius: 999px; font-size: 0.8rem; font-weight: 600; text-decoration: none; transition: opacity 0.15s; }
+    .social-pill:hover { opacity: 0.85; }
+
     /* Modal */
     #project-modal { display: none; position: fixed; inset: 0; z-index: 1000; }
     #project-modal.open { display: flex; }
@@ -543,6 +554,17 @@
   </div>
 </div>
 
+<!-- TEAM PROFILE MODAL -->
+<div id="team-modal" role="dialog" aria-modal="true">
+  <div class="modal-backdrop" id="team-modal-backdrop"></div>
+  <div class="tm-panel" id="tm-panel">
+    <button id="team-modal-close" class="absolute top-5 right-5 z-20 w-10 h-10 rounded-full glass flex items-center justify-center text-neutral-400 hover:text-white hover:bg-white/10 transition-all">
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+    </button>
+    <div id="team-modal-content"></div>
+  </div>
+</div>
+
 <!-- FLOATING WHATSAPP -->
 <a href="https://wa.me/60122850125?text=Hi%20Kingsley!%20I%20found%20AI%20Malaysia%20Community%20and%20I%27d%20like%20to%20learn%20more%20about%20your%20AI%20services." target="_blank" class="wa-btn" title="Chat on WhatsApp">
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="white" class="w-7 h-7"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
@@ -776,6 +798,114 @@ function showToast(msg) {
 
 loadProjects();
 renderHomePortfolio();
+
+// ---- Team public rendering ----
+function loadAndRenderTeam() {
+  var team = [];
+  try { team = JSON.parse(localStorage.getItem('aim_team') || '[]'); } catch(e) {}
+  var grid  = document.getElementById('team-grid-public');
+  var empty = document.getElementById('team-empty-public');
+  if (!grid) return;
+  if (!team.length) { grid.innerHTML = ''; if(empty) empty.classList.remove('hidden'); return; }
+  if (empty) empty.classList.add('hidden');
+  grid.innerHTML = team.map(function(m) {
+    var initials = m.name.split(' ').map(function(w){ return w[0]; }).join('').toUpperCase().slice(0,2);
+    var tags = (m.expertise||'').split(',').filter(Boolean).slice(0,3).map(function(t){
+      return '<span class="tech-badge" style="font-size:0.7rem;padding:3px 10px;">' + t.trim() + '</span>';
+    }).join('');
+    var projCount = ALL_PROJECTS.filter(function(p){ return (p.teamIds||[]).includes(m.id); }).length;
+    return '<div onclick="openTeamProfile(' + m.id + ')" class="glass rounded-3xl p-7 flex flex-col gap-4 hover:border-yellow-400/30 hover:bg-yellow-400/5 transition-all cursor-pointer group">'
+      + '<div class="flex items-center gap-4">'
+      + '<div style="width:72px;height:72px;" class="rounded-2xl overflow-hidden bg-yellow-400/10 border border-yellow-400/20 flex-shrink-0 flex items-center justify-center">'
+      + (m.photo ? '<img src="' + m.photo + '" style="width:100%;height:100%;object-fit:cover;">' : '<span class="text-yellow-300 font-bold text-2xl">' + initials + '</span>')
+      + '</div>'
+      + '<div class="flex-1 min-w-0">'
+      + '<p class="font-bold text-white text-lg leading-tight">' + m.name + '</p>'
+      + '<p class="text-yellow-400 text-sm font-medium mt-0.5">' + m.role + '</p>'
+      + (projCount ? '<p class="text-neutral-500 text-xs mt-1">' + projCount + ' project' + (projCount>1?'s':'') + '</p>' : '')
+      + '</div>'
+      + '<svg class="w-5 h-5 text-neutral-600 group-hover:text-yellow-400 transition-colors flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>'
+      + '</div>'
+      + (m.bio ? '<p class="text-neutral-400 text-sm leading-relaxed" style="-webkit-line-clamp:2;display:-webkit-box;-webkit-box-orient:vertical;overflow:hidden;">' + m.bio + '</p>' : '')
+      + (tags ? '<div class="flex flex-wrap gap-1">' + tags + '</div>' : '')
+      + '<p class="text-yellow-400 text-xs font-semibold group-hover:underline mt-auto">View Full Profile →</p>'
+      + '</div>';
+  }).join('');
+}
+
+// ---- Team Profile Modal ----
+function openTeamProfile(id) {
+  var team = [];
+  try { team = JSON.parse(localStorage.getItem('aim_team') || '[]'); } catch(e) {}
+  var m = team.find(function(x){ return String(x.id) === String(id); });
+  if (!m) return;
+  var initials = m.name.split(' ').map(function(w){ return w[0]; }).join('').toUpperCase().slice(0,2);
+  var tags = (m.expertise||'').split(',').filter(Boolean).map(function(t){
+    return '<span class="tech-badge">' + t.trim() + '</span>';
+  }).join('');
+  var linkedProjects = ALL_PROJECTS.filter(function(p){ return (p.teamIds||[]).includes(m.id); });
+  var projCards = linkedProjects.map(function(p){
+    var cat = CATEGORY_MAP[p.category] || { label: p.category, tagClass: 'tag-yellow' };
+    return '<div onclick="closeTeamProfile();openModalById(\'' + p.id + '\')" class="glass rounded-2xl p-4 flex items-center gap-4 cursor-pointer hover:border-yellow-400/30 transition-colors group">'
+      + '<div class="w-12 h-12 rounded-xl overflow-hidden bg-white/5 flex-shrink-0 flex items-center justify-center">'
+      + (p.image ? '<img src="' + p.image + '" style="width:100%;height:100%;object-fit:cover;">' : '<span style="font-size:1.5rem;">🤖</span>')
+      + '</div>'
+      + '<div class="flex-1 min-w-0">'
+      + '<p class="font-semibold text-white text-sm truncate">' + (p.title||'') + '</p>'
+      + '<span class="tag ' + cat.tagClass + ' mt-1 inline-block">' + cat.label + '</span>'
+      + '</div>'
+      + '<svg class="w-4 h-4 text-neutral-600 group-hover:text-yellow-400 flex-shrink-0 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>'
+      + '</div>';
+  }).join('');
+
+  var waNum = (m.contact||'').replace(/[^0-9]/g,'');
+  var firstName = m.name.split(' ')[0];
+
+  // Social links row
+  var socials = '';
+  if (waNum)      socials += '<a href="https://wa.me/' + waNum + '?text=Hi%20' + encodeURIComponent(firstName) + '!%20I%20found%20your%20profile%20on%20AI%20Malaysia%20Community." target="_blank" title="WhatsApp" class="social-pill" style="background:#25D366;color:#fff;">💬 WhatsApp</a>';
+  if (m.linkedin) socials += '<a href="' + m.linkedin + '" target="_blank" title="LinkedIn" class="social-pill" style="background:#0A66C2;color:#fff;">in LinkedIn</a>';
+  if (m.instagram) socials += '<a href="' + m.instagram + '" target="_blank" title="Instagram" class="social-pill" style="background:linear-gradient(135deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888);color:#fff;">📷 Instagram</a>';
+  if (m.facebook) socials += '<a href="' + m.facebook + '" target="_blank" title="Facebook" class="social-pill" style="background:#1877F2;color:#fff;">f Facebook</a>';
+  if (m.twitter)  socials += '<a href="' + m.twitter  + '" target="_blank" title="X / Twitter" class="social-pill" style="background:#000;color:#fff;">𝕏 Twitter</a>';
+  if (m.tiktok)   socials += '<a href="' + m.tiktok   + '" target="_blank" title="TikTok" class="social-pill" style="background:#010101;color:#fff;border:1px solid #333;">♪ TikTok</a>';
+
+  var content =
+    '<div class="relative" style="min-height:180px;background:linear-gradient(135deg,#0f2a52 0%,#1a3a6e 100%);border-radius:2rem 2rem 0 0;">'
+    + '<div class="absolute inset-0" style="background:radial-gradient(circle at 70% 50%,rgba(251,191,36,0.1) 0%,transparent 70%);border-radius:2rem 2rem 0 0;"></div>'
+    + '<div class="relative p-8 pb-0 flex items-end gap-6">'
+    + '<div style="width:88px;height:88px;margin-bottom:-2.5rem;" class="rounded-3xl overflow-hidden bg-yellow-400/15 border-2 border-yellow-400/30 flex items-center justify-center flex-shrink-0 shadow-xl">'
+    + (m.photo ? '<img src="' + m.photo + '" style="width:100%;height:100%;object-fit:cover;">' : '<span class="text-yellow-300 font-bold text-3xl">' + initials + '</span>')
+    + '</div>'
+    + '<div class="pb-5">'
+    + '<h2 class="text-2xl font-extrabold text-white">' + m.name + '</h2>'
+    + '<p class="text-yellow-400 font-medium">' + m.role + '</p>'
+    + (m.company ? '<p class="text-neutral-400 text-sm mt-1">' + (m.website ? '<a href="' + m.website + '" target="_blank" class="hover:text-yellow-400 transition-colors">🏢 ' + m.company + ' ↗</a>' : '🏢 ' + m.company) + '</p>' : '')
+    + '</div>'
+    + '</div></div>'
+    + '<div class="p-8 pt-12 space-y-7">'
+    + (m.bio ? '<div><h4 class="text-xs font-bold text-neutral-500 uppercase tracking-widest mb-3">About</h4><p class="text-neutral-200 leading-relaxed">' + m.bio + '</p></div>' : '')
+    + (tags ? '<div><h4 class="text-xs font-bold text-neutral-500 uppercase tracking-widest mb-3">Expertise</h4><div class="flex flex-wrap gap-2">' + tags + '</div></div>' : '')
+    + (projCards ? '<div><h4 class="text-xs font-bold text-neutral-500 uppercase tracking-widest mb-3">Projects (' + linkedProjects.length + ')</h4><div class="space-y-3">' + projCards + '</div></div>' : '')
+    + (socials ? '<div><h4 class="text-xs font-bold text-neutral-500 uppercase tracking-widest mb-3">Connect</h4><div class="flex flex-wrap gap-2">' + socials + '</div></div>' : '')
+    + '</div>';
+
+  document.getElementById('team-modal-content').innerHTML = content;
+  document.getElementById('team-modal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+  document.getElementById('tm-panel').scrollTop = 0;
+}
+
+function closeTeamProfile() {
+  document.getElementById('team-modal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+// Wire up team modal close
+document.getElementById('team-modal-close').addEventListener('click', closeTeamProfile);
+document.getElementById('team-modal-backdrop').addEventListener('click', closeTeamProfile);
+
+loadAndRenderTeam();
 </script>
 </body>
 </html>
