@@ -715,16 +715,23 @@ function buildModal(p) {
     +(tHTML?'<div class="glass rounded-2xl p-6"><h5 class="font-bold text-white mb-4 text-sm uppercase tracking-wider">Project Timeline</h5><div>'+tHTML+'</div></div>':"")
     +(function(){
     var teamMembers = [];
-    try { var allTeam = JSON.parse(localStorage.getItem('aim_team')||'[]'); teamMembers = allTeam.filter(function(m){ return (p.teamIds||[]).includes(m.id); }); } catch(e) {}
+    try { var allTeam = JSON.parse(localStorage.getItem('aim_team')||'[]'); teamMembers = allTeam.filter(function(m){ return (p.teamIds||[]).map(String).includes(String(m.id)); }); } catch(e) {}
     if (!teamMembers.length) return '';
-    var avatars = teamMembers.map(function(m){
+    var cards = teamMembers.map(function(m){
       var initials = m.name.split(' ').map(function(w){ return w[0]; }).join('').toUpperCase().slice(0,2);
-      return '<div class="flex flex-col items-center gap-1">'
-        + '<div class="w-10 h-10 rounded-xl overflow-hidden bg-yellow-400/10 border border-yellow-400/20 flex items-center justify-center flex-shrink-0">'
-        + (m.photo ? '<img src="' + m.photo + '" class="w-full h-full object-cover">' : '<span class="text-yellow-300 font-bold text-xs">' + initials + '</span>')
-        + '</div><p class="text-xs text-neutral-400 text-center whitespace-nowrap">' + m.name.split(' ')[0] + '</p></div>';
+      return '<div onclick="closeModal();openTeamProfile(' + m.id + ')" class="flex items-center gap-3 glass rounded-2xl p-3 cursor-pointer hover:border-yellow-400/30 hover:bg-yellow-400/5 transition-all group">'
+        + '<div class="w-11 h-11 rounded-xl overflow-hidden bg-yellow-400/10 border border-yellow-400/20 flex items-center justify-center flex-shrink-0">'
+        + (m.photo ? '<img src="' + m.photo + '" style="width:100%;height:100%;object-fit:cover;" onerror="this.parentNode.innerHTML=\'<span style=\\\"color:#fde68a;font-weight:700;font-size:0.75rem;\\\">' + initials + '</span>\'">' : '<span style="color:#fde68a;font-weight:700;font-size:0.75rem;">' + initials + '</span>')
+        + '</div>'
+        + '<div class="flex-1 min-w-0">'
+        + '<p class="text-white text-sm font-semibold truncate">' + m.name + '</p>'
+        + '<p class="text-yellow-400 text-xs truncate">' + m.role + '</p>'
+        + (m.company ? '<p class="text-neutral-500 text-xs truncate">' + m.company + '</p>' : '')
+        + '</div>'
+        + '<svg class="w-3.5 h-3.5 text-neutral-600 group-hover:text-yellow-400 transition-colors flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>'
+        + '</div>';
     }).join('');
-    return '<div class="glass rounded-2xl p-5"><h5 class="font-bold text-white mb-3 text-sm uppercase tracking-wider">Team on this Project</h5><div class="flex flex-wrap gap-4">' + avatars + '</div></div>';
+    return '<div class="glass rounded-2xl p-5"><h5 class="font-bold text-white mb-3 text-sm uppercase tracking-wider">👥 Built By</h5><div class="space-y-2">' + cards + '</div></div>';
   })()
 +'<button onclick="closeModal();goToContact();" class="block w-full py-4 rounded-2xl bg-gradient-to-r from-yellow-400 to-amber-400 text-black font-bold text-center hover:opacity-90 transition-opacity">Build Something Similar →</button>'
     +'</div></div>';
