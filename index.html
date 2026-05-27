@@ -661,7 +661,10 @@ function buildProjectCard(p, featured) {
 }
 
 function openModalById(id) {
-  var p = ALL_PROJECTS.find(function(x){ return String(x.id) === String(id); });
+  // Always read fresh from localStorage so teamIds/edits from admin are reflected immediately
+  var freshProjects = ALL_PROJECTS;
+  try { var raw = localStorage.getItem('aim_projects'); if (raw) freshProjects = JSON.parse(raw); } catch(e) {}
+  var p = freshProjects.find(function(x){ return String(x.id) === String(id); });
   if (!p) return;
   var mc = document.getElementById("modal-content");
   mc.innerHTML = buildModal(p);
