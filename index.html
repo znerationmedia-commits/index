@@ -115,6 +115,7 @@
       <a onclick="goToSection('services')" class="hover:text-yellow-300 transition-colors cursor-pointer">Services</a>
       <a id="nav-portfolio" onclick="showPage('projects')" class="hover:text-yellow-300 transition-colors cursor-pointer">Portfolio</a>
       <a onclick="goToSection('community')" class="hover:text-yellow-300 transition-colors cursor-pointer">Community</a>
+      <a onclick="goToSection('team')" class="hover:text-yellow-300 transition-colors cursor-pointer">Team</a>
       <a onclick="goToSection('testimonials')" class="hover:text-yellow-300 transition-colors cursor-pointer">Testimonials</a>
       <a onclick="goToContact()" class="hover:text-yellow-300 transition-colors cursor-pointer">Contact</a>
     </div>
@@ -132,8 +133,8 @@
       <span class="w-2 h-2 rounded-full bg-green-400 animate-pulse"></span>
       <span class="text-neutral-300">Malaysia's #1 Trusted AI Community & Partner</span>
     </div>
-    <h2 class="text-5xl md:text-6xl font-extrabold leading-tight mb-6">Empowering Malaysian Organizations with <span class="gradient-text">AI Innovation</span></h2>
-    <p class="text-lg text-neutral-300 mb-8 max-w-xl">We help businesses transform through AI strategy, custom development, workshops, enterprise integration, and future-ready innovation ecosystems.</p>
+    <h2 class="text-5xl md:text-6xl font-extrabold leading-tight mb-6">We Build the AI Your Business Runs On, <span class="gradient-text">and Train Your Team to Master It.</span></h2>
+    <p class="text-lg text-neutral-300 mb-8 max-w-xl">Custom AI agents, automation, and internal tools for Malaysian businesses — backed by an 8,000-member community and dozens of projects delivered.</p>
     <div class="flex flex-wrap gap-4 mb-10">
       <a onclick="goToSection('services')" class="px-8 py-4 rounded-2xl bg-yellow-400 text-black font-bold hover:bg-yellow-300 transition-all hover:scale-105 shadow-lg shadow-yellow-500/20 cursor-pointer">Explore Our Services</a>
       <a onclick="showPage('projects')" class="px-8 py-4 rounded-2xl border border-white/20 hover:border-yellow-400/50 hover:bg-white/5 transition-all cursor-pointer">View Our Work →</a>
@@ -330,6 +331,20 @@
   </div>
 </section>
 
+<!-- TEAM -->
+<section id="team" class="section-divider max-w-7xl mx-auto px-6 py-24 relative z-10">
+  <div class="text-center mb-14">
+    <p class="text-yellow-300 uppercase tracking-[0.3em] text-sm mb-3">The People Behind the Work</p>
+    <h3 class="text-4xl md:text-5xl font-bold">Meet the Team</h3>
+    <p class="text-neutral-400 mt-4 max-w-xl mx-auto">Practitioners, not consultants — our team has built and shipped AI across dozens of Malaysian businesses.</p>
+  </div>
+  <div id="team-grid-public" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+  <div id="team-empty-public" class="hidden text-center py-16 text-neutral-500">
+    <p class="text-4xl mb-3">👥</p>
+    <p class="font-semibold">Team profiles coming soon</p>
+  </div>
+</section>
+
 <!-- TESTIMONIALS -->
 <section id="testimonials" class="section-divider max-w-7xl mx-auto px-6 py-24 relative z-10">
   <div class="text-center mb-14">
@@ -426,8 +441,8 @@
     <div>
       <h5 class="font-bold text-white mb-4">Contact</h5>
       <ul class="space-y-2 text-sm">
-        <li><a href="mailto:hello@aimalaysiacommunity.my" class="hover:text-yellow-300 transition-colors"></a></li>
-        <li><a href="https://wa.me/60122850125" target="_blank" class="hover:text-yellow-300 transition-colors">+60 12-285 0125</a></li>
+        <li><a href="mailto:hello@aimalaysiacommunity.my" class="hover:text-yellow-300 transition-colors">hello@aimalaysiacommunity.my</a></li>
+        <li><a href="https://wa.me/60122850125" target="_blank" class="hover:text-yellow-300 transition-colors">+60 12-345 6789</a></li>
         <li>Kuala Lumpur, Malaysia</li>
       </ul>
       <a onclick="goToContact()" class="inline-block mt-5 px-5 py-2.5 rounded-xl bg-yellow-400 text-black text-sm font-bold hover:bg-yellow-300 transition-colors cursor-pointer">Get In Touch →</a>
@@ -510,7 +525,7 @@
     <div><h4 class="text-2xl font-bold text-white mb-3"><span class="gradient-text">AI</span> Malaysia Community</h4><p>Empowering Malaysia through AI innovation, consulting, and collaboration.</p></div>
     <div><h5 class="font-bold text-white mb-3">Quick Links</h5><ul class="space-y-2 text-sm"><li><a onclick="showPage('home')" class="hover:text-yellow-300 cursor-pointer">Home</a></li><li><a onclick="goToSection('services')" class="hover:text-yellow-300 cursor-pointer">Services</a></li><li><a onclick="showPage('projects')" class="hover:text-yellow-300 cursor-pointer">Portfolio</a></li><li><a onclick="goToSection('community')" class="hover:text-yellow-300 cursor-pointer">Community</a></li></ul></div>
     <div><h5 class="font-bold text-white mb-3">Resources</h5><ul class="space-y-2 text-sm"><li><a onclick="goToContact()" class="hover:text-yellow-300 cursor-pointer">Free AI Audit</a></li><li><a onclick="goToSection('community')" class="hover:text-yellow-300 cursor-pointer">Events</a></li><li><a onclick="showPage('projects')" class="hover:text-yellow-300 cursor-pointer">Case Studies</a></li><li><a onclick="goToContact()" class="hover:text-yellow-300 cursor-pointer">Newsletter</a></li></ul></div>
-    <div><h5 class="font-bold text-white mb-3">Contact</h5><ul class="space-y-2 text-sm"><li><a href="mailto:hello@aimalaysiacommunity.my" class="hover:text-yellow-300"></a></li><li><a href="https://wa.me/60122850125" target="_blank" class="hover:text-yellow-300">+60 12-285 0125</a></li><li>Kuala Lumpur, Malaysia</li></ul></div>
+    <div><h5 class="font-bold text-white mb-3">Contact</h5><ul class="space-y-2 text-sm"><li><a href="mailto:hello@aimalaysiacommunity.my" class="hover:text-yellow-300">hello@aimalaysiacommunity.my</a></li><li><a href="https://wa.me/60122850125" target="_blank" class="hover:text-yellow-300">+60 12-345 6789</a></li><li>Kuala Lumpur, Malaysia</li></ul></div>
   </div>
   <div class="mt-12 text-center text-sm text-neutral-600">© 2026 AI Malaysia Community. All rights reserved.</div>
 </footer>
@@ -676,7 +691,20 @@ function buildModal(p) {
     +'<div class="space-y-6">'
     +(techH?'<div class="glass rounded-2xl p-6"><h5 class="font-bold text-white mb-4 text-sm uppercase tracking-wider">Tech Stack</h5><div class="flex flex-wrap gap-2">'+techH+'</div></div>':"")
     +(tHTML?'<div class="glass rounded-2xl p-6"><h5 class="font-bold text-white mb-4 text-sm uppercase tracking-wider">Project Timeline</h5><div>'+tHTML+'</div></div>':"")
-    +'<button onclick="closeModal();goToContact();" class="block w-full py-4 rounded-2xl bg-gradient-to-r from-yellow-400 to-amber-400 text-black font-bold text-center hover:opacity-90 transition-opacity">Build Something Similar →</button>'
+    +(function(){
+    var teamMembers = [];
+    try { var allTeam = JSON.parse(localStorage.getItem('aim_team')||'[]'); teamMembers = allTeam.filter(function(m){ return (p.teamIds||[]).includes(m.id); }); } catch(e) {}
+    if (!teamMembers.length) return '';
+    var avatars = teamMembers.map(function(m){
+      var initials = m.name.split(' ').map(function(w){ return w[0]; }).join('').toUpperCase().slice(0,2);
+      return '<div class="flex flex-col items-center gap-1">'
+        + '<div class="w-10 h-10 rounded-xl overflow-hidden bg-yellow-400/10 border border-yellow-400/20 flex items-center justify-center flex-shrink-0">'
+        + (m.photo ? '<img src="' + m.photo + '" class="w-full h-full object-cover">' : '<span class="text-yellow-300 font-bold text-xs">' + initials + '</span>')
+        + '</div><p class="text-xs text-neutral-400 text-center whitespace-nowrap">' + m.name.split(' ')[0] + '</p></div>';
+    }).join('');
+    return '<div class="glass rounded-2xl p-5"><h5 class="font-bold text-white mb-3 text-sm uppercase tracking-wider">Team on this Project</h5><div class="flex flex-wrap gap-4">' + avatars + '</div></div>';
+  })()
++'<button onclick="closeModal();goToContact();" class="block w-full py-4 rounded-2xl bg-gradient-to-r from-yellow-400 to-amber-400 text-black font-bold text-center hover:opacity-90 transition-opacity">Build Something Similar →</button>'
     +'</div></div>';
 }
 
